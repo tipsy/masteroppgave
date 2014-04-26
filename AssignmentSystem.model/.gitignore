@@ -29,5 +29,6 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
-# Generated files
+# Custom filters
 src-gen
+data
