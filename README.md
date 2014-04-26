@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-masteroppgave
-=============
-=======
 # Assignment System
 
-Master's thesis by David Åse and Christian Rasmussen.
+Master's thesis by Christian Rasmussen and David Åse.
 
 ## Installation
 
@@ -23,4 +19,3 @@ Master's thesis by David Åse and Christian Rasmussen.
 	b. Start IntelliJ
 	c. Select "Open Project"
 	d. Navigate to "AssignmentSystem"
->>>>>>> e19f6348849aed1342ca70aaf1613743919fa1be
