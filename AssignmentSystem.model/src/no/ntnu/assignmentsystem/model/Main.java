@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
-import no.ntnu.assignmentsystem.model.eagle.EaglePackage;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -15,7 +13,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 public class Main {
 
 	public static void main(String[] args) {
-	    EaglePackage.eINSTANCE.eClass();
+	    ModelPackage.eINSTANCE.eClass();
 //	    EagleFactory factory = EagleFactory.eINSTANCE;
 	    
 	    // Create a resource set.

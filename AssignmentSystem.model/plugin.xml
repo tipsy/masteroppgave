@@ -7,11 +7,11 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated eagle -->
+      <!-- @generated model -->
       <package
-            uri="http://ntnu.no/eagle"
-            class="no.ntnu.assignmentsystem.eagle.EaglePackage"
-            genModel="model/eagle.genmodel"/>
+            uri="http://assignmentsystem.ntnu.no/model/1.0"
+            class="no.ntnu.assignmentsystem.model.ModelPackage"
+            genModel="model/model.genmodel"/>
    </extension>
 
 </plugin>

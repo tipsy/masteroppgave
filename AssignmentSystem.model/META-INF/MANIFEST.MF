@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: Eagle;singleton:=true
+Bundle-SymbolicName: Model;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: no.ntnu.assignmentsystem.eagle,
- no.ntnu.assignmentsystem.eagle.impl,
- no.ntnu.assignmentsystem.eagle.util
+Export-Package: no.ntnu.assignmentsystem.model,
+ no.ntnu.assignmentsystem.model.impl,
+ no.ntnu.assignmentsystem.model.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore
 Bundle-ActivationPolicy: lazy
