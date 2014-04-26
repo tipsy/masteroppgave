@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 public class Main {
 
 	public static void main(String[] args) {
-	    ModelPackage.eINSTANCE.eClass();
+//	    ModelPackage.eINSTANCE.eClass();
 //	    EagleFactory factory = EagleFactory.eINSTANCE;
 	    
 	    // Create a resource set.
