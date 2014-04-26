@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Extracted from https://github.com/ulrich/macaron-factory/blob/master/.gitignore
 # Ignore all dotfiles...
 .*
@@ -20,3 +21,10 @@ test-result
 server.pid
 *.iml
 *.eml
+=======
+# OS X
+.DS_Store
+
+# Eclipse workspace
+.metadata
+>>>>>>> e19f6348849aed1342ca70aaf1613743919fa1be
