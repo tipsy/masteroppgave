@@ -15,5 +15,7 @@ Master's thesis by David Åse and Christian Rasmussen.
 	h. Press "Finish"
 
 2. Setting up IntelliJ
-	a. Start IntelliJ
-	b. Select 
+	a. <Generate IDEA-files>
+	b. Start IntelliJ
+	c. Select "Open Project"
+	d. Navigate to "AssignmentSystem"
