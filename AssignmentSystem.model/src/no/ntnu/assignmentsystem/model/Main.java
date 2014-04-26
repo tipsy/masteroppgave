@@ -1,11 +1,10 @@
-package no.ntnu.assignmentsystem;
+package no.ntnu.assignmentsystem.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
-import no.ntnu.assignmentsystem.eagle.EaglePackage;
+import no.ntnu.assignmentsystem.model.eagle.EaglePackage;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
