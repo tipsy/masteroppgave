@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/Eagle/src-gen" modelPluginID="Eagle" modelName="Eagle"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="7.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>eagle.ecore</foreignModel>
+  <genPackages prefix="Eagle" disposableProviderFactory="true" ecorePackage="eagle.ecore#/">
+    <genClasses ecoreClass="eagle.ecore#//Person">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute eagle.ecore#//Person/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference eagle.ecore#//Person/pets"/>
+    </genClasses>
+    <genClasses ecoreClass="eagle.ecore#//Pet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute eagle.ecore#//Pet/name"/>
+    </genClasses>
+    <genClasses ecoreClass="eagle.ecore#//UoD">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference eagle.ecore#//UoD/people"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference eagle.ecore#//UoD/pets"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
