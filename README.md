@@ -1,6 +1,6 @@
 # Assignment System
 
-Master's thesis by David Åse and Christian Rasmussen.
+Master's thesis by Christian Rasmussen and David Åse.
 
 ## Installation
 
