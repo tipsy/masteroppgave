@@ -29,6 +29,7 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
-# Custom filters
+# Custom
 src-gen
 data
+.project
