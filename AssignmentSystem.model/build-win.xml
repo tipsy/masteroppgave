@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project AssignmentSystem.model">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="AssignmentSystem/lib/AssignmentSystem.model.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="no.ntnu.assignmentsystem.model.Main"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.core.runtime_3.10.0.v20140221-2027.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/javax.annotation_1.2.0.v201401042248.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/javax.inject_1.0.0.v20091030.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.osgi_3.10.0.v20140305-1523.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.osgi.compatibility.state_1.0.0.v20140217-1923.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.core.jobs_3.6.0.v20140303-1513.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.core.runtime.compatibility.registry_3.5.300.v20140128-0851/runtime_registry_compatibility.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.equinox.registry_3.5.400.v20140224-1517.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.equinox.preferences_3.5.200.v20140224-1527.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.core.contenttype_3.4.200.v20140207-1251.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.equinox.app_1.3.200.v20130910-1609.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.emf.ecore_2.10.0.v20140303-1023.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.emf.common_2.10.0.v20140303-1023.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/eclipse/plugins/org.eclipse.emf.ecore.xmi_2.10.0.v20140303-1023.jar"/>
+            <fileset dir="AssignmentSystem.model/bin"/>
+        </jar>
+    </target>
+</project>

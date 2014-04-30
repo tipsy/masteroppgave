@@ -13,6 +13,7 @@ public class MainController extends Controller {
         ModelFactory factory = ModelFactory.eINSTANCE;
         User person = factory.createUser();
         person.setEmail("Christian");
+        //dette er en gittest
 
         return ok(views.html.index.render(person.toString()));
 //        return ok(views.html.index.render("Hello from Java"));
