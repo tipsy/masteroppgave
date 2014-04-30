@@ -5,7 +5,8 @@ import no.ntnu.assignmentsystem.model.ModelPackage;
 import no.ntnu.assignmentsystem.model.User;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.leaderboardsOverview;
+import views.html.assignment.allAssignments;
+import views.html.leaderboards;
 import views.html.studentProgress;
 
 public class MainController extends Controller {
@@ -22,11 +23,11 @@ public class MainController extends Controller {
     }
 
     public static Result assignmentOverview() {
-        return( ok(views.html.assignmentOverview.render()) );
+        return( ok(allAssignments.render()) );
     }
 
     public static Result leaderboardsOverview() {
-        return( ok(leaderboardsOverview.render()) );
+        return( ok(leaderboards.render()) );
     }
 
     public static Result serveStudentProgress() {

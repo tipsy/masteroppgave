@@ -14,4 +14,4 @@ GET        /webjars/*file                    controllers.WebJarAssets.at(file)
 # Application skeleton
 GET        /assignments                      controllers.MainController.assignmentOverview()
 GET        /leaderboards                     controllers.MainController.leaderboardsOverview()
-GET        /my_profile                       controllers.MainController.serveStudentProgress()
+GET        /my_progress                      controllers.MainController.serveStudentProgress()
