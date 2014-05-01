@@ -2,5 +2,29 @@
 @main("Assignment X"){
     <div class="col-lg-12">
         This is assignment @id.
+
+        <style type="text/css" media="screen">
+        #editor {
+            height: 400px;
+        }
+        </style>
+
+<div id="editor">
+public static void main(String[] args) {
+    System.out.println("Hello, World");
+}
+</div>
+
+        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("/src-min/ace.js"))"></script>
+
+        <script>
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/eclipse");
+            editor.getSession().setMode("ace/mode/java");
+        </script>
+
+        </html>
+
+
     </div>
 }
