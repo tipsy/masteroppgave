@@ -2,27 +2,29 @@
 
 @assignment-preview-height: 110px;
 
-.boxshape{
+.boxshape {
   height: @assignment-preview-height;
   padding: 15px;
   margin-bottom: 15px;
   .lh-border-radius(5px);
 }
 
-.locked-assignment{
-  .boxshape;
-  background-color: lightgrey;
-  color: grey;
-  text-align: center;
-  i{
-    font-size: 65px;
-  }
-  p{
-    margin: -5px 0 0 0;
-  }
-}
-
 .assignment-preview {
+
+  .lh-user-select(none);
+
+  .locked-assignment {
+    .boxshape;
+    background-color: lightgrey;
+    color: grey;
+    text-align: center;
+
+    i { font-size: 65px; }
+    p {
+      margin: -5px 0 0 0;
+      .lh-user-select(none);
+    }
+  }
 
   a {
     .boxshape;
@@ -41,45 +43,41 @@
     .star-rating {
       font-size: 18px;
       position: relative;
-      top: 10px;
+      top: 13px;
 
       .fa-star {
         position: absolute;
         margin-right: -8px;
-      }
-
-      .fa-star::before {
         text-shadow:  0px 1px 0px #000,
                       0px -1px 0px #000,
                       1px 0px 0px #000,
-                      -1px 0px 0px #000,
+                     -1px 0px 0px #000,
                       0px 1px 1px rgba(0,0,0,0.2),
                       0px -1px 1px rgba(0,0,0,0.2),
                       1px 0px 1px rgba(0,0,0,0.2),
-                      -1px 0px 1px rgba(0,0,0,0.2);
+                     -1px 0px 1px rgba(0,0,0,0.2);
+        }
       }
 
-      .gold {
-        color: #ffd700;
-        right: 0;
-      }
-
-      .silver {
-        color: #c0c0c0;
-        right: 25%
-      }
-
-      .bronze {
-        color: #d58837;
-        right: 50%
-      }
-
+    .gold {
+      color: #ffd700;
+      right: 0;
     }
 
-    .progress {
-      margin-bottom: 0;
+    .silver {
+      color: #c0c0c0;
+      right: 25%
     }
 
+    .bronze {
+      color: #d58837;
+      right: 50%
+    }
+
+  }
+
+  .progress {
+    margin-bottom: 0;
   }
 
   a:hover {
@@ -87,6 +85,8 @@
     .lh-transition(background-color, 500ms)
   }
 
-
-
 }
+
+
+
+
