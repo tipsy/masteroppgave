@@ -7,14 +7,45 @@
   <foreignModel>services.ecore</foreignModel>
   <genPackages prefix="Services" basePackage="no.ntnu.assignmentsystem" disposableProviderFactory="true"
       ecorePackage="services.ecore#/">
-    <genClasses image="false" ecoreClass="services.ecore#//ICourses">
-      <genOperations ecoreOperation="services.ecore#//ICourses/getCourses"/>
-      <genOperations ecoreOperation="services.ecore#//ICourses/addCourse">
-        <genParameters ecoreParameter="services.ecore#//ICourses/addCourse/course"/>
+    <genClasses ecoreClass="services.ecore#//Services">
+      <genOperations ecoreOperation="services.ecore#//Services/getCourseServices"/>
+      <genOperations ecoreOperation="services.ecore#//Services/getAssignmentServices">
+        <genParameters ecoreParameter="services.ecore#//Services/getAssignmentServices/courseId"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//Services/getProblemServices">
+        <genParameters ecoreParameter="services.ecore#//Services/getProblemServices/courseId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/getProblemServices/assignmentId"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="services.ecore#//Services">
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//Services/uod"/>
+    <genClasses ecoreClass="services.ecore#//CourseView">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CourseView/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CourseView/title"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="services.ecore#//CourseServices">
+      <genOperations ecoreOperation="services.ecore#//CourseServices/getCourses"/>
+      <genOperations ecoreOperation="services.ecore#//CourseServices/addCourse">
+        <genParameters ecoreParameter="services.ecore#//CourseServices/addCourse/title"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//CourseServices/getCourse">
+        <genParameters ecoreParameter="services.ecore#//CourseServices/getCourse/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//CourseServices/deleteCourse">
+        <genParameters ecoreParameter="services.ecore#//CourseServices/deleteCourse/id"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//AssignmentServices">
+      <genOperations ecoreOperation="services.ecore#//AssignmentServices/getAssignments"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//AssignmentView">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/title"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ProblemServices">
+      <genOperations ecoreOperation="services.ecore#//ProblemServices/getProblems"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//ProblemView">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/title"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Model" basePackage="no.ntnu.assignmentsystem" disposableProviderFactory="true"

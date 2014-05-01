@@ -2,11 +2,45 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="services" nsURI="http://assignmentsystem.ntnu.no/services/1.0"
     nsPrefix="no.ntnu.assignmentsystem">
-  <eClassifiers xsi:type="ecore:EClass" name="ICourses" abstract="true" interface="true">
-    <eOperations name="getCourses" upperBound="-1" eType="#//Courses"/>
-    <eOperations name="addCourse">
-      <eParameters name="course"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Services" abstract="true" interface="true">
+    <eOperations name="getCourseServices" eType="#//CourseServices"/>
+    <eOperations name="getAssignmentServices" eType="#//AssignmentServices">
+      <eParameters name="courseId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getProblemServices" eType="#//ProblemServices">
+      <eParameters name="courseId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="assignmentId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Courses" eSuperTypes="#//ICourses"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CourseView">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CourseServices" abstract="true" interface="true">
+    <eOperations name="getCourses" upperBound="-1" eType="#//CourseView"/>
+    <eOperations name="addCourse">
+      <eParameters name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getCourse" eType="#//CourseView">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="deleteCourse">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignmentServices" abstract="true"
+      interface="true">
+    <eOperations name="getAssignments" upperBound="-1" eType="#//AssignmentView"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignmentView">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProblemServices" abstract="true" interface="true">
+    <eOperations name="getProblems" eType="#//ProblemView"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProblemView">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>
