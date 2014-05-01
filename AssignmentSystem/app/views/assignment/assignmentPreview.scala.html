@@ -1,14 +1,15 @@
-@(assignmentNumber : Int)
+@(assignmentNumber : Int, locked : Boolean)
 <div class="col-lg-4 assignment-preview" >
+    @if(!locked){
     <a href="@controllers.routes.MainController.serveAssignment(assignmentNumber)">
         <div class="assignment-text">
             Assignment @assignmentNumber
         </div>
 
         <div class="star-rating">
-            <i class="glyphicon glyphicon-star bronze"></i>
-            <i class="glyphicon glyphicon-star silver"></i>
-            <i class="glyphicon glyphicon-star gold"></i>
+            <i class="fa fa-star bronze"></i>
+            <i class="fa fa-star silver"></i>
+            <i class="fa fa-star gold"></i>
         </div>
 
         <div class="progress">
@@ -18,7 +19,14 @@
         </div>
 
     </a>
+    }else{
+        <div class="locked-assignment">
+            <i class="fa fa-lock"></i>
+            <p>Locked</p>
+        </div>
+    }
 
-    FIKSE LOCKED ASSIGNMENTS
+
+
 
 </div>

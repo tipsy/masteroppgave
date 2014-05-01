@@ -3,7 +3,11 @@
         <h4>Assignments</h4>
         <div class="row">
             @for(n <- 0 to 12){
-                @views.html.assignment.assignmentPreview(n)
+                @if(n < 7){
+                    @views.html.assignment.assignmentPreview(n, false)
+                }else{
+                    @views.html.assignment.assignmentPreview(n, true)
+                }
             }
         </div>
 
