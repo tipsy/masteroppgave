@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
+import no.ntnu.assignmentsystem.services.Courses;
+import no.ntnu.assignmentsystem.services.Services;
+import no.ntnu.assignmentsystem.services.ServicesFactory;
+import no.ntnu.assignmentsystem.services.ServicesPackage;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -13,8 +18,15 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 public class Main {
 
 	public static void main(String[] args) {
-//	    ModelPackage.eINSTANCE.eClass();
-//	    EagleFactory factory = EagleFactory.eINSTANCE;
+	    ModelPackage.eINSTANCE.eClass();
+//	    ModelFactory factory = ModelFactory.eINSTANCE;
+	    
+//	    ServicesPackage.eINSTANCE.eClass();
+//	    ServicesFactory factory = ServicesFactory.eINSTANCE;
+//	    
+//	    Services services = factory.createServices();
+//	    
+//	    System.out.println(services);
 	    
 	    // Create a resource set.
 	    ResourceSet resourceSet = new ResourceSetImpl();

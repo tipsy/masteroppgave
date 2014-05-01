@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<no.ntnu.assignmentsystem:Services xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/services/1.0" xmlns:no.ntnu.assignmentsystem_1="http://assignmentsystem.ntnu.no/model/1.0">
+  <uod xsi:type="no.ntnu.assignmentsystem_1:UoD">
+    <users email="hal@idi.ntnu.no"/>
+    <users email="davidas@stud.ntnu.no"/>
+    <users email="christir@stud.ntnu.no"/>
+    <users email="randomTA@stud.ntnu.no"/>
+    <courses name="TDT4100">
+      <assignments title="Assignment 1 - The basics">
+        <problems xsi:type="no.ntnu.assignmentsystem_1:QuizProblem" title="Quiztastic" maxPoints="50">
+          <questions correctAnswer="//@uod/@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2" text="Q1">
+            <answers text="A1"/>
+            <answers text="A2"/>
+            <answers text="A3"/>
+            <answers text="A4"/>
+          </questions>
+        </problems>
+        <problems xsi:type="no.ntnu.assignmentsystem_1:CodeProblem" title="Hello World"/>
+      </assignments>
+      <participants xsi:type="no.ntnu.assignmentsystem_1:Student" user="//@uod/@users.2" screenName="David">
+        <submissions xsi:type="no.ntnu.assignmentsystem_1:CodeSubmission" problem="//@uod/@courses.0/@assignments.0/@problems.1">
+          <evaluation evaluatedBy="//@uod/@courses.0/@participants.2"/>
+          <files/>
+        </submissions>
+      </participants>
+      <participants xsi:type="no.ntnu.assignmentsystem_1:Student" user="//@uod/@users.1" screenName="Christian">
+        <submissions xsi:type="no.ntnu.assignmentsystem_1:QuizSubmission" problem="//@uod/@courses.0/@assignments.0/@problems.0" answers="//@uod/@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2">
+          <evaluation evaluatedBy="//@uod/@courses.0/@participants.3"/>
+        </submissions>
+      </participants>
+      <participants xsi:type="no.ntnu.assignmentsystem_1:Staff" user="//@uod/@users.0" screenName="Hallvard"/>
+      <participants xsi:type="no.ntnu.assignmentsystem_1:Staff" user="//@uod/@users.3" screenName="RandomTA"/>
+    </courses>
+  </uod>
+</no.ntnu.assignmentsystem:Services>
