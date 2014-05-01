@@ -1,6 +1,15 @@
 @(assignmentNumber : Int)
 <div class="col-lg-4 assignment-preview" >
     <a href="@controllers.routes.MainController.serveAssignment(assignmentNumber)">
-        Assignment @assignmentNumber
+        <div class="assignment-text">
+            Assignment @assignmentNumber
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: @{Math.random()*100}%">
+                <span class="sr-only">40% done</span>
+            </div>
+        </div>
+
     </a>
 </div>

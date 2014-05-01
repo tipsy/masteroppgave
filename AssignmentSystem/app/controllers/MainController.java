@@ -38,4 +38,5 @@ public class MainController extends Controller {
     public static Result serveAssignment(int id) {
         return( ok(anAssignment.render(id)) );
     }
+
 }
