@@ -1,26 +1,55 @@
+@import "../libs/lesshat-prefixed";
 
 .assignment-preview {
 
-  a{
-    padding: 10px;
+  a {
+    padding: 15px;
     display: block;
-    height: 100px;
+    height: 110px;
     background-color: #f6f6fa;
     margin-bottom: 15px;
     text-decoration: none;
+    position: relative;
 
-    .assignment-text{
+    .assignment-text {
       height: 50px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
-    .progress{
+    .star-rating {
+      font-size: 18px;
+      position: relative;
+      top: 10px;
+
+      .glyphicon-star{
+        position: absolute;
+        margin-right: -10px;
+      }
+
+      .gold {
+        color: #ffd700;
+        right: 0;
+      }
+
+      .silver {
+        color: #c0c0c0;
+        right: 25%
+      }
+
+      .bronze {
+        color: #c98034;
+        right: 50%
+      }
+
+    }
+
+    .progress {
       margin-bottom: 0;
     }
 
   }
 
-  a:hover{
+  a:hover {
     background-color: #eff1fa;
   }
 
