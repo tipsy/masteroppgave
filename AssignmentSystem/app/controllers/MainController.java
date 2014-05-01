@@ -5,6 +5,10 @@ import no.ntnu.assignmentsystem.model.ModelPackage;
 import no.ntnu.assignmentsystem.model.User;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.assignment.allAssignments;
+import views.html.assignment.anAssignment;
+import views.html.leaderboards;
+import views.html.studentProgress;
 
 public class MainController extends Controller {
     
@@ -18,5 +22,21 @@ public class MainController extends Controller {
         return ok(views.html.index.render(person.toString()));
 //        return ok(views.html.index.render("Hello from Java"));
     }
-    
+
+    public static Result serveAllAssignments() {
+        return( ok(allAssignments.render()) );
+    }
+
+    public static Result serveLeaderboards() {
+        return( ok(leaderboards.render()) );
+    }
+
+    public static Result serveStudentProgress() {
+        return( ok(studentProgress.render()) );
+    }
+
+    public static Result serveAssignment(int id) {
+        return( ok(anAssignment.render(id)) );
+    }
+
 }
