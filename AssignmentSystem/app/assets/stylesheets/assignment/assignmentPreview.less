@@ -15,6 +15,7 @@
 
   .locked-assignment {
     .boxshape;
+    cursor: default;
     background-color: lightgrey;
     color: grey;
     text-align: center;
@@ -34,6 +35,11 @@
     position: relative;
     color: black;
     .lh-transition(background-color, 500ms);
+
+    &:hover {
+      background-color: #e2e9fc;
+      .lh-transition(background-color, 500ms)
+    }
 
     .assignment-text {
       height: 50px;
@@ -78,11 +84,6 @@
 
   .progress {
     margin-bottom: 0;
-  }
-
-  a:hover {
-    background-color: #e2e9fc;
-    .lh-transition(background-color, 500ms)
   }
 
 }

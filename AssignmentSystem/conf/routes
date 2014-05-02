@@ -13,7 +13,7 @@ GET        /webjars/*file                    controllers.WebJarAssets.at(file)
 
 # Application skeleton
 GET        /assignments                      controllers.MainController.serveAllAssignments()
-GET        /assignments/$id<[0-9]+>          controllers.MainController.serveAssignment(id: Int)
+GET        /assignments/$id<[0-9]+>          controllers.MainController.serveAssignment(id: String)
 
 GET        /leaderboards                     controllers.MainController.serveLeaderboards()
 GET        /my_progress                      controllers.MainController.serveStudentProgress()

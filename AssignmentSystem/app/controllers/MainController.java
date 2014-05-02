@@ -20,7 +20,7 @@ public class MainController extends Controller {
 
         EList<CourseView> courses = services.getCourseServices().getCourses();
 
-        return ok(views.html.index.render(courses.toString()));
+        return ok(views.html.index.render(courses.get(0).getTitle()));
 //        return ok(views.html.index.render("Hello from Java"));
     }
 
@@ -36,7 +36,7 @@ public class MainController extends Controller {
         return( ok(studentProgress.render()) );
     }
 
-    public static Result serveAssignment(int id) {
+    public static Result serveAssignment(String id) {
         return( ok(anAssignment.render(id)) );
     }
 }
