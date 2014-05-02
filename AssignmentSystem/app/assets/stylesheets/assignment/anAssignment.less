@@ -1,4 +1,5 @@
 @import "../libs/lesshat-prefixed";
+@import "bootstrap-tab-slider";
 
 .ace-editor-instance {
   height: 400px;
@@ -7,15 +8,43 @@
 .tab-content.bordered{
   border: 1px solid #ddd;
   border-top: 0;
-  border-radius: 2px;
 }
 
 #problem-class-tabs{
-  margin-left: 41px;
-
-  li a{
-    padding: 3px 7px;
+  position: relative;
+  padding-left: 40px;
+  background-color: #ebebeb;
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #9f9f9f;
+  height: 34px;
+  .lh-border-radius(3px 3px 0px 0px);
+  li{
+    margin-top: 5px;
+    a {
+      padding: 3px 7px;
+    }
   }
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus{
+  border: 1px solid #9f9f9f;
+  border-bottom-color: transparent;
+}
+
+.nav-tabs>li>a:hover{
+  background-color: white;
+  color: #555;
+  border: 1px solid #9f9f9f;
+  border-bottom-color: transparent;
+}
+
+#editor-logo {
+  position: absolute;
+  font-size: 20px;
+  left: 10px;
+  top: 5px;
 }
 
 .problem-box {
