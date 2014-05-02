@@ -4,59 +4,59 @@ Master's thesis by Christian Rasmussen and David Åse.
 
 ## Installation
 
-1. Setting up Eclipse
+### Setting up Eclipse
 
-	a. Start Eclipse
-	b. Set workspace to the root of project (the folder containing README.md)
-	c. Open File > Import...
-	d. Select General > Existing Projects into Workspace
-	e. Press "Next"
-	f. In the "Select root directory" field, browse to AssignmentSystem.model
-	g. Make sure the project is checked
-	h. Click "Finish"
+1. Start Eclipse
+2. Set workspace to the root of project (the folder containing README.md)
+3. Open File > Import...
+4. Select General > Existing Projects into Workspace
+5. Press "Next"
+6. In the "Select root directory" field, browse to AssignmentSystem.model
+7. Make sure the project is checked
+8. Click "Finish"
 
-2. Generating model code
+### Generating model code
 
-	a. Navigate to model/model.genmodel
-	b. Right-click on Model
-	c. Click on "Generate Model Code"
+1. Navigate to model/model.genmodel
+2. Right-click on Model
+3. Click on "Generate Model Code"
 
-3. Create a Run configuration
+### Create a Run configuration
 
-	a. Open Run Configurations (Run > Run Configurations from the menu bar)
-	b. Right-click Java Application and select New
-	c. Set name to ```Main```
-	d. Set project to ```AssignmentSystem.model```
-	e. Set main class to ```Main```
-	f. Click "Run" and confirm that it compiles
+1. Open Run Configurations (Run > Run Configurations from the menu bar)
+2. Right-click Java Application and select New
+3. Set name to ```Main```
+4. Set project to ```AssignmentSystem.model```
+5. Set main class to ```Main```
+6. Click "Run" and confirm that it compiles
 
-4. Exporting to JAR
+### Exporting to JAR
 
-	a. Right-click the project and select Export
-	b. Select Java > Runnable JAR file
-	c. Click "Next"
-	d. Set launch configuration to ```Main```
-	e. Set export destination to ```AssignmentModel/lib```
-	f. Check ```Save an ANT script```
-	g. Click "Finish"
+1. Right-click the project and select Export
+2. Select Java > Runnable JAR file
+3. Click "Next"
+4. Set launch configuration to ```Main```
+5. Set export destination to ```AssignmentModel/lib```
+6. Check ```Save an ANT script```
+7. Click "Finish"
 
-5. Set up automatic building
+### Set up automatic building
 
-	a. Open Preferences
-	b. ...
-	c. Right-click project and select Properties
-	d. Go to Builds
-	e. Click "New"
-	f. Select "Ant Builder"
-	h. "Click OK"
-	i. Set name ```Model Builder```
-	j. Set buildfile to the generated ANT-file
-	k. Set base directory to the root folder (folder containing README.md)
-	l. Click "OK"
+1. Open Preferences
+2. <...>
+3. Right-click project and select Properties
+4. Go to Builds
+5. Click "New"
+6. Select "Ant Builder"
+7. "Click OK"
+8. Set name ```Model Builder```
+9. Set buildfile to the generated ANT-file
+10. Set base directory to the root folder (folder containing README.md)
+11. Click "OK"
 
-6. Setting up IntelliJ
+### Setting up IntelliJ
 
-	a. Generate IDEA-files (```play idea```)
-	b. Start IntelliJ
-	c. Select "Open Project"
-	d. Navigate to "AssignmentSystem"
+1. Generate IDEA-files (```play idea```)
+2. Start IntelliJ
+3. Select "Open Project"
+4. Navigate to "AssignmentSystem"
