@@ -6,6 +6,7 @@ import no.ntnu.assignmentsystem.services.impl.ServicesImpl;
 import org.eclipse.emf.common.util.EList;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.assignment.aProblem;
 import views.html.assignment.allAssignments;
 import views.html.assignment.anAssignment;
 import views.html.leaderboards;
@@ -20,7 +21,7 @@ public class MainController extends Controller {
 
         EList<CourseView> courses = services.getCourseServices().getCourses();
 
-        return ok(views.html.index.render(courses.toString()));
+        return ok(views.html.index.render(courses.get(0).getTitle()));
 //        return ok(views.html.index.render("Hello from Java"));
     }
 
@@ -36,7 +37,11 @@ public class MainController extends Controller {
         return( ok(studentProgress.render()) );
     }
 
-    public static Result serveAssignment(int id) {
+    public static Result serveAssignment(String id) {
         return( ok(anAssignment.render(id)) );
+    }
+
+    public static Result serveProblem(String aID, String pID) {
+        return( ok(aProblem.render(aID, pID)) );
     }
 }
