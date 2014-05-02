@@ -1,3 +1,5 @@
+@import "../libs/lesshat-prefixed";
+
 .ace-editor-instance {
   height: 400px;
 }
@@ -15,3 +17,35 @@
     padding: 3px 7px;
   }
 }
+
+.problem-box {
+  display: inline-block;
+  float: left;
+  height: 60px;
+  width: 60px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+  font-size: 25px;
+  font-family: "Open Sans";
+  font-weight: 300;
+  color: black;
+  background-color: #c2d8ed;
+  .lh-border-radius(5px);
+  .lh-display(flex);
+  .lh-align-items(center);
+  .lh-justify-content(center);
+  .lh-transition(background-color, 500ms);
+
+  &:hover {
+    background-color: #d4ecff;
+    text-decoration: none;
+    .lh-transition(background-color, 500ms);
+  }
+
+  &.active-problem {
+    background-color: #d4ecff;
+    border: 2px solid #6592cf;
+  }
+
+}
+

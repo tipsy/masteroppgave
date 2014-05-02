@@ -8,7 +8,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.assignment.aProblem;
 import views.html.assignment.allAssignments;
-import views.html.assignment.anAssignment;
 import views.html.leaderboards;
 import views.html.studentProgress;
 
@@ -35,10 +34,6 @@ public class MainController extends Controller {
 
     public static Result serveStudentProgress() {
         return( ok(studentProgress.render()) );
-    }
-
-    public static Result serveAssignment(String id) {
-        return( ok(anAssignment.render(id)) );
     }
 
     public static Result serveProblem(String aID, String pID) {

@@ -2,7 +2,7 @@
 <div class="col-lg-4 assignment-preview" >
     @if(!locked){
 
-        <a href="@controllers.routes.MainController.serveAssignment(assignmentNumber)">
+        <a href="@controllers.routes.MainController.serveProblem(assignmentNumber, "a")">
             <div class="assignment-text">
                 Assignment @assignmentNumber
             </div>
@@ -28,8 +28,5 @@
         </div>
 
     }
-
-
-
 
 </div>
