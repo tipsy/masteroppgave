@@ -27,7 +27,7 @@ public class CourseServicesImpl extends MinimalEObjectImpl implements
 		for (Iterator<Course> iterator = courses.iterator(); iterator.hasNext();) {
 			Course course = (Course)iterator.next();
 			CourseView courseView = servicesFactory.createCourseView();
-			courseView.setTitle(course.getName());
+			courseView.setTitle(course.getTitle());
 			courseViews.add(courseView);
 		}
 		return courseViews;
