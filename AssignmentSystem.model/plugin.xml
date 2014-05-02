@@ -11,7 +11,7 @@
       <package
             uri="http://assignmentsystem.ntnu.no/model/1.0"
             class="no.ntnu.assignmentsystem.model.ModelPackage"
-            genModel="model/model.genmodel"/>
+            genModel="model/generator.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
@@ -19,7 +19,7 @@
       <package
             uri="http://assignmentsystem.ntnu.no/services/1.0"
             class="no.ntnu.assignmentsystem.services.ServicesPackage"
-            genModel="model/services.genmodel"/>
+            genModel="model/generator.genmodel"/>
    </extension>
 
 </plugin>
