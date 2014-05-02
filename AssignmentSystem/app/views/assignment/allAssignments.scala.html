@@ -1,6 +1,5 @@
 @main("Assignments"){
     <div class="col-lg-9">
-        <h1>Assignments</h1>
         <div class="row">
             @for(n <- 1 to 12){
                 @if(n < 7){
@@ -13,6 +12,6 @@
 
     </div>
     <div class="col-lg-3">
-       <h4>Assingment X Leaderboard</h4>
+        @views.html.assignment.assignmentLeaderboard("X")
     </div>
 }
