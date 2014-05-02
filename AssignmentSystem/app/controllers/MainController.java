@@ -1,8 +1,9 @@
 package controllers;
 
-import no.ntnu.assignmentsystem.model.ModelFactory;
-import no.ntnu.assignmentsystem.model.ModelPackage;
-import no.ntnu.assignmentsystem.model.User;
+import no.ntnu.assignmentsystem.services.CourseView;
+import no.ntnu.assignmentsystem.services.Services;
+import no.ntnu.assignmentsystem.services.impl.ServicesImpl;
+import org.eclipse.emf.common.util.EList;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.assignment.allAssignments;
@@ -10,16 +11,16 @@ import views.html.assignment.anAssignment;
 import views.html.leaderboards;
 import views.html.studentProgress;
 
-public class MainController extends Controller {
-    
-    public static Result index() {
-        ModelPackage.eINSTANCE.eClass();
-        ModelFactory factory = ModelFactory.eINSTANCE;
-        User person = factory.createUser();
-        person.setEmail("Christian");
-        //dette er en gittest
+import java.io.File;
 
-        return ok(views.html.index.render(person.toString()));
+public class MainController extends Controller {
+
+    public static Result index() {
+        Services services = new ServicesImpl(new File("../AssignmentSystem.model/model/UoD.xmi"));
+
+        EList<CourseView> courses = services.getCourseServices().getCourses();
+
+        return ok(views.html.index.render(courses.toString()));
 //        return ok(views.html.index.render("Hello from Java"));
     }
 
@@ -38,5 +39,4 @@ public class MainController extends Controller {
     public static Result serveAssignment(int id) {
         return( ok(anAssignment.render(id)) );
     }
-
 }
