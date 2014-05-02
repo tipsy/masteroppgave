@@ -115,7 +115,7 @@
     <genClasses ecoreClass="model.ecore#//Course">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Course/assignments"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Course/participants"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Course/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Course/title"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
