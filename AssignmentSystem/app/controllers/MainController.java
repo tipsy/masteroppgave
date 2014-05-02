@@ -6,6 +6,7 @@ import no.ntnu.assignmentsystem.services.impl.ServicesImpl;
 import org.eclipse.emf.common.util.EList;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.assignment.aProblem;
 import views.html.assignment.allAssignments;
 import views.html.assignment.anAssignment;
 import views.html.leaderboards;
@@ -38,5 +39,9 @@ public class MainController extends Controller {
 
     public static Result serveAssignment(String id) {
         return( ok(anAssignment.render(id)) );
+    }
+
+    public static Result serveProblem(String aID, String pID) {
+        return( ok(aProblem.render(aID, pID)) );
     }
 }

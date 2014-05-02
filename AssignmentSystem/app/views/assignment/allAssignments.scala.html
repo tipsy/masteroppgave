@@ -2,7 +2,7 @@
     <div class="col-lg-9">
         <h1>Assignments</h1>
         <div class="row">
-            @for(n <- 0 to 12){
+            @for(n <- 1 to 12){
                 @if(n < 7){
                     @views.html.assignment.assignmentPreview(""+n, false)
                 }else{
