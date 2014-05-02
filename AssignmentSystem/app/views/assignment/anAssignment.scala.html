@@ -1,33 +1,32 @@
 @(id : String)
 @main("Assignment X"){
 
-            <div class="col-lg-9">
-                <h1>This is assignment @id.</h1>
+    <div class="col-lg-9">
 
-                <ul id="problem-class-tabs" class="nav nav-tabs">
-                    @for(n <- 0 to 2){
-                        <li class="@if(n==0){active}"><a href="#class@n" data-toggle="tab">Class@n</a></li>
-                    }
-                </ul>
+        <h1>This is assignment @id.</h1>
 
-                <div id="assignment-tab-content" class="tab-content bordered">
-                    @for(n <- 0 to 2){
-                        <div class="tab-pane @if(n==0){in active}" id="class@n">
-                            <div id="editor@n" class="ace-editor-instance">
-                                public static void main(String[] args) {
-                                    System.out.println("Hello, World");
-                                }
-                            </div>
-                        </div>
-                    }
+        <ul id="problem-class-tabs" class="nav nav-tabs">
+            @for(n <- 0 to 2){
+                <li class="@if(n==0){active}"><a href="#class@n" data-toggle="tab">Class@n</a></li>
+            }
+        </ul>
+
+        <div id="assignment-tab-content" class="tab-content bordered">
+            @for(n <- 0 to 2){
+                <div class="tab-pane @if(n==0){in active}" id="class@n">
+                    <div id="editor@n" class="ace-editor-instance">
+                        public static void main(String[] args) {
+                            System.out.println("Hello, World");
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+        </div>
 
+    </div>
 
-            <div class="col-lg-3">
-                <h4>Assignment @id highscores</h4>
-            </div>
-
+    <div class="col-lg-3">
+        <h4>Assignment @id highscores</h4>
     </div>
 
     <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("/src-min/ace.js"))"></script>
