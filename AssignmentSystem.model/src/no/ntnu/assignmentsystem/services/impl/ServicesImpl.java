@@ -24,12 +24,16 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class ServicesImpl extends Container implements Services {
+	private File dataFile;
+	
 	private ModelFactory modelFactory;
 	private ServicesFactory servicesFactory;
 	
 	private UoD uod;
 	
-	public ServicesImpl() {
+	public ServicesImpl(File dataFile) {
+		this.dataFile = dataFile;
+		
 	    ModelPackage.eINSTANCE.eClass();
 	    modelFactory = ModelFactory.eINSTANCE;
 	    
@@ -75,6 +79,8 @@ public class ServicesImpl extends Container implements Services {
 	private void saveModel() {
 		Resource resource = getResource();
 		
+		resource.getContents().add(uod);
+		
 	    // Save the contents of the resource to the file system.
 	    try
 	    {
@@ -92,7 +98,7 @@ public class ServicesImpl extends Container implements Services {
 	    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
 
 	    // Get the URI of the model file.
-	    URI fileURI = URI.createFileURI(new File("model/UoD.xmi").getAbsolutePath());
+	    URI fileURI = URI.createFileURI(dataFile.getAbsolutePath());
 
 	    // Create a resource for this file.
 	    Resource resource = resourceSet.createResource(fileURI);

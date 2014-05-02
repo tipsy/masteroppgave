@@ -1,6 +1,6 @@
 package no.ntnu.assignmentsystem.services.impl;
 
-import java.util.stream.Collectors;
+import java.util.Iterator;
 
 import no.ntnu.assignmentsystem.model.Course;
 import no.ntnu.assignmentsystem.services.CourseServices;
@@ -23,11 +23,14 @@ public class CourseServicesImpl extends MinimalEObjectImpl implements
 	
 	@Override
 	public EList<CourseView> getCourses() {
-		return courses.stream().map(course -> {
+		EList<CourseView> courseViews = new BasicEList<CourseView>();
+		for (Iterator<Course> iterator = courses.iterator(); iterator.hasNext();) {
+			Course course = (Course)iterator.next();
 			CourseView courseView = servicesFactory.createCourseView();
 			courseView.setTitle(course.getName());
-			return courseView;
-		}).collect(Collectors.toCollection(BasicEList::new));
+			courseViews.add(courseView);
+		}
+		return courseViews;
 	}
 
 	@Override
