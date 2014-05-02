@@ -4,7 +4,7 @@
   <users email="davidas@stud.ntnu.no"/>
   <users email="christir@stud.ntnu.no"/>
   <users email="randomTA@stud.ntnu.no"/>
-  <courses name="TDT4100">
+  <courses title="TDT4100">
     <assignments title="Assignment 1 - The basics">
       <problems xsi:type="no.ntnu.assignmentsystem:QuizProblem" title="Quiztastic" maxPoints="50">
         <questions correctAnswer="//@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2" text="Q1">
