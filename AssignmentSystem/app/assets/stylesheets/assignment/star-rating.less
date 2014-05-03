@@ -1,7 +1,9 @@
 @import "../libs/lesshat-prefixed";
 
 .star-rating {
+
   position: relative;
+
   .fa-star {
     position: absolute;
     text-shadow:
@@ -14,16 +16,17 @@
       1px 0px 1px rgba(0,0,0,0.2),
      -1px 0px 1px rgba(0,0,0,0.2);
   }
-}
 
-.glow {
-  position: absolute;
+  .glow {
+    position: absolute;
+  }
+
 }
 
 .gold { color: #ffcb13; }
 .silver { color: #c0c0c0; }
 .bronze { color: #d58837; }
 
-.glow.gold{   .lh-background-image( radial-gradient( rgba(255,252,000,0.8) 0%, rgba(0,0,0,0) 50% ) ); }
-.glow.silver{ .lh-background-image( radial-gradient( rgba(244,246,248,0.8) 0%, rgba(0,0,0,0) 50% ) ); }
-.glow.bronze{ .lh-background-image( radial-gradient( rgba(255,172,31,0.80) 0%, rgba(0,0,0,0) 50% ) ); }
+.glow.gold{   .lh-background-image( radial-gradient( rgba(255,252,000,0.8) 0%, rgba(255, 203, 019, 0) 50% ) ); }
+.glow.silver{ .lh-background-image( radial-gradient( rgba(244,246,248,0.8) 0%, rgba(192, 192, 192, 0) 50% ) ); }
+.glow.bronze{ .lh-background-image( radial-gradient( rgba(255,172,31,0.80) 0%, rgba(213, 136, 055, 0) 50% ) ); }
