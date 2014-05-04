@@ -11,7 +11,6 @@ $(document).ready(function () {
         $("#ace-editor-wrapper").toggleClass("maximized");
         $("#ae-toggle-fullscreen").toggleClass("fa-expand fa-compress");
         $(editors).each(function() { this.resize(); });
-        setupResizeableEditor(editors);
     });
 
     $(".ae-theme-settings").click(function(){
