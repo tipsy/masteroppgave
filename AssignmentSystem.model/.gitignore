@@ -30,6 +30,7 @@ local.properties
 .texlipse
 
 # Custom
-src-gen
-data
+src-gen/
+data/
 .project
+target/
