@@ -2,12 +2,19 @@
 @import "bootstrap-tab-slider";
 
 .ace-editor-instance {
-  height: 400px;
+  height: 350px;
+}
+
+.ace-editor-console {
+  height: 100px;
+  padding: 5px 10px;
+  font-family: "Courier New";
 }
 
 .tab-content.bordered{
   border: 1px solid #ddd;
   border-top: 0;
+  .lh-border-radius(0 0 3px 3px);
 }
 
 #problem-class-tabs{
@@ -51,8 +58,11 @@
     background-color: white;
   }
   .ace-editor-instance {
-    height: 100vh;
+    height: 90vh;
     width: 100vw;
+  }
+  .splitter{
+    height: 100vh;
   }
 }
 
@@ -83,6 +93,7 @@
   }
 }
 
+//problem-styling
 .problem-box {
   display: inline-block;
   float: left;
@@ -114,3 +125,19 @@
 
 }
 
+.splitter {
+  height: 450px;
+}
+
+.resizable {
+  width: 100%;
+}
+
+.ui-resizable-s {
+  cursor: s-resize;
+  height: 10px;
+  width: 100%;
+  bottom: 0px;
+  left: 0;
+  border-bottom: 1px solid #9f9f9f;
+}
