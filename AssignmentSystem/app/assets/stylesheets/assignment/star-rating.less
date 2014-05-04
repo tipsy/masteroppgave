@@ -6,6 +6,7 @@
 
   .fa-star {
     position: absolute;
+    color: #222;
     text-shadow:
       0px 1px 0px #000,
       0px -1px 0px #000,
@@ -23,10 +24,18 @@
 
 }
 
-.gold { color: #ffcb13; }
-.silver { color: #c0c0c0; }
-.bronze { color: #d58837; }
+.star-earned.gold   { color: #ffcb13; .lh-transition(color 200ms)}
+.star-earned.silver { color: #c0c0c0; .lh-transition(color 200ms)}
+.star-earned.bronze { color: #d58837; .lh-transition(color 200ms) }
 
-.glow.gold{   .lh-background-image( radial-gradient( rgba(255,252,000,0.8) 0%, rgba(255, 203, 019, 0) 50% ) ); }
-.glow.silver{ .lh-background-image( radial-gradient( rgba(244,246,248,0.8) 0%, rgba(192, 192, 192, 0) 50% ) ); }
-.glow.bronze{ .lh-background-image( radial-gradient( rgba(255,172,31,0.80) 0%, rgba(213, 136, 055, 0) 50% ) ); }
+.star-earned.glow.gold{   .lh-background-image( radial-gradient( rgba(255,252,000,0.8) 0%, rgba(255, 203, 019, 0) 50% ) ); }
+.star-earned.glow.silver{ .lh-background-image( radial-gradient( rgba(244,246,248,0.8) 0%, rgba(192, 192, 192, 0) 50% ) ); }
+.star-earned.glow.bronze{ .lh-background-image( radial-gradient( rgba(255,172,31,0.80) 0%, rgba(213, 136, 055, 0) 50% ) ); }
+
+.progress-bar {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}​
