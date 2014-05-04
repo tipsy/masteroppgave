@@ -12,14 +12,10 @@ $(document).ready(function () {
         $(editors).each(function() { this.resize(); });
     });
 
-    $("#ae-set-github-theme").click(function(){
-        $(editors).each(function() { this.setTheme("ace/theme/github"); });
+    $(".ae-theme-settings").click(function(){
+        var theme = ("ace/theme/"+$(this).attr("id"));
+        $(editors).each(function() { this.setTheme(theme); });
     });
-
-    $("#ae-set-eclipse-theme").click(function(){
-        $(editors).each(function() { this.setTheme("ace/theme/eclipse"); });
-    });
-
 
 });
 
