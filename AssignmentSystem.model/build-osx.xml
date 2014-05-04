@@ -23,7 +23,7 @@
             <zipfileset excludes="META-INF/*.SF" src="/Applications/Eclipse/plugins/org.eclipse.emf.ecore_2.10.0.v20140303-1023.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Applications/Eclipse/plugins/org.eclipse.emf.common_2.10.0.v20140303-1023.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Applications/Eclipse/plugins/org.eclipse.emf.ecore.xmi_2.10.0.v20140303-1023.jar"/>
-            <fileset dir="AssignmentSystem.model/bin"/>
+            <fileset dir="AssignmentSystem.model/target/classes/"/>
         </jar>
     </target>
 </project>

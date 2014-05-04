@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
-import no.ntnu.assignmentsystem.model.Course;
 import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelPackage;
 import no.ntnu.assignmentsystem.model.UoD;
-import no.ntnu.assignmentsystem.services.AssignmentServices;
-import no.ntnu.assignmentsystem.services.CourseServices;
-import no.ntnu.assignmentsystem.services.ProblemServices;
+import no.ntnu.assignmentsystem.services.AssignmentView;
+import no.ntnu.assignmentsystem.services.CourseView;
+import no.ntnu.assignmentsystem.services.ProblemView;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.ServicesFactory;
 import no.ntnu.assignmentsystem.services.ServicesPackage;
@@ -44,18 +43,56 @@ public class ServicesImpl extends Container implements Services {
 	}
 	
 	@Override
-	public CourseServices getCourseServices() {
-		EList<Course> courses = getUoD().getCourses();
-		return new CourseServicesImpl(servicesFactory, courses);
-	}
-
-	@Override
-	public AssignmentServices getAssignmentServices(String courseId) {
+	public EList<CourseView> getCourses() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ProblemServices getProblemServices(String courseId, String assignmentId) {
+	public void addCourse(String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public CourseView getCourse(String courseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteCourse(String courseId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public EList<AssignmentView> getAssignments(String courseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AssignmentView getAssignment(String assignmentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addAssignment(String courseId, String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAssignment(String assignmentId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public EList<ProblemView> getProblems(String assignmentId) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	
