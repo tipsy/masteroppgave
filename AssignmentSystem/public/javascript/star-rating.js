@@ -7,6 +7,10 @@ $(document).ready(function () {
     var alwaysMax = $(".assignment-preview a").first().find(".progress-bar");
     scoreAdjust( alwaysMax, getPercentWidth(alwaysMax), 100);
 
+    setTimeout(function(){$( ".assignment-leaderboard").find(".bronze").addClass("star-earned") },1000);
+    setTimeout(function(){$( ".assignment-leaderboard").find(".silver").addClass("star-earned") },1500);
+    setTimeout(function(){$( ".assignment-leaderboard").find(".gold").addClass("star-earned") },2000);
+
 });
 
 function getPercentWidth(e){
