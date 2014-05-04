@@ -40,11 +40,43 @@
   border-bottom-color: transparent;
 }
 
+.maximized {
+  &#ace-editor-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 1080vh;
+    width: 100vw;
+    background-color: white;
+  }
+  .ace-editor-instance {
+    height: 100vh;
+    width: 100vh;
+  }
+}
+
 #editor-logo {
   position: absolute;
   font-size: 20px;
   left: 10px;
   top: 5px;
+}
+
+.editor-toolbar {
+  position: absolute;
+  font-size: 18px;
+  top: 3px;
+  right: 5px;
+  color: #555;
+  cursor: default;
+  .lh-user-select(none);
+  .toolbar-icon{
+    cursor: pointer;
+  }
+  #ae-run-code{
+    color: #31ae1b;
+  }
 }
 
 .problem-box {
