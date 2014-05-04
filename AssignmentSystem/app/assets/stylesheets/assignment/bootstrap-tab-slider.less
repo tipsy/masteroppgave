@@ -1,0 +1,35 @@
+/* Changes */
+.tab-content {overflow:hidden; }
+
+.slide-left {
+  -webkit-transition: left 0.17s ease;
+  -moz-transition: left 0.17s ease;
+  -ms-transition: left 0.17s ease;
+  -o-transition: left 0.17s ease;
+  transition: left 0.17s ease;
+  position: relative;
+  overflow: hidden;
+  left:100%;
+}
+.slide-left.in {
+  left:0;
+}
+.slide-left.out{
+  left:-100%;
+}
+.slide-right {
+  -webkit-transition: left 0.17s ease;
+  -moz-transition: left 0.17s ease;
+  -ms-transition: left 0.17s ease;
+  -o-transition: left 0.17s ease;
+  transition: left 0.17s ease;
+  position: relative;
+  overflow: hidden;
+  left:-100%;
+}
+.slide-right.in {
+  left:0;
+}
+.slide-right.out{
+  left:100%;
+}

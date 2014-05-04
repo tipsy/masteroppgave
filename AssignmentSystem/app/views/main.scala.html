@@ -4,10 +4,12 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>@title</title>
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
     <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))">
+    <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("jquery-ui.min.css"))">
     <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("font-awesome.min.css"))">
 
     <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
@@ -15,15 +17,15 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300">
 
-    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.min.css")">
 
     <script type="text/javascript" src="@routes.MessageController.javascriptRoutes"></script>
 </head>
 
 <body>
+    @views.html.navbar()
     <div class="container">
         <div class="row">
-            @views.html.navbar()
             @content
         </div>
     </div>

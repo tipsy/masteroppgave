@@ -1,5 +1,33 @@
 @(assignmentID : String, problemID : String)
 
 @main("Problem "+assignmentID+problemID) {
-    Heisann
+
+    <div class="col-lg-9">
+
+        <h1>This is assignment @assignmentID. </h1>
+        <p>Description of the assignment. </p>
+
+        <h2>Problems</h2>
+
+        <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "a")">A</a>
+        <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "b")">B</a>
+        <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "c")">C</a>
+        <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "d")">D</a>
+        <div class="clearfix"></div>
+
+        <h3>Problem @problemID</h3>
+        <p>Problem @problemID is about problem @problemID. </p>
+
+         @views.html.assignment.aceEditor()
+
+    </div>
+
+    <div class="col-lg-3">
+        @views.html.assignment.assignmentLeaderboard(assignmentID)
+    </div>
+
+    <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("/src-min/ace.js"))"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascript/a-problem.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascript/bootstrap-tab-slider.js")"></script>
+
 }
