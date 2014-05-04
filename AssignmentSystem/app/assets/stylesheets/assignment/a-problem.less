@@ -1,16 +1,17 @@
 @import "../libs/lesshat-prefixed";
 @import "bootstrap-tab-slider";
 
-.splitter            { height: 450px; }
 .ace-editor-instance { height: 350px; }
-.ace-editor-console  { height: 100px;  padding: 5px 10px; font-family: "Courier New"; }
 
-.resizable { width: 100%; }
+.ace-editor-console  {
+  height: 100px;
+  padding: 5px 10px;
+  font-family: "Courier New";
+  border: 1px solid #ddd;
+  border-top: 0;
+  .lh-border-radius(0 0 3px 3px);
+  overflow-y: scroll;
 
-.ui-resizable-s {
-  height: 10px;
-  bottom: 0px;
-  border-bottom: 1px solid #9f9f9f;
 }
 
 .maximized {
@@ -24,11 +25,11 @@
     background-color: white;
   }
   .ace-editor-instance {
-    height: 90vh;
+    height: 80vh;
     width: 100vw;
   }
-  .splitter{
-    height: 100vh;
+  .ace-editor-console{
+    height: 20vh;
   }
 }
 
@@ -63,7 +64,6 @@
 .tab-content.bordered{
   border: 1px solid #ddd;
   border-top: 0;
-  .lh-border-radius(0 0 3px 3px);
 }
 
 //toolbar styling

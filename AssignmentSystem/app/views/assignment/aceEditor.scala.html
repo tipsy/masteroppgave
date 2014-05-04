@@ -11,19 +11,26 @@
     </ul>
 
     <div id="assignment-tab-content" class="tab-content bordered">
-    @for(n <- 0 to 2){
-        <div class="tab-pane @if(n==0){active in} slide-left" id="class@n">
-            <div class="splitter">
-                <div id="editor@n" class="ace-editor-instance resizable">
+        @for(n <- 0 to 2){
+            <div class="tab-pane @if(n==0){active in} slide-left" id="class@n">
+                <div id="editor@n" class="ace-editor-instance">
 public static void main(String[] args) {
     System.out.println("Hello, World");
 }
                 </div>
-                <div id="console@n" class="ace-editor-console resizable">
-                    Konsoll
-                </div>
             </div>
-        </div>
-    }
+        }
     </div>
+    <div class="ace-editor-console">
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+        <p>Konsoll</p>
+    </div>
+
 </div>
