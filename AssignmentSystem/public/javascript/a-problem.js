@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     var editors = [];
+
     $(".ace-editor-instance").each(function(){
         editors.push( createEditor( $(this).attr("id") ));
     });
@@ -10,6 +11,15 @@ $(document).ready(function () {
         $("#ae-toggle-fullscreen").toggleClass("fa-expand fa-compress");
         $(editors).each(function() { this.resize(); });
     });
+
+    $("#ae-set-github-theme").click(function(){
+        $(editors).each(function() { this.setTheme("ace/theme/github"); });
+    });
+
+    $("#ae-set-eclipse-theme").click(function(){
+        $(editors).each(function() { this.setTheme("ace/theme/eclipse"); });
+    });
+
 
 });
 
