@@ -17,14 +17,14 @@ function getPercentWidth(e){
 
 function scoreAdjust (i, progressBar) {
     setTimeout(function () {
-        if(i === 50){ progressBar.parent().parent().find(".fa-star.bronze").addClass("star-earned") }
-        if(i === 75){ progressBar.parent().parent().find(".fa-star.silver").addClass("star-earned") }
-        if(i === 100){ progressBar.parent().parent().find(".fa-star.gold").addClass("star-earned") }
+        if(i === 50){ progressBar.parent().parent().find(".fa-star.bronze, .glow.bronze").addClass("star-earned") }
+        if(i === 75){ progressBar.parent().parent().find(".fa-star.silver, .glow.silver").addClass("star-earned") }
+        if(i === 100){progressBar.parent().parent().find(".fa-star.gold,   .glow.gold"  ).addClass("star-earned") }
         progressBar.width(i+"%");
         i++;
         if (i < 101) {
             scoreAdjust(i, progressBar);
         }
-    }, 10)
+    }, 20)
 }
 
