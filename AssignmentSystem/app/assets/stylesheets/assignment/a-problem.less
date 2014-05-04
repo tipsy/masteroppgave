@@ -1,50 +1,16 @@
 @import "../libs/lesshat-prefixed";
 @import "bootstrap-tab-slider";
 
-.ace-editor-instance {
-  height: 350px;
-}
+.splitter            { height: 450px; }
+.ace-editor-instance { height: 350px; }
+.ace-editor-console  { height: 100px;  padding: 5px 10px; font-family: "Courier New"; }
 
-.ace-editor-console {
-  height: 100px;
-  padding: 5px 10px;
-  font-family: "Courier New";
-}
+.resizable { width: 100%; }
 
-.tab-content.bordered{
-  border: 1px solid #ddd;
-  border-top: 0;
-  .lh-border-radius(0 0 3px 3px);
-}
-
-#problem-class-tabs{
-  position: relative;
-  padding-left: 65px;
-  background-color: #ebebeb;
-  border: 1px solid #ddd;
+.ui-resizable-s {
+  height: 10px;
+  bottom: 0px;
   border-bottom: 1px solid #9f9f9f;
-  height: 34px;
-  .lh-border-radius(3px 3px 0px 0px);
-  li{
-    margin-top: 5px;
-    a {
-      padding: 3px 7px;
-    }
-  }
-}
-
-.nav-tabs>li.active>a,
-.nav-tabs>li.active>a:hover,
-.nav-tabs>li.active>a:focus{
-  border: 1px solid #9f9f9f;
-  border-bottom-color: transparent;
-}
-
-.nav-tabs>li>a:hover{
-  background-color: white;
-  color: #555;
-  border: 1px solid #9f9f9f;
-  border-bottom-color: transparent;
 }
 
 .maximized {
@@ -66,6 +32,37 @@
   }
 }
 
+#java-class-tabs{
+  position: relative;
+  padding-left: 65px;
+  background-color: #ebebeb;
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #9f9f9f;
+  height: 34px;
+  .lh-border-radius(3px 3px 0px 0px);
+  li{
+    margin-top: 5px;
+    a { padding: 3px 7px; }
+    a:hover{
+      background-color: white;
+      color: #555;
+      border: 1px solid #9f9f9f;
+      border-bottom-color: transparent;
+    }
+  }
+  .active>a,active>a:hover,.active>a:focus{
+    border: 1px solid #9f9f9f;
+    border-bottom-color: transparent;
+  }
+}
+
+.tab-content.bordered{
+  border: 1px solid #ddd;
+  border-top: 0;
+  .lh-border-radius(0 0 3px 3px);
+}
+
+//toolbar styling
 #editor-logo {
   position: absolute;
   font-size: 20px;
@@ -125,19 +122,3 @@
 
 }
 
-.splitter {
-  height: 450px;
-}
-
-.resizable {
-  width: 100%;
-}
-
-.ui-resizable-s {
-  cursor: s-resize;
-  height: 10px;
-  width: 100%;
-  bottom: 0px;
-  left: 0;
-  border-bottom: 1px solid #9f9f9f;
-}
