@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-    var editor1;
-
     $(".ace-editor-instance").each(function(){
         initEditor( $(this).attr("id") );
     });
