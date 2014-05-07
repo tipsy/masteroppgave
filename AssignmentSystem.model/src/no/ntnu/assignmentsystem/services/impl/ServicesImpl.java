@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import no.ntnu.assignmentsystem.model.Course;
 import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelPackage;
 import no.ntnu.assignmentsystem.model.UoD;
@@ -29,6 +30,7 @@ public class ServicesImpl extends Container implements Services {
 	private ModelFactory modelFactory;
 	private ServicesFactory servicesFactory;
 	
+	private static String mainCourseId = "tdt4100";
 	private UoD uod;
 	
 	public ServicesImpl(File dataFile) {
@@ -42,58 +44,20 @@ public class ServicesImpl extends Container implements Services {
 	    
 	    loadModel();
 	}
-	
-	@Override
-	public List<CourseView> getCourses() {
-		return getUoD().getCourses().stream().map(CourseViewFactory::createCourseView).collect(Collectors.toList());
-	}
 
 	@Override
-	public void addCourse(String title) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public CourseView getCourse(String courseId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteCourse(String courseId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<AssignmentView> getAssignments(String courseId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AssignmentView getAssignment(String assignmentId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addAssignment(String courseId, String title) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteAssignment(String assignmentId) {
-		// TODO Auto-generated method stub
-		
+	public List<AssignmentView> getAssignments(String userId) {
+		return getCourse().getAssignments().stream().map(AssignmentViewFactory::createCourseView).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<ProblemView> getProblems(String assignmentId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private Course getCourse() {
+		return getUoD().getCourses().stream().filter(course -> course.getId().equals(mainCourseId)).findAny().get();
 	}
 	
 	private UoD getUoD() {

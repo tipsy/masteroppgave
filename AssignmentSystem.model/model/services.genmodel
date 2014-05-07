@@ -8,40 +8,15 @@
   <genPackages prefix="Services" basePackage="no.ntnu.assignmentsystem" disposableProviderFactory="true"
       contentTypeIdentifier="" ecorePackage="services.ecore#/">
     <genClasses ecoreClass="services.ecore#//Services"/>
-    <genClasses ecoreClass="services.ecore#//CourseView">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CourseView/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CourseView/title"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="services.ecore#//CourseServices">
-      <genOperations ecoreOperation="services.ecore#//CourseServices/getCourses"/>
-      <genOperations ecoreOperation="services.ecore#//CourseServices/getCourse">
-        <genParameters ecoreParameter="services.ecore#//CourseServices/getCourse/courseId"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//CourseServices/addCourse">
-        <genParameters ecoreParameter="services.ecore#//CourseServices/addCourse/title"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//CourseServices/deleteCourse">
-        <genParameters ecoreParameter="services.ecore#//CourseServices/deleteCourse/courseId"/>
-      </genOperations>
-    </genClasses>
     <genClasses ecoreClass="services.ecore#//AssignmentServices">
       <genOperations ecoreOperation="services.ecore#//AssignmentServices/getAssignments">
-        <genParameters ecoreParameter="services.ecore#//AssignmentServices/getAssignments/courseId"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//AssignmentServices/getAssignment">
-        <genParameters ecoreParameter="services.ecore#//AssignmentServices/getAssignment/assignmentId"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//AssignmentServices/addAssignment">
-        <genParameters ecoreParameter="services.ecore#//AssignmentServices/addAssignment/courseId"/>
-        <genParameters ecoreParameter="services.ecore#//AssignmentServices/addAssignment/title"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//AssignmentServices/deleteAssignment">
-        <genParameters ecoreParameter="services.ecore#//AssignmentServices/deleteAssignment/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//AssignmentServices/getAssignments/userId"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//AssignmentView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/locked"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ProblemServices">
       <genOperations ecoreOperation="services.ecore#//ProblemServices/getProblems">
