@@ -2,18 +2,16 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET        /                                                     controllers.MainController.index()
-GET        /message                                              controllers.MessageController.getMessage()
-GET        /assets/javascripts/routes                            controllers.MessageController.javascriptRoutes()
-
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file                                         controllers.Assets.at(path="/public", file)
-GET        /webjars/*file                                        controllers.WebJarAssets.at(file)
+GET         /assets/*file                                       controllers.Assets.at(path="/public", file)
+GET         /webjars/*file                                      controllers.WebJarAssets.at(file)
 
 
 # Application skeleton
-GET        /assignments                                          controllers.MainController.serveAllAssignments()
-GET        /assignments/$aID<\d+>/problems/$pID<\w+>/            controllers.MainController.serveProblem(aID : String, pID : String)
+GET         /                                                   controllers.MainController.index()
+GET         /assignments                                        controllers.MainController.serveAllAssignments()
+GET         /assignments/:aID/problems/:pID                     controllers.MainController.serveProblem(aID : String, pID : String)
 
-GET        /leaderboards                                         controllers.MainController.serveLeaderboards()
-GET        /my_progress                                          controllers.MainController.serveStudentProgress()
+GET         /leaderboards                                       controllers.LeaderboardsController.serveLeaderboards()
+
+GET         /my-progress                                        controllers.MyProgressController.serveStudentProgress()
