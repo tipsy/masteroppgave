@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/AssignmentSystem.model/src" modelPluginID="AssignmentSystem.model"
-    modelName="Model" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/AssignmentSystem.model/src-gen" modelPluginID="AssignmentSystem.model"
+    modelName="Model" modelPluginClass="" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
     operationReflection="true" importOrganizing="true">
   <foreignModel>model.ecore</foreignModel>
-  <genPackages prefix="Model" disposableProviderFactory="true" ecorePackage="model.ecore#/">
+  <genPackages prefix="Model" basePackage="no.ntnu.assignmentsystem" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//Assignment">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Assignment/problems"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Assignment/id"/>

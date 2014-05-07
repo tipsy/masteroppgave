@@ -1,35 +1,73 @@
 <?xml version="1.0" encoding="ASCII"?>
-<no.ntnu.assignmentsystem:UoD xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0"
+<no.ntnu.assignmentsystem:UoD
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0"
     xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore">
   <users email="hal@idi.ntnu.no"/>
   <users email="davidas@stud.ntnu.no"/>
   <users email="christir@stud.ntnu.no"/>
   <users email="randomTA@stud.ntnu.no"/>
-  <courses title="TDT4100">
-    <assignments title="Assignment 1 - The basics">
-      <problems xsi:type="no.ntnu.assignmentsystem:QuizProblem" title="Quiztastic" maxPoints="50">
-        <questions correctAnswer="//@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2" text="Q1">
-          <answers text="A1"/>
-          <answers text="A2"/>
-          <answers text="A3"/>
-          <answers text="A4"/>
+  <courses id="tdt4100"
+      title="Object-oriented programming with Java">
+    <assignments
+        id="1"
+        title="Assignment 1 - The basics">
+      <problems
+          xsi:type="no.ntnu.assignmentsystem:QuizProblem"
+          id="a"
+          title="Quiztastic"
+          maxPoints="50">
+        <questions
+            correctAnswer="//@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2"
+            text="Q1">
+          <answers
+              text="A1"/>
+          <answers
+              text="A2"/>
+          <answers
+              text="A3"/>
+          <answers
+              text="A4"/>
         </questions>
       </problems>
-      <problems xsi:type="no.ntnu.assignmentsystem:CodeProblem" title="Hello World"/>
+      <problems
+          xsi:type="no.ntnu.assignmentsystem:CodeProblem"
+          id="b"
+          title="Hello World"/>
     </assignments>
-    <participants xsi:type="no.ntnu.assignmentsystem:Student" user="//@users.2" screenName="David">
-      <submissions xsi:type="no.ntnu.assignmentsystem:CodeSubmission" problem="//@courses.0/@assignments.0/@problems.1">
-        <evaluation evaluatedBy="//@courses.0/@participants.2"/>
+    <participants
+        xsi:type="no.ntnu.assignmentsystem:Student"
+        user="//@users.2"
+        screenName="David">
+      <submissions
+          xsi:type="no.ntnu.assignmentsystem:CodeSubmission"
+          problem="b">
+        <evaluation
+            evaluatedBy="//@courses.0/@participants.2"/>
         <files/>
       </submissions>
     </participants>
-    <participants xsi:type="no.ntnu.assignmentsystem:Student" user="//@users.1" screenName="Christian">
-      <submissions xsi:type="no.ntnu.assignmentsystem:QuizSubmission" problem="//@courses.0/@assignments.0/@problems.0" answers="//@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2">
-        <evaluation evaluatedBy="//@courses.0/@participants.3"/>
+    <participants
+        xsi:type="no.ntnu.assignmentsystem:Student"
+        user="//@users.1"
+        screenName="Christian">
+      <submissions
+          xsi:type="no.ntnu.assignmentsystem:QuizSubmission"
+          problem="a"
+          answers="//@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2">
+        <evaluation
+            evaluatedBy="//@courses.0/@participants.3"/>
       </submissions>
     </participants>
-    <participants xsi:type="no.ntnu.assignmentsystem:Staff" user="//@users.0" screenName="Hallvard"/>
-    <participants xsi:type="no.ntnu.assignmentsystem:Staff" user="//@users.3" screenName="RandomTA"/>
+    <participants
+        xsi:type="no.ntnu.assignmentsystem:Staff"
+        user="//@users.0"
+        screenName="Hallvard"/>
+    <participants
+        xsi:type="no.ntnu.assignmentsystem:Staff"
+        user="//@users.3"
+        screenName="RandomTA"/>
   </courses>
 </no.ntnu.assignmentsystem:UoD>
