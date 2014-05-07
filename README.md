@@ -15,6 +15,14 @@ Master's thesis by Christian Rasmussen and David Åse.
 7. Make sure the project is checked
 8. Click "Finish"
 
+### Setting up Maven
+
+<TODO>
+
+### Installing Java 8 plugin
+
+<TODO>
+
 ### Generating model code
 
 1. Navigate to model/model.genmodel
