@@ -3,7 +3,6 @@ package controllers;
 import no.ntnu.assignmentsystem.services.CourseView;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.impl.ServicesImpl;
-import org.eclipse.emf.common.util.EList;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.assignment.aProblem;
@@ -12,13 +11,14 @@ import views.html.leaderboards;
 import views.html.studentProgress;
 
 import java.io.File;
+import java.util.List;
 
 public class MainController extends Controller {
 
     public static Result index() {
         Services services = new ServicesImpl(new File("../AssignmentSystem.model/model/UoD.xmi"));
 
-        EList<CourseView> courses = services.getCourseServices().getCourses();
+        List<CourseView> courses = services.getCourses();
 
         return ok(views.html.index.render(courses.get(0).getTitle()));
 //        return ok(views.html.index.render("Hello from Java"));
