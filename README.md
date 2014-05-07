@@ -15,13 +15,21 @@ Master's thesis by Christian Rasmussen and David Åse.
 7. Make sure the project is checked
 8. Click "Finish"
 
-### Setting up Maven
-
-<TODO>
-
 ### Installing Java 8 plugin
 
-<TODO>
+1. Go to Help
+2. Open "Eclipse Marketplace"
+3. Search for ```java 8 kepler```
+4. Install "Java 8 support for Eclipse Kepler SR2"
+5. Complete the wizard.
+
+### Installing Maven plugin
+
+1. Go to Help
+2. Open "Eclipse Marketplace"
+3. Search for ```maven 1.4```
+4. Install "Maven Integration for Eclipse (Juno or newer) 1.4"
+5. Complete the wizard.
 
 ### Generating model code
 
