@@ -3,6 +3,8 @@ package no.ntnu.assignmentsystem.services.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelPackage;
@@ -14,7 +16,6 @@ import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.ServicesFactory;
 import no.ntnu.assignmentsystem.services.ServicesPackage;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -43,9 +44,8 @@ public class ServicesImpl extends Container implements Services {
 	}
 	
 	@Override
-	public EList<CourseView> getCourses() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CourseView> getCourses() {
+		return getUoD().getCourses().stream().map(CourseViewFactory::createCourseView).collect(Collectors.toList());
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class ServicesImpl extends Container implements Services {
 	}
 
 	@Override
-	public EList<AssignmentView> getAssignments(String courseId) {
+	public List<AssignmentView> getAssignments(String courseId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -91,7 +91,7 @@ public class ServicesImpl extends Container implements Services {
 	}
 
 	@Override
-	public EList<ProblemView> getProblems(String assignmentId) {
+	public List<ProblemView> getProblems(String assignmentId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
