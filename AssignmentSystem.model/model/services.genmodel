@@ -22,10 +22,17 @@
       <genOperations ecoreOperation="services.ecore#//ProblemServices/getProblems">
         <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblems/assignmentId"/>
       </genOperations>
+      <genOperations ecoreOperation="services.ecore#//ProblemServices/getProblem">
+        <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblem/problemId"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ProblemView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/title"/>
     </genClasses>
+    <genClasses ecoreClass="services.ecore#//ExtendedProblemView"/>
+    <genClasses ecoreClass="services.ecore#//CodeProblemView"/>
+    <genClasses ecoreClass="services.ecore#//QuizProblemView"/>
   </genPackages>
 </genmodel:GenModel>

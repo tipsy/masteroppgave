@@ -19,9 +19,17 @@
     <eOperations name="getProblems" upperBound="-1" eType="#//ProblemView">
       <eParameters name="assignmentId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="getProblem" eType="#//ExtendedProblemView">
+      <eParameters name="assignmentId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="problemId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ProblemView">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtendedProblemView" abstract="true"
+      eSuperTypes="#//ProblemView"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CodeProblemView" eSuperTypes="#//ExtendedProblemView"/>
+  <eClassifiers xsi:type="ecore:EClass" name="QuizProblemView" eSuperTypes="#//ExtendedProblemView"/>
 </ecore:EPackage>
