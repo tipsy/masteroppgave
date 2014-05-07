@@ -2,11 +2,11 @@
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/AssignmentSystem.model/src-gen" modelPluginID="AssignmentSystem.model"
     modelName="Services" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
-    operationReflection="true" importOrganizing="true">
+    suppressEMFTypes="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>services.ecore</foreignModel>
   <genPackages prefix="Services" basePackage="no.ntnu.assignmentsystem" disposableProviderFactory="true"
-      ecorePackage="services.ecore#/">
+      contentTypeIdentifier="" ecorePackage="services.ecore#/">
     <genClasses ecoreClass="services.ecore#//Services"/>
     <genClasses ecoreClass="services.ecore#//CourseView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CourseView/id"/>
@@ -57,10 +57,12 @@
       ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//Assignment">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Assignment/problems"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Assignment/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Assignment/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Assignment/deadline"/>
     </genClasses>
     <genClasses image="false" ecoreClass="model.ecore#//Problem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Problem/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Problem/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Problem/maxPoints"/>
     </genClasses>
@@ -120,6 +122,7 @@
     <genClasses ecoreClass="model.ecore#//Course">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Course/assignments"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Course/participants"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Course/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Course/title"/>
     </genClasses>
   </genPackages>
