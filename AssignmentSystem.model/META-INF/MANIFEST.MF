@@ -6,8 +6,11 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: no.ntnu.assignmentsystem.services,
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: no.ntnu.assignmentsystem.model,
+ no.ntnu.assignmentsystem.model.impl,
+ no.ntnu.assignmentsystem.model.util,
+ no.ntnu.assignmentsystem.services,
  no.ntnu.assignmentsystem.services.impl,
  no.ntnu.assignmentsystem.services.util
 Require-Bundle: org.eclipse.core.runtime,
