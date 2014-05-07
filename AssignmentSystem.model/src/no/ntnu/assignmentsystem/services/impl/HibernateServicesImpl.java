@@ -3,8 +3,6 @@ package no.ntnu.assignmentsystem.services.impl;
 import java.util.Properties;
 
 import no.ntnu.assignmentsystem.model.ModelPackage;
-import no.ntnu.assignmentsystem.model.UoD;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.teneo.PersistenceOptions;
 import org.eclipse.emf.teneo.hibernate.HbDataStore;
@@ -81,7 +79,7 @@ public class HibernateServicesImpl {
 //		course.setTitle("Objektorientert programmering med Java");
 //		session.save(course);
 		
-		UoD uod = (UoD)session.createQuery("From UoD").uniqueResult();
+//		UoD uod = (UoD)session.createQuery("From UoD").uniqueResult();
 //		uod.getCourses().add(course);
 //		session.save(course);
 		

@@ -11,7 +11,6 @@ import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelPackage;
 import no.ntnu.assignmentsystem.model.UoD;
 import no.ntnu.assignmentsystem.services.AssignmentView;
-import no.ntnu.assignmentsystem.services.CourseView;
 import no.ntnu.assignmentsystem.services.ProblemView;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.ServicesFactory;
