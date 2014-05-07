@@ -9,10 +9,10 @@
 
         <h2>Problems</h2>
 
-        <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "a")">A</a>
-        <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "b")">B</a>
-        <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "c")">C</a>
-        <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.MainController.serveProblem(assignmentID, "d")">D</a>
+        <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">A</a>
+        <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">B</a>
+        <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">C</a>
+        <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">D</a>
         <div class="clearfix"></div>
 
         <h3>Problem @problemID</h3>

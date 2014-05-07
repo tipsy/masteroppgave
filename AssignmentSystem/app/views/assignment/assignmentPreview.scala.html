@@ -2,7 +2,7 @@
 <div class="col-lg-4 col-md-4 col-sm-4 col-ms-6 col-xs-12 assignment-preview">
     @if(!locked){
 
-        <a id="assignment@assignmentNumber" href="@controllers.routes.MainController.serveProblem(assignmentNumber, "a")">
+        <a id="assignment@assignmentNumber" href="@controllers.routes.AssignmentController.serveProblem(assignmentNumber, "a")">
             <div class="assignment-text">
                 Assignment @assignmentNumber
             </div>

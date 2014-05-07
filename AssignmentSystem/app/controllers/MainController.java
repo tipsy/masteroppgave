@@ -11,14 +11,7 @@ public class MainController extends Controller {
 //        Services services = new ServicesImpl(new File("../AssignmentSystem.model/model/UoD.xmi"));
 //        List<CourseView> courses = services.getCourses();
 //        return ok(views.html.index.render(courses.get(0).getTitle()));
-        return redirect(routes.MainController.serveAllAssignments());
+        return redirect(routes.AssignmentController.serveAllAssignments());
     }
 
-    public static Result serveAllAssignments() {
-        return ok(allAssignments.render());
-    }
-
-    public static Result serveProblem(String aID, String pID) {
-        return ok(aProblem.render(aID, pID));
-    }
 }
