@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<no.ntnu.assignmentsystem:UoD xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0">
+<no.ntnu.assignmentsystem:UoD xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0"
+    xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore">
   <users email="hal@idi.ntnu.no"/>
   <users email="davidas@stud.ntnu.no"/>
   <users email="christir@stud.ntnu.no"/>
