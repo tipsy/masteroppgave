@@ -1,6 +1,7 @@
 package no.ntnu.assignmentsystem.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import no.ntnu.assignmentsystem.model.Assignment;
@@ -27,40 +28,49 @@ public class ServicesImpl extends Container implements Services {
 
 	@Override
 	public List<AssignmentView> getAssignments(String userId) {
-		return getCourseModel().getAssignments().stream().map(
-			AssignmentViewFactory::createCourseView
-		).collect(Collectors.toList());
+		return getCourseModel().map(
+			course -> course.getAssignments().stream().map(
+				AssignmentViewFactory::createCourseView
+			).collect(Collectors.toList())
+		).orElse(null);
 	}
 
 	@Override
 	public List<ProblemView> getProblems(String assignmentId) {
-		return getAssignmentModel(assignmentId).getProblems().stream().map(
-			ProblemViewFactory::createProblemView
-		).collect(Collectors.toList());
+		return getAssignmentModel(assignmentId).map(
+			assignment -> assignment.getProblems().stream().map(
+				ProblemViewFactory::createProblemView
+			).collect(Collectors.toList())
+		).orElse(null);
 	}
 	
 	@Override
 	public ExtendedProblemView getProblem(String assignmentId, String problemId) {
-		Problem problem = getProblemModel(assignmentId, problemId);
-		return ProblemViewFactory.createExtendedProblemView(problem);
+		return getProblemModel(assignmentId, problemId).map(
+			ProblemViewFactory::createExtendedProblemView
+		).orElse(null);
 	}
 	
-	private Problem getProblemModel(String assignmentId, String problemId) {
-		return getAssignmentModel(assignmentId).getProblems().stream().filter(
-			problem -> problem.getId().equals(problemId)
-		).findAny().get();
+	private Optional<Problem> getProblemModel(String assignmentId, String problemId) {
+		return getAssignmentModel(assignmentId).flatMap(
+			assignment -> assignment.getProblems().stream().filter(
+				problem -> problem.getId().equals(problemId)
+			).findAny()
+		);
 	}
 	
-	private Assignment getAssignmentModel(String assignmentId) {
-		return getCourseModel().getAssignments().stream().filter(
-			assignment -> assignment.getId().equals(assignmentId)
-		).findAny().get();
+	private Optional<Assignment> getAssignmentModel(String assignmentId) {
+		return getCourseModel().flatMap(
+			course -> course.getAssignments().stream().filter(
+				assignment -> assignment.getId().equals(assignmentId)
+			).findAny()
+		);
 	}
-
-	private Course getCourseModel() {
+	
+	private Optional<Course> getCourseModel() {
 		return getUoD().getCourses().stream().filter(
 			course -> course.getId().equals(mainCourseId)
-		).findAny().get();
+		).findAny();
 	}
 	
 	private UoD getUoD() {
