@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.services.impl;
+package no.ntnu.assignmentsystem.model;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
 
-public class HibernateServicesImpl {
+public class HibernateModelImpl {
 	public void Temp() {
 		// To configure Hibernate, supply properties describing the JDBC driver,
 		// URL, username/password and SQL dialect.

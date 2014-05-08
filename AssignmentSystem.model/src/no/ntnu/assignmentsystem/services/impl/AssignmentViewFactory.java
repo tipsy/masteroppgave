@@ -2,11 +2,10 @@ package no.ntnu.assignmentsystem.services.impl;
 
 import no.ntnu.assignmentsystem.model.Assignment;
 import no.ntnu.assignmentsystem.services.AssignmentView;
-import no.ntnu.assignmentsystem.services.ServicesFactory;
 
-class AssignmentViewFactory {
+class AssignmentViewFactory extends BaseViewFactory {
 	public static AssignmentView createCourseView(Assignment assignment) {
-		AssignmentView assignmentView = ServicesFactory.eINSTANCE.createAssignmentView();
+		AssignmentView assignmentView = factory().createAssignmentView();
 		Mapper.copyAttributes(assignment, assignmentView);
 		return assignmentView;
 	}
