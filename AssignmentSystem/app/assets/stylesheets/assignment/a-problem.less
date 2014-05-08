@@ -25,11 +25,13 @@
     background-color: white;
   }
   .ace-editor-instance {
-    height: 70vh;
-    width: 100vw;
+    .lh-calc(height, ~'75vh - 45px');
   }
-  .ace-editor-console{
-    height: 30vh;
+  .ace-editor-console {
+    .lh-calc(height, ~'25vh - 50px');
+  }
+  .ace-editor-controls {
+    padding: 0 15px;
   }
 }
 
