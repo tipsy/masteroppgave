@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
 
-public class HibernateModelImpl {
+public class HibernateModelLoader {
 	public void Temp() {
 		// To configure Hibernate, supply properties describing the JDBC driver,
 		// URL, username/password and SQL dialect.

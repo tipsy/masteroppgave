@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.services.impl;
+package no.ntnu.assignmentsystem.services;
 
 import no.ntnu.assignmentsystem.services.ServicesFactory;
 
