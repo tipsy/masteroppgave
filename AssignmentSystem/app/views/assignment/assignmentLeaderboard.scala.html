@@ -2,8 +2,37 @@
 <div class="assignment-leaderboard">
     <h1>Assignment @assignmentID score</h1>
     @views.html.assignment.starRating()
-    Base score<br>
-    Bonus points
 
-    <h1>Top Ten</h1>
+    <dl>
+        <dt>Base score</dt>
+        <dd>75</dd>
+
+        <dt>Bonus points</dt>
+        <dd>22</dd>
+
+        <dt><strong>Total score</strong></dt>
+        <dd><strong>97</strong></dd>
+    </dl>
+
+    <h2>Top Ten</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th width="10%" class="text-center">#</th>
+                <th width="20%" class="text-center">Score</th>
+                <th width="70%">User</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(n <- 1 to 10){
+                <tr>
+                    <td class="text-center">@n</td>
+                    <td class="text-center">@{Math.round( 153-n*5*Math.random() )}</td>
+                    <td>Mark with the long name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
 </div>

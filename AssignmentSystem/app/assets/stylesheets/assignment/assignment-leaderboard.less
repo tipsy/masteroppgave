@@ -1,15 +1,50 @@
 @import "../libs/lesshat-prefixed";
 
 .assignment-leaderboard {
+
   background-color: #eee;
   padding: 15px;
   .lh-border-radius(5px);
-  h1{
+
+  h1 {
     font-size: 20px;
     text-align: center;
   }
 
-.star-rating {
+  hr {
+    color: #ddd;
+    background-color: #ddd;
+    height: 1px;
+    margin: 10px 0;
+  }
+
+  h2 {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .table {
+
+    margin-bottom: 0;
+    table-layout:fixed;
+
+    th {
+      padding-bottom: 0;
+      font-weight: normal;
+      color: #999;
+    }
+    td {
+      padding: 4px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .star-rating {
     height: 70px;
     font-size: 50px;
     .fa-star { margin-right: -23px; }
@@ -25,5 +60,23 @@
     }
 
   }
+
+  dl {
+    margin: 15px 0;
+  }
+
+  dt {
+    float: left;
+    clear: left;
+    font-weight: normal;
+  }
+
+  dd {
+    text-align: right;
+    &:last-child {
+      border-top: 1px solid #ddd;
+    }
+  }
+
 
 }
