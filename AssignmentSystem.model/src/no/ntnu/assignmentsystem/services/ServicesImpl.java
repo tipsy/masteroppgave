@@ -1,29 +1,15 @@
 package no.ntnu.assignmentsystem.services;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import no.ntnu.assignmentsystem.model.Assignment;
 import no.ntnu.assignmentsystem.model.Course;
 import no.ntnu.assignmentsystem.model.ModelLoader;
-import no.ntnu.assignmentsystem.model.ModelPackage;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.UoD;
-import no.ntnu.assignmentsystem.services.AssignmentView;
-import no.ntnu.assignmentsystem.services.ExtendedProblemView;
-import no.ntnu.assignmentsystem.services.ProblemView;
-import no.ntnu.assignmentsystem.services.Services;
-import no.ntnu.assignmentsystem.services.ServicesPackage;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class ServicesImpl extends Container implements Services {
 //	private ServicesFactory servicesFactory;
