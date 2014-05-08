@@ -31,8 +31,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="ExtendedProblemView" abstract="true"
       eSuperTypes="#//ProblemView"/>
   <eClassifiers xsi:type="ecore:EClass" name="CodeProblemView" eSuperTypes="#//ExtendedProblemView">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceCodeFiles" eType="#//SourceCodeFileView"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceCodeFiles" upperBound="-1"
+        eType="#//SourceCodeFileView" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QuizProblemView" eSuperTypes="#//ExtendedProblemView"/>
   <eClassifiers xsi:type="ecore:EClass" name="SourceCodeFileView">
