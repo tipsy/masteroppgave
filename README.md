@@ -23,6 +23,13 @@ Master's thesis by Christian Rasmussen and David Åse.
 4. Install "Java 8 support for Eclipse Kepler SR2"
 5. Complete the wizard.
 
+### Setting up JRE8 in eclipse
+1. Go to Window > Preferences > Java > Installed JREs
+2. If jre8 is not in the list, click "Add"
+3. Choose "Standard VM"
+4. Set "JRE Home" to your jre8 path. 
+5. Click finish
+
 ### Installing Maven plugin
 
 1. Go to Help
