@@ -18,7 +18,6 @@ public class XmiModelLoader implements ModelLoader {
 		this.dataFile = dataFile;
 		
 		ModelPackage.eINSTANCE.eClass();
-//	    modelFactory = ModelFactory.eINSTANCE;
 	    
 	    loadModel();
 	}
