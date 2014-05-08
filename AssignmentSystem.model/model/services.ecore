@@ -30,6 +30,14 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtendedProblemView" abstract="true"
       eSuperTypes="#//ProblemView"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CodeProblemView" eSuperTypes="#//ExtendedProblemView"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CodeProblemView" eSuperTypes="#//ExtendedProblemView">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceCodeFiles" eType="#//SourceCodeFileView"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QuizProblemView" eSuperTypes="#//ExtendedProblemView"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceCodeFileView">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

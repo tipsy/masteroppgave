@@ -20,16 +20,12 @@
           title="Quiztastic"
           maxPoints="50">
         <questions
-            correctAnswer="//@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2"
+            correctAnswer="//@courses.0/@assignments.0/@problems.0/@questions.0/@options.2"
             text="Q1">
-          <answers
-              text="A1"/>
-          <answers
-              text="A2"/>
-          <answers
-              text="A3"/>
-          <answers
-              text="A4"/>
+          <options text="A1"/>
+          <options text="A2"/>
+          <options text="A3"/>
+          <options text="A4"/>
         </questions>
       </problems>
       <problems
@@ -43,10 +39,10 @@
         screenName="David">
       <submissions
           xsi:type="no.ntnu.assignmentsystem:CodeSubmission"
-          problem="b">
+          problem="//@courses.0/@assignments.0/@problems.1">
         <evaluation
             evaluatedBy="//@courses.0/@participants.2"/>
-        <files/>
+        <sourceCodeFiles/>
       </submissions>
     </participants>
     <participants
@@ -55,8 +51,8 @@
         screenName="Christian">
       <submissions
           xsi:type="no.ntnu.assignmentsystem:QuizSubmission"
-          problem="a"
-          answers="//@courses.0/@assignments.0/@problems.0/@questions.0/@answers.2">
+          problem="//@courses.0/@assignments.0/@problems.0"
+          answers="//@courses.0/@assignments.0/@problems.0/@questions.0/@options.2">
         <evaluation
             evaluatedBy="//@courses.0/@participants.3"/>
       </submissions>

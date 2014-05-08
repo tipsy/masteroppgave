@@ -29,16 +29,17 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//User/password"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Question">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Question/answers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Question/options"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Question/correctAnswer"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Question/text"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//Answer">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Answer/text"/>
+    <genClasses ecoreClass="model.ecore#//Option">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Option/text"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//File">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//File/filename"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//File/code"/>
+    <genClasses ecoreClass="model.ecore#//SourceCodeFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/sourceCode"/>
     </genClasses>
     <genClasses image="false" ecoreClass="model.ecore#//Submission">
       <genTypeParameters ecoreTypeParameter="model.ecore#//Submission/P"/>
@@ -52,9 +53,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Evaluation/awardedPointsFraction"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//CodeSubmission">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//CodeSubmission/files"/>
-      <genOperations ecoreOperation="model.ecore#//CodeSubmission/runCode"/>
-      <genOperations ecoreOperation="model.ecore#//CodeSubmission/runTests"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//CodeSubmission/sourceCodeFiles"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//QuizSubmission">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//QuizSubmission/answers"/>
