@@ -4,25 +4,27 @@
 
     <div class="col-lg-9">
 
-        <h1>This is assignment @assignmentID. </h1>
-        <p>Description of the assignment. </p>
+        <div class="hidden-when-editor-maximized">
+            <h1>This is assignment @assignmentID. </h1>
+            <p>Description of the assignment. </p>
 
-        <h2>Problems</h2>
+            <h2>Problems</h2>
 
-        <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">A</a>
-        <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">B</a>
-        <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">C</a>
-        <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">D</a>
-        <div class="clearfix"></div>
+            <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">A</a>
+            <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">B</a>
+            <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">C</a>
+            <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">D</a>
+            <div class="clearfix"></div>
 
-        <h3>Problem @problemID</h3>
-        <p>Problem @problemID is about problem @problemID. </p>
+            <h3>Problem @problemID</h3>
+            <p>Problem @problemID is about problem @problemID. </p>
+        </div>
 
-         @views.html.assignment.aceEditor()
+        @views.html.assignment.aceEditor()
 
     </div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-3 hidden-when-editor-maximized">
         @views.html.assignment.assignmentLeaderboard(assignmentID)
     </div>
 
