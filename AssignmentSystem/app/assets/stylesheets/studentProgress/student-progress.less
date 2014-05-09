@@ -1,0 +1,40 @@
+@import "../libs/lesshat-prefixed";
+.student-assignment-progress {
+
+  .progress {
+    margin-bottom: 20px;
+    height: 30px
+  }
+
+  .titled-progress-bar {
+    position: relative;
+    h3 {
+      position: absolute;
+      top: 6px;
+      left: 10px;
+      font-size: 16px;
+      color: black;
+      font-weight: 400;
+    }
+  }
+
+
+  .star-rating {
+    font-size: 18px;
+    position: relative;
+    top: -26px;
+    .fa-star { margin-right: -8px; }
+    .gold { right: 0; }
+    .silver { right: 25%; }
+    .bronze { right: 50%; }
+
+    .glow{
+      margin-right: -8px;
+      height: 18px;
+      width: 16px;
+      .lh-border-radius(9px);
+    }
+
+  } //end star rating
+
+}
