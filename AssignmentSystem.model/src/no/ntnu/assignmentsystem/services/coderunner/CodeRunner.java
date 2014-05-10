@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 import java.util.stream.Stream;
 
 public class CodeRunner {
@@ -38,11 +41,19 @@ public class CodeRunner {
 		File[] classPathFiles = {srcRoot};
 		File[] mainImplementationFiles = {mainImplementationFile};
 		File[] implementationFiles = Stream.concat(Arrays.stream(mainImplementationFiles), Arrays.stream(otherImplementationFiles)).toArray(File[]::new);
-		compileFiles(srcOutputDirectory, classPathFiles, implementationFiles);
+		Process compileImplementationFilesProcess = compileFiles(srcOutputDirectory, classPathFiles, implementationFiles);
 		
 		File[] generatedClassPathFiles = {srcOutputDirectory};
-		Process process = runMain(generatedClassPathFiles, mainClassName);
-		return convertInputStreamToString(process.getInputStream());
+		Process runMainProcess = runMain(generatedClassPathFiles, mainClassName);
+		
+		List<InputStream> inputStreams = Arrays.asList(
+			compileImplementationFilesProcess.getErrorStream(),
+			compileImplementationFilesProcess.getInputStream(),
+			runMainProcess.getErrorStream(),
+			runMainProcess.getInputStream()
+		);
+		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
+		return convertInputStreamToString(combinedStream);
 	}
 	
 	public String runTests(File srcRoot, File testRoot, File[] implementationFiles, File[] testFiles, String[] testClassNames) throws IOException {
@@ -51,12 +62,22 @@ public class CodeRunner {
 		}
 		
 		File[] classPathFiles = {srcRoot, testRoot, jUnitFile};
-		compileFiles(srcOutputDirectory, classPathFiles, implementationFiles);
-		compileFiles(testOutputDirectory, classPathFiles, testFiles);
+		Process compileImplementationFilesProcess = compileFiles(srcOutputDirectory, classPathFiles, implementationFiles);
+		Process compileTestFilesProcess = compileFiles(testOutputDirectory, classPathFiles, testFiles);
 		
 		File[] generatedTestFiles = {srcOutputDirectory, testOutputDirectory, jUnitFile};
-		Process process = runTests(generatedTestFiles, testClassNames);
-		return convertInputStreamToString(process.getInputStream());
+		Process runTestsProcess = runTests(generatedTestFiles, testClassNames);
+		
+		List<InputStream> inputStreams = Arrays.asList(
+			compileImplementationFilesProcess.getErrorStream(),
+			compileImplementationFilesProcess.getInputStream(),
+			compileTestFilesProcess.getErrorStream(),
+			compileTestFilesProcess.getInputStream(),
+			runTestsProcess.getErrorStream(),
+			runTestsProcess.getInputStream()
+		);
+		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
+		return convertInputStreamToString(combinedStream);
 	}
 	
 	
