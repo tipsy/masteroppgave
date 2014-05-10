@@ -94,7 +94,7 @@ public class CodeRunner {
 			}
 		}
 		
-		return getStringFromProcesses(processes);
+		return getOutputFromProcesses(processes);
 	}
 	
 	private Process compileFiles(File outputDirectory, File[] classPathFiles, File[] sourceCodeFiles) throws IOException {
@@ -122,16 +122,16 @@ public class CodeRunner {
 		return executor.exec(command);
 	}
 	
-	private static String getStringFromProcesses(List<Process> processes) throws IOException {
+	private static String getOutputFromProcesses(List<Process> processes) throws IOException {
 		List<InputStream> inputStreams = processes.stream().flatMap(
 			process -> Arrays.asList(process.getErrorStream(), process.getInputStream()).stream()
 		).collect(Collectors.toList());
 		
 		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
-		return convertInputStreamToString(combinedStream);
+		return getStringFromInputStream(combinedStream);
 	}
 	
-	private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+	private static String getStringFromInputStream(InputStream inputStream) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		
 		return reader.lines().reduce("", (concatenatedText, nextLine) -> concatenatedText + System.lineSeparator() + nextLine);
