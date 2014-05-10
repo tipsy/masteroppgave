@@ -8,6 +8,7 @@ $(document).ready(function () {
     });
 
     $("#ae-toggle-fullscreen").click(function(){
+        $(".hidden-when-editor-maximized").toggle();
         $("#ace-editor-wrapper").toggleClass("maximized");
         $("#ae-toggle-fullscreen").toggleClass("fa-expand fa-compress");
         $(editors).each(function() { this.resize(); });

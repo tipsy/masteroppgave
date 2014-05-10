@@ -1,10 +1,11 @@
 @import "libs/lesshat-prefixed";
 @import "libs/boostrap-ms";
-@import "navbar";
 @import "assignment/assignment";
+@import "studentProgress/student-progress";
 
 body {
-  margin: 15px auto;
+  padding-top: 70px;
+  margin: 0px auto 15px auto;
   max-width: 1170px;
 }
 
@@ -16,9 +17,15 @@ body {
   padding: 0 15px;
 }
 
-.navbar li a{
-  font-family: "Open Sans";
-  font-size: 16px;
+.navbar {
+  li a{
+    font-family: "Open Sans";
+    font-size: 16px;
+  }
+  .container {
+    max-width: 1170px;
+  }
+  .lh-box-shadow(0px 2px 4px rgba(0,0,0,0.2));
 }
 
 h1, h2, h3, h4, h5{

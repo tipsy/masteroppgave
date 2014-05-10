@@ -38,6 +38,7 @@
       font-weight: normal;
       color: #999;
     }
+
     td {
       padding: 4px 8px;
       font-size: 12px;
@@ -64,10 +65,11 @@
     }
 
     .fa-star.star-earned {
-      .text-outline;
       &.gold   { color: #ffcb13; }
       &.silver { color: #c0c0c0; }
       &.bronze { color: #d58837; }
+      .text-outline;
+      .lh-transition(text-shadow 200ms);
     }
 
     .glow{
