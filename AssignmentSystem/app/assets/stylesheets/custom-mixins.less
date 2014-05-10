@@ -1,4 +1,6 @@
-.text-outline {
+@import "libs/lesshat-prefixed";
+
+.cm-text-outline {
   text-shadow:
     0px 1px 0px #000,
     0px -1px 0px #000,
@@ -8,4 +10,25 @@
     0px -1px 1px rgba(0,0,0,0.2),
     1px 0px 1px rgba(0,0,0,0.2),
    -1px 0px 1px rgba(0,0,0,0.2);
+}
+
+.cm-starred-progress-bar(@position-top) {
+
+  .star-rating {
+    font-size: 18px;
+    position: relative;
+    top: @position-top;
+    .fa-star { margin-right: -8px; }
+    .gold { right: 0; }
+    .silver { right: 25%; }
+    .bronze { right: 50%; }
+
+    .glow{
+      margin-right: -8px;
+      height: 18px;
+      width: 16px;
+      .lh-border-radius(9px);
+    }
+  }
+
 }

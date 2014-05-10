@@ -1,4 +1,5 @@
 @import "../libs/lesshat-prefixed";
+@import "../custom-mixins";
 
 @progress-row-height: 30px;
 @success-color: #94D394;
@@ -46,22 +47,6 @@
     }
   }// end titled progress bar
 
-  .star-rating {
-    font-size: 18px;
-    position: relative;
-    top: -26px;
-    .fa-star { margin-right: -8px; }
-    .gold { right: 0; }
-    .silver { right: 25%; }
-    .bronze { right: 50%; }
-
-    .glow{
-      margin-right: -8px;
-      height: 18px;
-      width: 16px;
-      .lh-border-radius(9px);
-    }
-
-  } //end star rating
+  .cm-starred-progress-bar(-26px);
 
 }
