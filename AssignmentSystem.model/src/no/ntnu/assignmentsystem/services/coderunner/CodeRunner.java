@@ -10,17 +10,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CodeRunner {
-	private static String compileCommandFormat = "javac -g -d %s -classpath %s %s"; // Placeholders: output directory, classpaths, implementation files (g-flag includes extra debug information)
-	private static String runCommandFormat = "java -classpath %s %s"; // Placeholders: classpaths, main class name
-	private static String testCommandFormat = "java -classpath %s junit.textui.TestRunner %s"; // Placeholders: classpaths, test class names
+	private static final String compileCommandFormat = "javac -g -d %s -classpath %s %s"; // Placeholders: output directory, classpaths, implementation files (g-flag includes extra debug information)
+	private static final String runCommandFormat = "java -classpath %s %s"; // Placeholders: classpaths, main class name
+	private static final String testCommandFormat = "java -classpath %s junit.textui.TestRunner %s"; // Placeholders: classpaths, test class names
 	
-	private RuntimeExecutor executor;
-	private File srcOutputDirectory;
-	private File testOutputDirectory;
-	private File jUnitFile;
+	private static final int normalExitCode = 0;
+	
+	private final RuntimeExecutor executor;
+	private final File srcOutputDirectory;
+	private final File testOutputDirectory;
+	private final File jUnitFile;
 	
 	public CodeRunner(RuntimeExecutor executor, File srcOutputDirectory, File testOutputDirectory, File jUnitFile) {
 		if (executor == null || srcOutputDirectory == null || testOutputDirectory == null || jUnitFile == null) {
@@ -33,72 +37,65 @@ public class CodeRunner {
 		this.jUnitFile = jUnitFile;
 	}
 	
-	public String runMain(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws IOException, InterruptedException {
+	public String runMain(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws Exception {
 		if (srcDirectory == null || mainImplementationFile == null || otherImplementationFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		File[] classPathFiles = {srcDirectory};
-		File[] mainImplementationFiles = {mainImplementationFile};
-		File[] implementationFiles = Stream.concat(Arrays.stream(mainImplementationFiles), Arrays.stream(otherImplementationFiles)).toArray(File[]::new);
-		Process compileImplementationFilesProcess = compileFiles(srcOutputDirectory, classPathFiles, implementationFiles);
-		compileImplementationFilesProcess.waitFor();
+		File[] compileImplementationFilesClassPathFiles = {srcDirectory};
+		File[] runMainClassPathFiles = {srcOutputDirectory};
 		
-		File[] generatedClassPathFiles = {srcOutputDirectory};
+		File[] allImplementationFiles = Stream.concat(Stream.of(mainImplementationFile), Arrays.stream(otherImplementationFiles)).toArray(File[]::new);
+		
 		String mainClassName = convertFilePathToClassName(srcDirectory, mainImplementationFile);
-		Process runMainProcess = runMain(generatedClassPathFiles, mainClassName);
-		runMainProcess.waitFor();
 		
-		List<InputStream> inputStreams = Arrays.asList(
-			compileImplementationFilesProcess.getErrorStream(),
-			compileImplementationFilesProcess.getInputStream(),
-			runMainProcess.getErrorStream(),
-			runMainProcess.getInputStream()
+		List<Callable<Process>> commands = Arrays.asList(
+			(Callable<Process>) () -> compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, allImplementationFiles),
+			(Callable<Process>) () -> runMain(runMainClassPathFiles, mainClassName)
 		);
-		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
-		return convertInputStreamToString(combinedStream);
+		
+		return runCommands(commands);
 	}
 	
-	public String runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) throws IOException, InterruptedException {
+	public String runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) throws Exception {
 		if (srcDirectory == null || testDirectory == null || implementationFiles.length < 1 || testFiles.length < 1) {
 			throw new IllegalArgumentException();
 		}
 		
-		File[] implementationClassPathFiles = {srcDirectory};
-		Process compileImplementationFilesProcess = compileFiles(srcOutputDirectory, implementationClassPathFiles, implementationFiles);
-		compileImplementationFilesProcess.waitFor();
+		File[] compileImplementationFilesClassPathFiles = {srcDirectory};
+		File[] compileTestFilesClassPathFiles = {testDirectory, srcOutputDirectory, jUnitFile};
+		File[] runTestsClassPathFiles = {srcOutputDirectory, testOutputDirectory, jUnitFile};
 		
-		File[] testClassPathFiles = {testDirectory, srcOutputDirectory, jUnitFile};
-		Process compileTestFilesProcess = compileFiles(testOutputDirectory, testClassPathFiles, testFiles);
-		compileTestFilesProcess.waitFor();
+		List<Callable<Process>> commands = Arrays.asList(
+			(Callable<Process>) () -> compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, implementationFiles),
+			(Callable<Process>) () -> compileFiles(testOutputDirectory, compileTestFilesClassPathFiles, testFiles)
+		);
 		
-		List<InputStream> inputStreams = new ArrayList<InputStream>();
-		inputStreams.addAll(Arrays.asList(
-			compileImplementationFilesProcess.getErrorStream(),
-			compileImplementationFilesProcess.getInputStream(),
-			compileTestFilesProcess.getErrorStream(),
-			compileTestFilesProcess.getInputStream()
-		));
+		Arrays.stream(testFiles).map(
+			testFile -> convertFilePathToClassName(testDirectory, testFile)
+		).forEach(testClassName -> {
+			commands.add((Callable<Process>) () -> runTests(runTestsClassPathFiles, testClassName));
+		});
 		
-		String[] testClassNames = Arrays.stream(testFiles).map(
-				testFile -> convertFilePathToClassName(testDirectory, testFile)
-		).toArray(String[]::new);
-		
-		for (String testClassName : testClassNames) {
-			File[] generatedClassPathFiles = {srcOutputDirectory, testOutputDirectory, jUnitFile};
-			Process runTestsProcess = runTests(generatedClassPathFiles, testClassName);
-			runTestsProcess.waitFor();
-			
-			inputStreams.add(runTestsProcess.getErrorStream());
-			inputStreams.add(runTestsProcess.getInputStream());
-		}
-		
-		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
-		return convertInputStreamToString(combinedStream);
+		return runCommands(commands);
 	}
 	
 	
 	// --- Private methods ---
+	
+	private static String runCommands(List<Callable<Process>> commands) throws Exception {
+		List<Process> processes = new ArrayList<>();
+		for (Callable<Process> callable : commands) {
+			Process process = callable.call();
+			processes.add(process);
+			
+			if (process.waitFor() != normalExitCode) {
+				break;
+			}
+		}
+		
+		return getStringFromProcesses(processes);
+	}
 	
 	private Process compileFiles(File outputDirectory, File[] classPathFiles, File[] sourceCodeFiles) throws IOException {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
@@ -121,37 +118,35 @@ public class CodeRunner {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		
 		String command = String.format(testCommandFormat, delimitedClassPaths, testClassName);
-		System.out.println(command);
+		
 		return executor.exec(command);
+	}
+	
+	private static String getStringFromProcesses(List<Process> processes) throws IOException {
+		List<InputStream> inputStreams = processes.stream().flatMap(
+			process -> Arrays.asList(process.getErrorStream(), process.getInputStream()).stream()
+		).collect(Collectors.toList());
+		
+		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
+		return convertInputStreamToString(combinedStream);
 	}
 	
 	private static String convertInputStreamToString(InputStream inputStream) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		
-		ArrayList<String> output = new ArrayList<>();
-		String line;
-		while ((line = reader.readLine()) != null) {
-			output.add(line);
-		}
-		reader.close();
-		
-		return String.join(System.lineSeparator(), output);
+		return reader.lines().reduce("", (concatenatedText, nextLine) -> concatenatedText + System.lineSeparator() + nextLine);
 	}
 	
 	private static String getDelimitedClassPaths(File[] classPathFiles) {
-		String[] classPaths = Arrays.stream(classPathFiles).map(
+		return Arrays.stream(classPathFiles).map(
 			file -> file.getAbsolutePath()
-		).toArray(String[]::new);
-		
-		return String.join(":", classPaths);
+		).reduce("", (concatenatedText, nextString) -> concatenatedText + ":" + nextString);
 	}
 	
 	private static String getDelimitedSourceCodeFilePaths(File[] sourceCodeFiles) {
-		String[] sourceCodeFilePaths = Arrays.stream(sourceCodeFiles).map(
+		return Arrays.stream(sourceCodeFiles).map(
 			file -> file.getAbsolutePath()
-		).toArray(String[]::new);
-		
-		return String.join(" ", sourceCodeFilePaths);
+		).reduce("", (concatenatedText, nextString) -> concatenatedText + " " + nextString);
 	}
 	
 	private static String convertFilePathToClassName(File rootFile, File sourceCodeFile) {

@@ -20,11 +20,11 @@ import no.ntnu.assignmentsystem.services.mapping.ProblemViewFactory;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
 
 public class ServicesImpl extends Container implements Services {
-	private static String mainCourseId = "tdt4100";
+	private static final String mainCourseId = "tdt4100";
 	
 //	private ServicesFactory servicesFactory;
 	
-	private ModelLoader modelLoader;
+	private final ModelLoader modelLoader;
 	
 	public ServicesImpl(ModelLoader modelLoader) {
 		this.modelLoader = modelLoader;
@@ -74,7 +74,7 @@ public class ServicesImpl extends Container implements Services {
 //				).map(
 //					sourceCodeFile -> new File(srcDirectory, sourceCodeFile.getFilePath())
 //				).toArray(File[]::new);
-//					
+//				
 //				File[] testFiles = codeProblem.getSourceCodeFiles().stream().filter(
 //					sourceCodeFile -> sourceCodeFile.isTestFile() == true
 //				).map(
