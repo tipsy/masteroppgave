@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.services;
+package no.ntnu.assignmentsystem.services.factory;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;

@@ -22,16 +22,39 @@
         <questions
             correctAnswer="//@courses.0/@assignments.0/@problems.0/@questions.0/@options.2"
             text="Q1">
-          <options text="A1"/>
-          <options text="A2"/>
-          <options text="A3"/>
-          <options text="A4"/>
+          <options
+              text="A1"/>
+          <options
+              text="A2"/>
+          <options
+              text="A3"/>
+          <options
+              text="A4"/>
         </questions>
       </problems>
       <problems
           xsi:type="no.ntnu.assignmentsystem:CodeProblem"
           id="b"
-          title="Hello World"/>
+          title="Hello World"
+          maxPoints="100"
+          repoUrl="../Test"
+          mainSourceCodeFile="//@courses.0/@assignments.0/@problems.1/@sourceCodeFiles.0"
+          srcPath="src/main/java"
+          testPath="src/test/java">
+        <sourceCodeFiles
+            id="App.java"
+            title="App.java"
+            filePath="Test/Test/App.java"
+            sourceCode=""
+            visible="true"
+            editable="true"/>
+        <sourceCodeFiles
+            id="AppTest.java"
+            title="AppTest.java"
+            filePath="Test/Test/AppTest.java"
+            visible="true"
+            testFile="true"/>
+      </problems>
     </assignments>
     <participants
         xsi:type="no.ntnu.assignmentsystem:Student"

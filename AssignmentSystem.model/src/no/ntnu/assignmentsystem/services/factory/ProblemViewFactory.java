@@ -1,11 +1,11 @@
-package no.ntnu.assignmentsystem.services;
+package no.ntnu.assignmentsystem.services.factory;
 
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.services.ExtendedProblemView;
 import no.ntnu.assignmentsystem.services.ProblemView;
 
-class ProblemViewFactory extends BaseViewFactory {
+public class ProblemViewFactory extends BaseViewFactory {
 	public static ProblemView createProblemView(Problem problem) {
 		ProblemView problemView = factory().createProblemView();
 		Mapper.copyAttributes(problem, problemView);
