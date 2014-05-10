@@ -13,9 +13,10 @@ import no.ntnu.assignmentsystem.model.UoD;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
 
 public class ServicesImpl extends Container implements Services {
-//	private ServicesFactory servicesFactory;
-	
 	private static String mainCourseId = "tdt4100";
+	
+//	private ServicesFactory servicesFactory;
+	private CodeRunner codeRunner = new CodeRunner();
 	
 	private ModelLoader modelLoader;
 	
@@ -50,6 +51,17 @@ public class ServicesImpl extends Container implements Services {
 			ProblemViewFactory::createExtendedProblemView
 		).orElse(null);
 	}
+	
+	@Override
+	public String runProblem(String assignmentId, String problemId) {
+		return getProblemModel(assignmentId, problemId).map(problem -> {
+				return problem.toString();
+			}
+		).orElse(null);
+	}
+	
+	
+	// --- Private methods ---
 	
 	private Optional<Problem> getProblemModel(String assignmentId, String problemId) {
 		return getAssignmentModel(assignmentId).flatMap(

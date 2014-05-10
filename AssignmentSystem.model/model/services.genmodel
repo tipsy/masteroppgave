@@ -26,6 +26,10 @@
         <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblem/assignmentId"/>
         <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblem/problemId"/>
       </genOperations>
+      <genOperations ecoreOperation="services.ecore#//ProblemServices/runProblem">
+        <genParameters ecoreParameter="services.ecore#//ProblemServices/runProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//ProblemServices/runProblem/problemId"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ProblemView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/id"/>

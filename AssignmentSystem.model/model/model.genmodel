@@ -23,6 +23,10 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//CodeProblem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/repoUrl"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//CodeProblem/sourceCodeFiles"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//CodeProblem/mainSourceCodeFile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/srcPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/testPath"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//User">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//User/email"/>
@@ -36,10 +40,9 @@
     <genClasses ecoreClass="model.ecore#//Option">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Option/text"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//SourceCodeFile">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/title"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/sourceCode"/>
+    <genClasses ecoreClass="model.ecore#//ModifiedSourceCodeFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ModifiedSourceCodeFile/sourceCode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ModifiedSourceCodeFile/originalSourceCodeFile"/>
     </genClasses>
     <genClasses image="false" ecoreClass="model.ecore#//Submission">
       <genTypeParameters ecoreTypeParameter="model.ecore#//Submission/P"/>
@@ -64,6 +67,7 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Student">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Student/submissions"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Student/sourceCodeFiles"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Staff"/>
     <genClasses image="false" ecoreClass="model.ecore#//Participant">
@@ -75,6 +79,15 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Course/participants"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Course/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Course/title"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SourceCodeFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/filePath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/sourceCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/visible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/editable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/testFile"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
