@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.services.factory;
+package no.ntnu.assignmentsystem.services.mapping;
 
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.Problem;

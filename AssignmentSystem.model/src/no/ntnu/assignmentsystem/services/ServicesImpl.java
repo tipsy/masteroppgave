@@ -14,8 +14,8 @@ import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.UoD;
 import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
-import no.ntnu.assignmentsystem.services.factory.AssignmentViewFactory;
-import no.ntnu.assignmentsystem.services.factory.ProblemViewFactory;
+import no.ntnu.assignmentsystem.services.mapping.AssignmentViewFactory;
+import no.ntnu.assignmentsystem.services.mapping.ProblemViewFactory;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
 
