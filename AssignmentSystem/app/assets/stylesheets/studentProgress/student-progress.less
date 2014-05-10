@@ -3,12 +3,14 @@
 @progress-row-height: 30px;
 @success-color: #94D394;
 @row-spacing: 20px;
+.unearned-inset { .lh-box-shadow(inset 1px 2px 2px rgba(0,0,0,.15)); }
 
 .student-assignment-progress {
 
   .progress {
     margin-bottom: @row-spacing;
     height: @progress-row-height;
+    .unearned-inset;
   }
 
   .progress-bar-success{
@@ -22,12 +24,12 @@
     float: left;
     margin-right: 5px;
     margin-bottom: @row-spacing;
-    .lh-box-shadow(inset 0 1px 2px rgba(0,0,0,.1));
+    .unearned-inset;
     .lh-border-radius(4px);
     text-align: center;
     &.earned{
       background-color: @success-color;
-      .lh-box-shadow(0);
+      .lh-box-shadow(none);
     }
   }
 
