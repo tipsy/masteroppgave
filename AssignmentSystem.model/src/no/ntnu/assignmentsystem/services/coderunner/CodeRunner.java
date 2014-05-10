@@ -112,14 +112,14 @@ public class CodeRunner {
 	private static String convertInputStreamToString(InputStream inputStream) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		
-	    ArrayList<String> output = new ArrayList<>();
-	    String line;
-	    while ((line = reader.readLine()) != null) {
-	        output.add(line);
-	    }
-	    reader.close();
-	    
-	    return String.join(System.lineSeparator(), output);
+		ArrayList<String> output = new ArrayList<>();
+		String line;
+		while ((line = reader.readLine()) != null) {
+			output.add(line);
+		}
+		reader.close();
+		
+		return String.join(System.lineSeparator(), output);
 	}
 	
 	private static String getDelimitedClassPaths(File[] classPathFiles) {
