@@ -1,23 +1,48 @@
 @import "../libs/lesshat-prefixed";
+
+@progress-row-height: 30px;
+@success-color: #94D394;
+@row-spacing: 20px;
+
 .student-assignment-progress {
 
   .progress {
-    margin-bottom: 20px;
-    height: 30px
+    margin-bottom: @row-spacing;
+    height: @progress-row-height;
+  }
+
+  .progress-bar-success{
+    background-color: @success-color;
+  }
+
+  .problem-progress-box{
+    height: @progress-row-height;
+    line-height: @progress-row-height;
+    background-color: #f5f5f5;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: @row-spacing;
+    .lh-box-shadow(inset 0 1px 2px rgba(0,0,0,.1));
+    .lh-border-radius(4px);
+    text-align: center;
+    &.earned{
+      background-color: @success-color;
+      .lh-box-shadow(0);
+    }
   }
 
   .titled-progress-bar {
     position: relative;
     h3 {
       position: absolute;
+      margin: 0;
       top: 6px;
       left: 10px;
       font-size: 16px;
       color: black;
       font-weight: 400;
     }
-  }
-
+  }// end titled progress bar
 
   .star-rating {
     font-size: 18px;
