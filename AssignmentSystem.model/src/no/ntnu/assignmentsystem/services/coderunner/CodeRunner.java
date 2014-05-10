@@ -13,9 +13,9 @@ import java.util.Vector;
 import java.util.stream.Stream;
 
 public class CodeRunner {
-	private static String compileCommandFormat = "javac -g -d %s -classpath %s %s"; // output directory, classpaths, implementation files (g-flag includes extra debug information)
-	private static String runCommandFormat = "java -classpath %s %s"; // classpaths, class name
-	private static String testCommandFormat = "java -classpath %s junit.textui.TestRunner %s"; // classpaths, test files
+	private static String compileCommandFormat = "javac -g -d %s -classpath %s %s"; // Placeholders: output directory, classpaths, implementation files (g-flag includes extra debug information)
+	private static String runCommandFormat = "java -classpath %s %s"; // Placeholders: classpaths, main class name
+	private static String testCommandFormat = "java -classpath %s junit.textui.TestRunner %s"; // Placeholders: classpaths, test class names
 	
 	private RuntimeExecutor executor;
 	private File srcOutputDirectory;
@@ -33,18 +33,21 @@ public class CodeRunner {
 		this.jUnitFile = jUnitFile;
 	}
 	
-	public String runMain(File srcRoot, File mainImplementationFile, File[] otherImplementationFiles, String mainClassName) throws IOException {
-		if (srcRoot == null || mainImplementationFile == null || otherImplementationFiles == null || mainClassName == null) {
+	public String runMain(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws IOException, InterruptedException {
+		if (srcDirectory == null || mainImplementationFile == null || otherImplementationFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		File[] classPathFiles = {srcRoot};
+		File[] classPathFiles = {srcDirectory};
 		File[] mainImplementationFiles = {mainImplementationFile};
 		File[] implementationFiles = Stream.concat(Arrays.stream(mainImplementationFiles), Arrays.stream(otherImplementationFiles)).toArray(File[]::new);
 		Process compileImplementationFilesProcess = compileFiles(srcOutputDirectory, classPathFiles, implementationFiles);
+		compileImplementationFilesProcess.waitFor();
 		
 		File[] generatedClassPathFiles = {srcOutputDirectory};
+		String mainClassName = convertFilePathToClassName(srcDirectory, mainImplementationFile);
 		Process runMainProcess = runMain(generatedClassPathFiles, mainClassName);
+		runMainProcess.waitFor();
 		
 		List<InputStream> inputStreams = Arrays.asList(
 			compileImplementationFilesProcess.getErrorStream(),
@@ -56,26 +59,40 @@ public class CodeRunner {
 		return convertInputStreamToString(combinedStream);
 	}
 	
-	public String runTests(File srcRoot, File testRoot, File[] implementationFiles, File[] testFiles, String[] testClassNames) throws IOException {
-		if (srcRoot == null || testRoot == null || implementationFiles.length < 1 || testFiles.length < 1 || testClassNames.length < 1) {
+	public String runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) throws IOException, InterruptedException {
+		if (srcDirectory == null || testDirectory == null || implementationFiles.length < 1 || testFiles.length < 1) {
 			throw new IllegalArgumentException();
 		}
 		
-		File[] classPathFiles = {srcRoot, testRoot, jUnitFile};
-		Process compileImplementationFilesProcess = compileFiles(srcOutputDirectory, classPathFiles, implementationFiles);
-		Process compileTestFilesProcess = compileFiles(testOutputDirectory, classPathFiles, testFiles);
+		File[] implementationClassPathFiles = {srcDirectory};
+		Process compileImplementationFilesProcess = compileFiles(srcOutputDirectory, implementationClassPathFiles, implementationFiles);
+		compileImplementationFilesProcess.waitFor();
 		
-		File[] generatedTestFiles = {srcOutputDirectory, testOutputDirectory, jUnitFile};
-		Process runTestsProcess = runTests(generatedTestFiles, testClassNames);
+		File[] testClassPathFiles = {testDirectory, srcOutputDirectory, jUnitFile};
+		Process compileTestFilesProcess = compileFiles(testOutputDirectory, testClassPathFiles, testFiles);
+		compileTestFilesProcess.waitFor();
 		
-		List<InputStream> inputStreams = Arrays.asList(
+		List<InputStream> inputStreams = new ArrayList<InputStream>();
+		inputStreams.addAll(Arrays.asList(
 			compileImplementationFilesProcess.getErrorStream(),
 			compileImplementationFilesProcess.getInputStream(),
 			compileTestFilesProcess.getErrorStream(),
-			compileTestFilesProcess.getInputStream(),
-			runTestsProcess.getErrorStream(),
-			runTestsProcess.getInputStream()
-		);
+			compileTestFilesProcess.getInputStream()
+		));
+		
+		String[] testClassNames = Arrays.stream(testFiles).map(
+				testFile -> convertFilePathToClassName(testDirectory, testFile)
+		).toArray(String[]::new);
+		
+		for (String testClassName : testClassNames) {
+			File[] generatedClassPathFiles = {srcOutputDirectory, testOutputDirectory, jUnitFile};
+			Process runTestsProcess = runTests(generatedClassPathFiles, testClassName);
+			runTestsProcess.waitFor();
+			
+			inputStreams.add(runTestsProcess.getErrorStream());
+			inputStreams.add(runTestsProcess.getInputStream());
+		}
+		
 		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
 		return convertInputStreamToString(combinedStream);
 	}
@@ -100,12 +117,11 @@ public class CodeRunner {
 		return executor.exec(command);
 	}
 	
-	private Process runTests(File[] classPathFiles, String[] testClassNames) throws IOException {
+	private Process runTests(File[] classPathFiles, String testClassName) throws IOException {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
-		String delimitedTestClassNames = String.join(" ", testClassNames);
 		
-		String command = String.format(testCommandFormat, delimitedClassPaths, delimitedTestClassNames);
-
+		String command = String.format(testCommandFormat, delimitedClassPaths, testClassName);
+		System.out.println(command);
 		return executor.exec(command);
 	}
 	
@@ -136,5 +152,16 @@ public class CodeRunner {
 		).toArray(String[]::new);
 		
 		return String.join(" ", sourceCodeFilePaths);
+	}
+	
+	private static String convertFilePathToClassName(File rootFile, File sourceCodeFile) {
+		// TODO: Make a more dynamic solution?
+		// Read file from disk, find package and class name
+		// Possible solutions:
+		// - com.sun.javadoc (http://www.egtry.com/java/doclet/extract)
+		// - javax.tools (http://www.beyondlinux.com/2011/07/20/3-steps-to-dynamically-compile-instantiate-and-run-a-java-class/)
+		
+		String relativePath = rootFile.toURI().relativize(sourceCodeFile.toURI()).getPath();
+		return relativePath.replace(".java", "").replace("/", ".");
 	}
 }

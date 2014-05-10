@@ -54,6 +54,12 @@
             filePath="Test/Test/AppTest.java"
             visible="true"
             testFile="true"/>
+        <sourceCodeFiles
+            id="AppTest2.java"
+            title="AppTest2"
+            filePath="Test/Test/AppTest2.java"
+            visible="true"
+            testFile="true"/>
       </problems>
     </assignments>
     <participants
