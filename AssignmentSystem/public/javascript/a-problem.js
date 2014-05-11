@@ -19,6 +19,12 @@ $(document).ready(function () {
         $(editors).each(function() { this.setTheme(theme); });
     });
 
+    $(".hidden-when-editor-maximized").collapsible();
+    $(".collapsing-header").click(function(){
+        $(this).find("i").toggleClass("fa-angle-down fa-angle-right");
+    });
+
+
 });
 
 function createEditor(editorID){

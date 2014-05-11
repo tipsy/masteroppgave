@@ -5,19 +5,24 @@
     <div class="col-lg-9">
 
         <div class="hidden-when-editor-maximized">
-            <h1>This is assignment @assignmentID. </h1>
-            <p>Description of the assignment. </p>
+            <h1 class="collapsing-header"><i class="fa fa-fw fa-angle-down"></i>This is assignment @assignmentID. </h1>
+            <div class="collapsible-content">
+                <p>Description of the assignment. </p>
+            </div>
 
-            <h2>Problems</h2>
+            <h2 class="collapsing-header"><i class="fa fa-fw fa-angle-down"></i>Problems</h2>
+            <div class="collapsible-content">
+                <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">A</a>
+                <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">B</a>
+                <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">C</a>
+                <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">D</a>
+                <div class="clearfix"></div>
+            </div>
 
-            <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">A</a>
-            <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">B</a>
-            <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">C</a>
-            <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">D</a>
-            <div class="clearfix"></div>
-
-            <h3>Problem @problemID</h3>
-            <p>Problem @problemID is about problem @problemID. </p>
+            <h3 class="collapsing-header"><i class="fa fa-fw fa-angle-down"></i>Problem @problemID</h3>
+            <div class="collapsible-content">
+                <p>Problem @problemID is about problem @problemID. </p>
+            </div>
         </div>
 
         @views.html.assignment.aceEditor()
@@ -30,6 +35,7 @@
 
     <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("/src-min/ace.js"))"></script>
     <script type="text/javascript" src="@routes.Assets.at("javascript/a-problem.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("javascript/bootstrap-tab-slider.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascript/plugins/jquery-collapsible.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascript/plugins/bootstrap-tab-slider.js")"></script>
 
 }

@@ -14,9 +14,21 @@
     .unearned-inset;
   }
 
-  .progress-bar-success{
-    background-color: @success-color;
-  }
+  .progress-bar-success{ background-color: @success-color; .lh-box-shadow(1px 0px 2px rgba(0,0,0,.15)); }
+  .cm-starred-progress-bar(-26px);
+
+  .titled-progress-bar {
+    position: relative;
+    h3 {
+      position: absolute;
+      margin: 0;
+      top: 6px;
+      left: 10px;
+      font-size: 16px;
+      color: black;
+      font-weight: 400;
+    }
+  }// end titled progress bar
 
   .problem-progress-box{
     height: @progress-row-height;
@@ -32,21 +44,10 @@
       background-color: @success-color;
       .lh-box-shadow(none);
     }
-  }
+  }//end problem progress box
 
-  .titled-progress-bar {
-    position: relative;
-    h3 {
-      position: absolute;
-      margin: 0;
-      top: 6px;
-      left: 10px;
-      font-size: 16px;
-      color: black;
-      font-weight: 400;
-    }
-  }// end titled progress bar
+}//end student-assignment-progress
 
-  .cm-starred-progress-bar(-26px);
+.student-achievements {
 
 }
