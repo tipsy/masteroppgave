@@ -38,10 +38,11 @@
           title="Hello World"
           maxPoints="100"
           repoUrl="../Test"
-          mainSourceCodeFile="//@courses.0/@assignments.0/@problems.1/@sourceCodeFiles.0"
+          mainImplementationFile="//@courses.0/@assignments.0/@problems.1/@sourceCodeFiles.0"
           srcPath="src/main/java"
           testPath="src/test/java">
         <sourceCodeFiles
+        	xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
             id="App.java"
             title="App.java"
             filePath="Test/Test/App.java"
@@ -49,17 +50,17 @@
             visible="true"
             editable="true"/>
         <sourceCodeFiles
+        	xsi:type="no.ntnu.assignmentsystem:TestFile"
             id="AppTest.java"
             title="AppTest.java"
             filePath="Test/Test/AppTest.java"
-            visible="true"
-            testFile="true"/>
+            visible="true"/>
         <sourceCodeFiles
+        	xsi:type="no.ntnu.assignmentsystem:TestFile"
             id="AppTest2.java"
             title="AppTest2"
             filePath="Test/Test/AppTest2.java"
-            visible="true"
-            testFile="true"/>
+            visible="true"/>
       </problems>
     </assignments>
     <participants

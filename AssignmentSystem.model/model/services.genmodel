@@ -7,29 +7,36 @@
   <foreignModel>services.ecore</foreignModel>
   <genPackages prefix="Services" basePackage="no.ntnu.assignmentsystem" disposableProviderFactory="true"
       contentTypeIdentifier="" ecorePackage="services.ecore#/">
-    <genClasses ecoreClass="services.ecore#//Services"/>
-    <genClasses ecoreClass="services.ecore#//AssignmentServices">
-      <genOperations ecoreOperation="services.ecore#//AssignmentServices/getAssignments">
-        <genParameters ecoreParameter="services.ecore#//AssignmentServices/getAssignments/userId"/>
+    <genClasses ecoreClass="services.ecore#//Services">
+      <genOperations ecoreOperation="services.ecore#//Services/getAssignments">
+        <genParameters ecoreParameter="services.ecore#//Services/getAssignments/userId"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//Services/getProblems">
+        <genParameters ecoreParameter="services.ecore#//Services/getProblems/assignmentId"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//Services/getProblem">
+        <genParameters ecoreParameter="services.ecore#//Services/getProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/getProblem/problemId"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//Services/runCodeProblem">
+        <genParameters ecoreParameter="services.ecore#//Services/runCodeProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/runCodeProblem/problemId"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//Services/testCodeProblem">
+        <genParameters ecoreParameter="services.ecore#//Services/testCodeProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/testCodeProblem/problemId"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//Services/updateSourceCodeFile">
+        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/problemId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/fileId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/sourceCode"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//AssignmentView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/locked"/>
-    </genClasses>
-    <genClasses ecoreClass="services.ecore#//ProblemServices">
-      <genOperations ecoreOperation="services.ecore#//ProblemServices/getProblems">
-        <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblems/assignmentId"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//ProblemServices/getProblem">
-        <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblem/assignmentId"/>
-        <genParameters ecoreParameter="services.ecore#//ProblemServices/getProblem/problemId"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//ProblemServices/runProblem">
-        <genParameters ecoreParameter="services.ecore#//ProblemServices/runProblem/assignmentId"/>
-        <genParameters ecoreParameter="services.ecore#//ProblemServices/runProblem/problemId"/>
-      </genOperations>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ProblemView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/id"/>

@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 import no.ntnu.assignmentsystem.model.Assignment;
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.Course;
+import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
+import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.model.UoD;
 import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
@@ -67,16 +69,16 @@ public class ServicesImpl extends Container implements Services {
 				File srcDirectory = new File(rootDirectory, codeProblem.getSrcPath());
 //				File testDirectory = new File(rootDirectory, codeProblem.getTestPath());
 				
-				File mainImplementationFile = new File(srcDirectory, codeProblem.getMainSourceCodeFile().getFilePath());
+				File mainImplementationFile = new File(srcDirectory, codeProblem.getMainImplementationFile().getFilePath());
 				
 //				File[] implementationFiles = codeProblem.getSourceCodeFiles().stream().filter(
-//					sourceCodeFile -> sourceCodeFile.isTestFile() == false
+//					sourceCodeFile -> sourceCodeFile instanceof ImplementationFile
 //				).map(
 //					sourceCodeFile -> new File(srcDirectory, sourceCodeFile.getFilePath())
 //				).toArray(File[]::new);
 //				
 //				File[] testFiles = codeProblem.getSourceCodeFiles().stream().filter(
-//					sourceCodeFile -> sourceCodeFile.isTestFile() == true
+//					sourceCodeFile -> sourceCodeFile instanceof TestFile
 //				).map(
 //					sourceCodeFile -> new File(testDirectory, sourceCodeFile.getFilePath())
 //				).toArray(File[]::new);

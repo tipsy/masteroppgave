@@ -24,7 +24,7 @@
     <genClasses ecoreClass="model.ecore#//CodeProblem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/repoUrl"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//CodeProblem/sourceCodeFiles"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//CodeProblem/mainSourceCodeFile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//CodeProblem/mainImplementationFile"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/srcPath"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/testPath"/>
     </genClasses>
@@ -87,7 +87,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/sourceCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/visible"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/editable"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/testFile"/>
     </genClasses>
+    <genClasses ecoreClass="model.ecore#//ImplementationFile"/>
+    <genClasses ecoreClass="model.ecore#//TestFile"/>
+    <genClasses ecoreClass="model.ecore#//JexTestFile"/>
   </genPackages>
 </genmodel:GenModel>
