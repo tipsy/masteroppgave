@@ -4,19 +4,20 @@
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0"
-    xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore">
+    xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore"
+    lastGlobalId="7">
   <users email="hal@idi.ntnu.no"/>
   <users email="davidas@stud.ntnu.no"/>
   <users email="christir@stud.ntnu.no"/>
   <users email="randomTA@stud.ntnu.no"/>
-  <courses id="tdt4100"
+  <courses id="1"
       title="Object-oriented programming with Java">
     <assignments
-        id="1"
+        id="2"
         title="Assignment 1 - The basics">
       <problems
           xsi:type="no.ntnu.assignmentsystem:QuizProblem"
-          id="a"
+          id="3"
           title="Quiztastic"
           maxPoints="50">
         <questions
@@ -34,30 +35,31 @@
       </problems>
       <problems
           xsi:type="no.ntnu.assignmentsystem:CodeProblem"
-          id="b"
+          id="4"
           title="Hello World"
           maxPoints="100"
           repoUrl="../Test"
-          mainImplementationFile="//@courses.0/@assignments.0/@problems.1/@sourceCodeFiles.0"
+          mainImplementationFile="5"
           srcPath="src/main/java"
           testPath="src/test/java">
         <sourceCodeFiles
-        	xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
-            id="App.java"
+            xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
+            id="5"
             title="App.java"
             filePath="Test/Test/App.java"
             sourceCode=""
             visible="true"
             editable="true"/>
         <sourceCodeFiles
-        	xsi:type="no.ntnu.assignmentsystem:TestFile"
-            id="AppTest.java"
+            xsi:type="no.ntnu.assignmentsystem:TestFile"
+            id="6"
             title="AppTest.java"
             filePath="Test/Test/AppTest.java"
+            sourceCode=""
             visible="true"/>
         <sourceCodeFiles
-        	xsi:type="no.ntnu.assignmentsystem:TestFile"
-            id="AppTest2.java"
+            xsi:type="no.ntnu.assignmentsystem:TestFile"
+            id="7"
             title="AppTest2"
             filePath="Test/Test/AppTest2.java"
             visible="true"/>
@@ -69,7 +71,7 @@
         screenName="David">
       <submissions
           xsi:type="no.ntnu.assignmentsystem:CodeSubmission"
-          problem="//@courses.0/@assignments.0/@problems.1">
+          problem="4">
         <evaluation
             evaluatedBy="//@courses.0/@participants.2"/>
         <sourceCodeFiles/>
@@ -81,7 +83,7 @@
         screenName="Christian">
       <submissions
           xsi:type="no.ntnu.assignmentsystem:QuizSubmission"
-          problem="//@courses.0/@assignments.0/@problems.0"
+          problem="3"
           answers="//@courses.0/@assignments.0/@problems.0/@questions.0/@options.2">
         <evaluation
             evaluatedBy="//@courses.0/@participants.3"/>

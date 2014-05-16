@@ -16,8 +16,7 @@ public class Main {
 		ModelLoader modelLoader = new XmiModelLoader(new File("model/UoD.xmi"));
 		Services services = new ServicesImpl(modelLoader);
 //		System.out.println(services.getAssignments(""));
-//		System.out.println(services.getProblem("1", "a"));
-//		System.out.println(services.runProblem("1", "b"));
-		System.out.println(EcoreUtil.generateUUID());
+		System.out.println(services.getProblem("userId", "3")); // QuizProblem
+		System.out.println(services.runCodeProblem("userId", "4")); // CodeProblem
 	}
 }

@@ -64,6 +64,7 @@
     <genClasses ecoreClass="model.ecore#//UoD">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//UoD/users"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//UoD/courses"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//UoD/lastGlobalId"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Student">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Student/submissions"/>

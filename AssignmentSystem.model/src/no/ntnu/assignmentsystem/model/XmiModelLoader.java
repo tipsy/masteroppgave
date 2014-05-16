@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class XmiModelLoader implements ModelLoader {
 	private File dataFile;
+	private Resource resource;
 	private UoD uod;
 	
 	public XmiModelLoader(File dataFile) {
@@ -54,18 +55,16 @@ public class XmiModelLoader implements ModelLoader {
 	    }
 	}
 	
-	private Resource getResource() {
-		// Create a resource set.
-	    ResourceSet resourceSet = new ResourceSetImpl();
-
-	    // Register the default resource factory -- only needed for stand-alone!
-	    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
-
-	    // Get the URI of the model file.
-	    URI fileURI = URI.createFileURI(dataFile.getAbsolutePath());
-
-	    // Create a resource for this file.
-	    Resource resource = resourceSet.createResource(fileURI);
+	public Resource getResource() {
+		if (resource == null) {
+		    ResourceSet resourceSet = new ResourceSetImpl();
+	
+		    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+	
+		    URI fileURI = URI.createFileURI(dataFile.getAbsolutePath());
+	
+		    resource = resourceSet.createResource(fileURI);
+		}
 	    
 	    return resource;
 	}

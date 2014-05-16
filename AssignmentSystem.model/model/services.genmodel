@@ -12,23 +12,23 @@
         <genParameters ecoreParameter="services.ecore#//Services/getAssignments/userId"/>
       </genOperations>
       <genOperations ecoreOperation="services.ecore#//Services/getProblems">
+        <genParameters ecoreParameter="services.ecore#//Services/getProblems/userId"/>
         <genParameters ecoreParameter="services.ecore#//Services/getProblems/assignmentId"/>
       </genOperations>
       <genOperations ecoreOperation="services.ecore#//Services/getProblem">
-        <genParameters ecoreParameter="services.ecore#//Services/getProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/getProblem/userId"/>
         <genParameters ecoreParameter="services.ecore#//Services/getProblem/problemId"/>
       </genOperations>
       <genOperations ecoreOperation="services.ecore#//Services/runCodeProblem">
-        <genParameters ecoreParameter="services.ecore#//Services/runCodeProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/runCodeProblem/userId"/>
         <genParameters ecoreParameter="services.ecore#//Services/runCodeProblem/problemId"/>
       </genOperations>
       <genOperations ecoreOperation="services.ecore#//Services/testCodeProblem">
-        <genParameters ecoreParameter="services.ecore#//Services/testCodeProblem/assignmentId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/testCodeProblem/userId"/>
         <genParameters ecoreParameter="services.ecore#//Services/testCodeProblem/problemId"/>
       </genOperations>
       <genOperations ecoreOperation="services.ecore#//Services/updateSourceCodeFile">
-        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/assignmentId"/>
-        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/problemId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/userId"/>
         <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/fileId"/>
         <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/sourceCode"/>
       </genOperations>
