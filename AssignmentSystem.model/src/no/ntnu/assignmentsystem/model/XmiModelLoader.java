@@ -27,6 +27,26 @@ public class XmiModelLoader implements ModelLoader {
 	public UoD getUoD() {
 		return uod;
 	}
+	
+	@Override
+	public Resource getResource() {
+		if (resource == null) {
+		    ResourceSet resourceSet = new ResourceSetImpl();
+	
+		    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+	
+		    URI fileURI = URI.createFileURI(dataFile.getAbsolutePath());
+	
+		    resource = resourceSet.createResource(fileURI);
+		}
+	    
+	    return resource;
+	}
+	
+	@Override
+	public ModelFactory getFactory() {
+		return ModelFactory.eINSTANCE;
+	}
 
 	private void loadModel() {
 	    Resource resource = getResource();
@@ -53,19 +73,5 @@ public class XmiModelLoader implements ModelLoader {
 	    }
 	    catch (IOException e) {
 	    }
-	}
-	
-	public Resource getResource() {
-		if (resource == null) {
-		    ResourceSet resourceSet = new ResourceSetImpl();
-	
-		    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
-	
-		    URI fileURI = URI.createFileURI(dataFile.getAbsolutePath());
-	
-		    resource = resourceSet.createResource(fileURI);
-		}
-	    
-	    return resource;
 	}
 }

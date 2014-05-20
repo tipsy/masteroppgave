@@ -9,10 +9,13 @@ import no.ntnu.assignmentsystem.model.Assignment;
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.Course;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
+import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelLoader;
+import no.ntnu.assignmentsystem.model.ModifiedSourceCodeFile;
 import no.ntnu.assignmentsystem.model.Participant;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
+import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.model.UoD;
 import no.ntnu.assignmentsystem.model.User;
@@ -107,8 +110,23 @@ public class ServicesImpl extends Container implements Services {
 
 	@Override
 	public void updateSourceCodeFile(String userId, String fileId, String sourceCode) {
-		// TODO Auto-generated method stub
-		getParticipantModel(COURSE_ID, userId).ifPresent(System.out::println);
+		getParticipantModel(COURSE_ID, userId).ifPresent(participant -> {
+			Student student = (Student)participant;
+			
+			ModifiedSourceCodeFile modifiedSourceCodeFile = student.getSourceCodeFiles().stream().filter(
+				sourceCodeFile -> sourceCodeFile.getOriginalSourceCodeFile().getId().equals(fileId)
+			).findAny().orElse(null);
+			
+//			if (modifiedSourceCodeFile == null) {
+//				modifiedSourceCodeFile = getModelFactory().createModifiedSourceCodeFile();
+//				
+//				student.getSourceCodeFiles().add(modifiedSourceCodeFile);
+//			}
+			
+			modifiedSourceCodeFile.setSourceCode(sourceCode);
+			
+			System.out.println(modifiedSourceCodeFile);
+		});
 	}
 	
 	
@@ -144,5 +162,9 @@ public class ServicesImpl extends Container implements Services {
 	
 	private Resource getResource() {
 		return modelLoader.getResource();
+	}
+	
+	private ModelFactory getModelFactory() {
+		return modelLoader.getFactory();
 	}
 }
