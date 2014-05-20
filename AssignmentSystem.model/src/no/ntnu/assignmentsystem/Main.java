@@ -16,7 +16,8 @@ public class Main {
 		ModelLoader modelLoader = new XmiModelLoader(new File("model/UoD.xmi"));
 		Services services = new ServicesImpl(modelLoader);
 //		System.out.println(services.getAssignments(""));
-		System.out.println(services.getProblem("userId", "3")); // QuizProblem
-		System.out.println(services.runCodeProblem("userId", "4")); // CodeProblem
+//		System.out.println(services.getProblem("userId", "3")); // QuizProblem
+//		System.out.println(services.runCodeProblem("userId", "4")); // CodeProblem
+		services.updateSourceCodeFile("9", "3", "Code");
 	}
 }

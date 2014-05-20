@@ -10,10 +10,12 @@ import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.Course;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.ModelLoader;
+import no.ntnu.assignmentsystem.model.Participant;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.model.UoD;
+import no.ntnu.assignmentsystem.model.User;
 import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.mapping.AssignmentViewFactory;
@@ -37,7 +39,7 @@ public class ServicesImpl extends Container implements Services {
 	
 	@Override
 	public List<AssignmentView> getAssignments(String userId) {
-		return getCourseModel().map(
+		return getCourseModel(COURSE_ID).map(
 			course -> course.getAssignments().stream().map(
 					AssignmentViewFactory::createAssignmentView
 			).collect(Collectors.toList())
@@ -106,13 +108,13 @@ public class ServicesImpl extends Container implements Services {
 	@Override
 	public void updateSourceCodeFile(String userId, String fileId, String sourceCode) {
 		// TODO Auto-generated method stub
-		
+		getParticipantModel(COURSE_ID, userId).ifPresent(System.out::println);
 	}
 	
 	
 	// --- Private methods ---
 	
-	private Optional<Problem> getProblemModel(String problemId) {
+	private Optional<? extends Problem> getProblemModel(String problemId) {
 		return Optional.ofNullable((Problem)getResource().getEObject(problemId));
 	}
 	
@@ -120,8 +122,20 @@ public class ServicesImpl extends Container implements Services {
 		return Optional.ofNullable((Assignment)getResource().getEObject(assignmentId));
 	}
 	
-	private Optional<Course> getCourseModel() {
-		return Optional.ofNullable((Course)getResource().getEObject(COURSE_ID));
+	private Optional<Course> getCourseModel(String courseId) {
+		return Optional.ofNullable((Course)getResource().getEObject(courseId));
+	}
+
+	private Optional<? extends Participant> getParticipantModel(String courseId, String userId) {
+		return getCourseModel(courseId).flatMap(
+			course -> course.getParticipants().stream().filter(
+				participant -> getUserModel(userId).equals(Optional.ofNullable(participant.getUser()))
+			).findAny()
+		);
+	}
+	
+	private Optional<User> getUserModel(String userId) {
+		return Optional.ofNullable((User)getResource().getEObject(userId));
 	}
 	
 	private UoD getUoD() {

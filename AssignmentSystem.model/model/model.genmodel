@@ -29,6 +29,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/testPath"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//User">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//User/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//User/email"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//User/password"/>
     </genClasses>
