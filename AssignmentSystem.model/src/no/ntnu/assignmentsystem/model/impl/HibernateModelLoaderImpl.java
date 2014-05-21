@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.model;
+package no.ntnu.assignmentsystem.model.impl;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
 
-public class HibernateModelLoader {
+public class HibernateModelLoaderImpl {
 	public void Temp() {
 		// To configure Hibernate, supply properties describing the JDBC driver,
 		// URL, username/password and SQL dialect.
@@ -48,7 +48,7 @@ public class HibernateModelLoader {
 		 
 		// use an annotations file as an example
 		// this lets the library use a special table 
-		hibernateProperties.setProperty(PersistenceOptions.PERSISTENCE_XML, "no/ntnu/assignmentsystem/model/annotations.xml");
+		hibernateProperties.setProperty(PersistenceOptions.PERSISTENCE_XML, "no/ntnu/assignmentsystem/model/Annotations.xml");
 		
 		// Create the DataStore.
 		final String dataStoreName = "LibraryDataStore";
