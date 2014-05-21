@@ -18,7 +18,10 @@
   .cm-starred-progress-bar(-26px);
 
   .titled-progress-bar {
+    display: block;
     position: relative;
+    color: black;
+    cursor: pointer;
     h3 {
       position: absolute;
       margin: 0;
@@ -30,19 +33,28 @@
     }
   }// end titled progress bar
 
+  .problem-progress-box-wrapper{
+    padding-right: 5px;
+    float: left;
+    margin-bottom: @row-spacing;
+  }
   .problem-progress-box{
     height: @progress-row-height;
     line-height: @progress-row-height;
+    color: black;
+    cursor: pointer;
+    width: 100%;
+    display: block;
     background-color: #f5f5f5;
-    float: left;
-    margin-right: 5px;
-    margin-bottom: @row-spacing;
     .unearned-inset;
     .lh-border-radius(4px);
     text-align: center;
     &.earned{
       background-color: @success-color;
       .lh-box-shadow(none);
+    }
+    &:hover{
+      text-decoration: none;
     }
   }//end problem progress box
 
