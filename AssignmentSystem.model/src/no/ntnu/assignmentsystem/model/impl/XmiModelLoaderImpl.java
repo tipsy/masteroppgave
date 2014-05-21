@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
-import no.ntnu.assignmentsystem.model.GlobalIdManager;
 import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.ModelPackage;
@@ -16,7 +15,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-public class XmiModelLoaderImpl implements ModelLoader, GlobalIdManager {
+public class XmiModelLoaderImpl implements ModelLoader {
 	private final File dataFile;
 	private final ModelPackage modelPackage;
 	
@@ -72,18 +71,6 @@ public class XmiModelLoaderImpl implements ModelLoader, GlobalIdManager {
 		}
 	    
 	    uod = (UoD)resource.getContents().get(0);
-	}
-	
-	
-	// --- GlobalIdManager ---
-	
-	@Override
-	public String generateId() {
-		// TODO: Make this code thread-safe
-		int lastGlobalId = getUoD().getLastGlobalId() + 1;
-		getUoD().setLastGlobalId(lastGlobalId);
-		
-		return String.valueOf(lastGlobalId);
 	}
 	
 	

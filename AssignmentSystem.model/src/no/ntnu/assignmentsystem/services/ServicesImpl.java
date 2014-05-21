@@ -17,7 +17,6 @@ import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.model.TestFile;
-import no.ntnu.assignmentsystem.model.UoD;
 import no.ntnu.assignmentsystem.model.User;
 import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
@@ -73,40 +72,52 @@ public class ServicesImpl extends Container implements Services {
 			
 			File rootDirectory = new File(codeProblem.getRepoUrl());
 			File srcDirectory = new File(rootDirectory, codeProblem.getSrcPath());
-//			File testDirectory = new File(rootDirectory, codeProblem.getTestPath());
 			
 			File mainImplementationFile = new File(srcDirectory, codeProblem.getMainImplementationFile().getFilePath());
-			
-//			File[] implementationFiles = codeProblem.getSourceCodeFiles().stream().filter(
-//				sourceCodeFile -> sourceCodeFile instanceof ImplementationFile
-//			).map(
-//				sourceCodeFile -> new File(srcDirectory, sourceCodeFile.getFilePath())
-//			).toArray(File[]::new);
-//			
-//			File[] testFiles = codeProblem.getSourceCodeFiles().stream().filter(
-//				sourceCodeFile -> sourceCodeFile instanceof TestFile
-//			).map(
-//				sourceCodeFile -> new File(testDirectory, sourceCodeFile.getFilePath())
-//			).toArray(File[]::new);
 			
 			try {
 				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Test/bin/main"), new File("../Test/bin/test"), new File("../Test/junit.jar"));
 				
 				return codeRunner.runMain(srcDirectory, mainImplementationFile, new File[] {});
-//				return codeRunner.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
-		}
-	).orElse(null);
+		}).orElse(null);
 	}
 
 	@Override
 	public String testCodeProblem(String userId, String problemId) {
-		// TODO Auto-generated method stub
-		return null;
+		return getProblemModel(problemId).map(problem -> {
+			CodeProblem codeProblem = (CodeProblem)problem;
+			
+			File rootDirectory = new File(codeProblem.getRepoUrl());
+			File srcDirectory = new File(rootDirectory, codeProblem.getSrcPath());
+			File testDirectory = new File(rootDirectory, codeProblem.getTestPath());
+			
+			File[] implementationFiles = codeProblem.getSourceCodeFiles().stream().filter(
+				sourceCodeFile -> sourceCodeFile instanceof ImplementationFile
+			).map(
+				sourceCodeFile -> new File(srcDirectory, sourceCodeFile.getFilePath())
+			).toArray(File[]::new);
+			
+			File[] testFiles = codeProblem.getSourceCodeFiles().stream().filter(
+				sourceCodeFile -> sourceCodeFile instanceof TestFile
+			).map(
+				sourceCodeFile -> new File(testDirectory, sourceCodeFile.getFilePath())
+			).toArray(File[]::new);
+			
+			try {
+				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Test/bin/main"), new File("../Test/bin/test"), new File("../Test/junit.jar"));
+				
+				return codeRunner.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}).orElse(null);
 	}
 
 	@Override
@@ -159,10 +170,6 @@ public class ServicesImpl extends Container implements Services {
 	
 	private Optional<User> getUserModel(String userId) {
 		return Optional.ofNullable((User)getResource().getEObject(userId));
-	}
-	
-	private UoD getUoD() {
-		return modelLoader.getUoD();
 	}
 	
 	private Resource getResource() {
