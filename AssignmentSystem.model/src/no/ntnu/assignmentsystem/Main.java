@@ -1,6 +1,8 @@
-package no.ntnu.assignmentsystem.model;
+package no.ntnu.assignmentsystem;
 
 import java.io.File;
+
+import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoaderImpl;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.ServicesImpl;
