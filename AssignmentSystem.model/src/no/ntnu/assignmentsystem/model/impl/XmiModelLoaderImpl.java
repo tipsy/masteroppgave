@@ -1,8 +1,13 @@
-package no.ntnu.assignmentsystem.model;
+package no.ntnu.assignmentsystem.model.impl;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+
+import no.ntnu.assignmentsystem.model.ModelFactory;
+import no.ntnu.assignmentsystem.model.ModelLoader;
+import no.ntnu.assignmentsystem.model.ModelPackage;
+import no.ntnu.assignmentsystem.model.UoD;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -10,15 +15,20 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-public class XmiModelLoader implements ModelLoader {
+public class XmiModelLoaderImpl implements ModelLoader {
 	private File dataFile;
 	private Resource resource;
 	private UoD uod;
 	
-	public XmiModelLoader(File dataFile) {
+	private ModelPackage modelPackage;
+	
+	public XmiModelLoaderImpl(File dataFile) {
 		this.dataFile = dataFile;
 		
-		ModelPackage.eINSTANCE.eClass();
+		// Initialize model package
+		modelPackage = ModelPackage.eINSTANCE;
+		modelPackage.eClass();
+		modelPackage.setEFactoryInstance(new GlobalIdModelFactoryImpl());
 	    
 	    loadModel();
 	}
@@ -45,7 +55,7 @@ public class XmiModelLoader implements ModelLoader {
 	
 	@Override
 	public ModelFactory getFactory() {
-		return ModelFactory.eINSTANCE;
+		return (ModelFactory)modelPackage.getEFactoryInstance();
 	}
 
 	private void loadModel() {

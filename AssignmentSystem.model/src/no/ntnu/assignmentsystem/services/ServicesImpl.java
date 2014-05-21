@@ -117,11 +117,11 @@ public class ServicesImpl extends Container implements Services {
 				sourceCodeFile -> sourceCodeFile.getOriginalSourceCodeFile().getId().equals(fileId)
 			).findAny().orElse(null);
 			
-//			if (modifiedSourceCodeFile == null) {
-//				modifiedSourceCodeFile = getModelFactory().createModifiedSourceCodeFile();
-//				
-//				student.getSourceCodeFiles().add(modifiedSourceCodeFile);
-//			}
+			if (modifiedSourceCodeFile == null) {
+				modifiedSourceCodeFile = getModelFactory().createModifiedSourceCodeFile();
+				modifiedSourceCodeFile.setOriginalSourceCodeFile(getSourceCodeFileModel(fileId).get());
+				student.getSourceCodeFiles().add(modifiedSourceCodeFile);
+			}
 			
 			modifiedSourceCodeFile.setSourceCode(sourceCode);
 			
@@ -131,6 +131,10 @@ public class ServicesImpl extends Container implements Services {
 	
 	
 	// --- Private methods ---
+	
+	private Optional<? extends SourceCodeFile> getSourceCodeFileModel(String fileId) {
+		return Optional.ofNullable((SourceCodeFile)getResource().getEObject(fileId));
+	}
 	
 	private Optional<? extends Problem> getProblemModel(String problemId) {
 		return Optional.ofNullable((Problem)getResource().getEObject(problemId));
