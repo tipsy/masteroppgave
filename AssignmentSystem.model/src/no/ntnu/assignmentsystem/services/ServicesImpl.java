@@ -29,15 +29,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 public class ServicesImpl extends Container implements Services {
 	private static final String COURSE_ID = "1";
-//	private ServicesFactory servicesFactory;
-	
+
 	private final ModelLoader modelLoader;
+	private final ServicesPackage servicesPackage;
 	
 	public ServicesImpl(ModelLoader modelLoader) {
 		this.modelLoader = modelLoader;
 		
-	    ServicesPackage.eINSTANCE.eClass();
-//	    servicesFactory = ServicesFactory.eINSTANCE;
+		// Initialize services package
+	    servicesPackage = ServicesPackage.eINSTANCE;
+	    servicesPackage.eClass();
 	}
 	
 	@Override
