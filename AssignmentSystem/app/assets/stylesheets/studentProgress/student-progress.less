@@ -16,7 +16,6 @@
   .titled-progress-bar {
     display: block;
     position: relative;
-    color: black;
     cursor: pointer;
     h3 {
       position: absolute;
@@ -24,7 +23,8 @@
       top: 6px;
       left: 10px;
       font-size: 16px;
-      color: black;
+      color: white;
+      .cm-text-shadow;
       font-weight: 400;
     }
   }// end titled progress bar
@@ -46,7 +46,9 @@
     .lh-border-radius(@gv-border-radius);
     text-align: center;
     &.earned{
-      background-color: @gv-success-color;
+      color: white;
+      .cm-text-shadow;
+      background-color: @gv-assignment-progress-color;
       .lh-box-shadow(none);
     }
     &:hover{
