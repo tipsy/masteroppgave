@@ -1,4 +1,5 @@
 @import "../libs/lesshat-prefixed";
+@import "../variables";
 
 .collapsing-header {
   cursor: pointer;
@@ -21,7 +22,7 @@
   font-weight: 300;
   color: black;
   background-color: #c2d8ed;
-  .lh-border-radius(5px);
+  .lh-border-radius(@global-variable-border-radius);
   .lh-display(flex);
   .lh-align-items(center);
   .lh-justify-content(center);

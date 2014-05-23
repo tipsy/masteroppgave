@@ -1,5 +1,6 @@
 @import "../libs/lesshat-prefixed";
 @import "../custom-mixins";
+@import "../variables";
 
 @progress-row-height: 30px;
 @success-color: #94D394;
@@ -47,7 +48,7 @@
     display: block;
     background-color: #f5f5f5;
     .unearned-inset;
-    .lh-border-radius(4px);
+    .lh-border-radius(@global-variable-border-radius);
     text-align: center;
     &.earned{
       background-color: @success-color;
