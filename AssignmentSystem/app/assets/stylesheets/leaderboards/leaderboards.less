@@ -7,7 +7,6 @@
   list-style: none;
   padding: 0;
   margin-top: 15px;
-  min-width: 430px;
 
   .leaderboard-entry {
 
@@ -45,6 +44,7 @@
     }
 
     .name-and-score {
+      .lh-calc(width, ~'100% - 96px'); //2x row-height
       font-size: 16px;
       font-family: "Open Sans";
       font-weight: 300;
