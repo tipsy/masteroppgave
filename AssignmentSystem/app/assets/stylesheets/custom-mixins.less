@@ -1,5 +1,16 @@
 @import "libs/lesshat-prefixed";
 
+@gv-border-radius: 4px;
+
+@gv-border-gray: #ddd;
+@gv-background-gray: #f2f2f2;
+
+@gv-assignment-color: #c4d4ed;
+@gv-assignment-hover-color: #d4ecff;
+@gv-assignment-border-color: #6592cf;
+
+@gv-success-color: #94D394;
+
 .cm-text-outline {
   text-shadow:
     0px 1px 0px #000,
@@ -45,4 +56,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.cm-unearned-inset {
+  .lh-box-shadow(inset 1px 2px 2px rgba(0,0,0,.15));
 }

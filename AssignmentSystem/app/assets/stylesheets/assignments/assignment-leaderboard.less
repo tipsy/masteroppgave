@@ -1,12 +1,11 @@
 @import "../libs/lesshat-prefixed";
 @import "../custom-mixins";
-@import "../variables";
 
 .assignment-leaderboard {
 
-  background-color: #eee;
+  background-color: @gv-background-gray;
   padding: 15px;
-  .lh-border-radius(@global-variable-border-radius);
+  .lh-border-radius(@gv-border-radius);
 
   h1 {
     font-size: 24px;
@@ -14,8 +13,8 @@
   }
 
   hr {
-    color: #ddd;
-    background-color: #ddd;
+    color: @gv-border-gray;
+    background-color: @gv-border-gray;
     height: 1px;
     margin: 10px 0;
   }
@@ -97,7 +96,7 @@
   dd {
     text-align: right;
     &:last-child {
-      border-top: 1px solid #ddd;
+      border-top: 1px solid @gv-border-gray;
     }
   }
 

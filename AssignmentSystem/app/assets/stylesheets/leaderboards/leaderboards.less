@@ -1,6 +1,5 @@
 @import "../libs/lesshat-prefixed";
 @import "../custom-mixins";
-@import "../variables";
 
 @row-height: 46px;
 
@@ -11,7 +10,7 @@
 
   .leaderboard-entry {
 
-    background-color: #f5f5f5;
+    background-color: @gv-background-gray;
 
     margin-bottom: 15px;
     *{
@@ -20,12 +19,12 @@
       cursor: default;
     }
 
-    .lh-border-top-right-radius(@global-variable-border-radius);
-    .lh-border-bottom-right-radius(@global-variable-border-radius);
+    .lh-border-top-right-radius(@gv-border-radius);
+    .lh-border-bottom-right-radius(@gv-border-radius);
 
     .position {
-      .lh-border-top-left-radius(@global-variable-border-radius);
-      .lh-border-bottom-left-radius(@global-variable-border-radius);
+      .lh-border-top-left-radius(@gv-border-radius);
+      .lh-border-bottom-left-radius(@gv-border-radius);
       height: @row-height;
       min-width: @row-height/2;
       padding: 0px 4px;

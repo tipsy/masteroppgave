@@ -1,5 +1,5 @@
 @import "../libs/lesshat-prefixed";
-@import "../variables";
+@import "../custom-mixins";
 @import "star-rating";
 
 @assignment-preview-height: 110px;
@@ -8,7 +8,7 @@
   height: @assignment-preview-height;
   padding: 15px;
   margin-bottom: 15px;
-  .lh-border-radius(@global-variable-border-radius);
+  .lh-border-radius(@gv-border-radius);
 }
 
 .assignment-preview {
@@ -32,19 +32,19 @@
   a {
     .boxshape;
     display: block;
-    background-color: #c2d8ed;
+    background-color: @gv-assignment-color;
     text-decoration: none;
     position: relative;
     color: black;
     .lh-transition(background-color, 500ms);
 
     &:hover {
-      background-color: #d4ecff;
+      background-color: @gv-assignment-hover-color;
       .lh-transition(background-color, 500ms);
     }
 
     .assignment-text {
-      height: 50px;
+      height: 48px;
       margin-bottom: 10px;
     }
 

@@ -1,8 +1,20 @@
+//libs
 @import "libs/lesshat-prefixed";
 @import "libs/boostrap-ms";
-@import "assignments/assignment";
+
+//assignment
+@import "assignments/assignment-preview";
+@import "assignments/a-problem";
+@import "assignments/code-editor";
+@import "assignments/assignment-leaderboard";
+@import "assignments/bootstrap-tab-slider";
+
+//progress
 @import "studentProgress/student-progress";
 @import "leaderboards/leaderboards";
+
+//variables and mixins
+@import "custom-mixins";
 
 body {
   padding-top: 70px;
@@ -41,3 +53,7 @@ h2{ font-size: 24px; }
 h3{ font-size: 20px; }
 h4{ font-size: 18px; }
 h5{ font-size: 16px; }
+
+//bootstrap overwrites
+.progress { .cm-unearned-inset; }
+.progress-bar-success{ background-color: @gv-success-color; .lh-box-shadow(1px 0px 2px rgba(0,0,0,.15)); }

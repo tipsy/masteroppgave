@@ -1,5 +1,5 @@
 @import "../libs/lesshat-prefixed";
-@import "../variables";
+@import "../custom-mixins";
 
 .collapsing-header {
   cursor: pointer;
@@ -21,8 +21,8 @@
   font-family: "Open Sans";
   font-weight: 300;
   color: black;
-  background-color: #c2d8ed;
-  .lh-border-radius(@global-variable-border-radius);
+  background-color: @gv-assignment-color;
+  .lh-border-radius(@gv-border-radius);
   .lh-display(flex);
   .lh-align-items(center);
   .lh-justify-content(center);
@@ -35,8 +35,8 @@
   }
 
   &.active-problem {
-    background-color: #d4ecff;
-    border: 2px solid #6592cf;
+    background-color: @gv-assignment-hover-color;
+    border: 2px solid @gv-assignment-border-color;
   }
 
 }

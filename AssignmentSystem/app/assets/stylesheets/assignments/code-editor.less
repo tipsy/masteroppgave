@@ -1,4 +1,5 @@
 @import "../libs/lesshat-prefixed";
+@import "../custom-mixins";
 
 .ace-editor-instance { height: 350px; }
 
@@ -6,7 +7,7 @@
   height: 100px;
   padding: 5px 10px;
   font-family: "Courier New";
-  border: 1px solid #ddd;
+  border: 1px solid @gv-border-gray;
   border-top: 0;
   .lh-border-radius(0 0 3px 3px);
   overflow-y: scroll;
@@ -44,7 +45,7 @@
   position: relative;
   padding-left: 65px;
   background-color: #ebebeb;
-  border: 1px solid #ddd;
+  border: 1px solid @gv-border-gray;
   border-bottom: 1px solid #9f9f9f;
   height: 34px;
   .lh-border-radius(3px 3px 0px 0px);
@@ -69,7 +70,7 @@
 }
 
 .tab-content.bordered {
-  border: 1px solid #ddd;
+  border: 1px solid @gv-border-gray;
   border-top: 0;
 }
 
