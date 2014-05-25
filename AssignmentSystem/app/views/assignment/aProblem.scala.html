@@ -13,7 +13,7 @@
             <h2 class="collapsing-header"><i class="fa fa-fw fa-angle-down"></i>Problems</h2>
             <div class="collapsible-content">
                 <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">
-                    <div class="problem-box @if(problemID == "a"){active-problem}">
+                    <div class="problem-box @if(problemID == "a"){active-problem}" data-toggle="tooltip" data-placement="right" title="Easy">
                         A
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
@@ -22,7 +22,7 @@
                 </a>
 
                 <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">
-                    <div class="problem-box @if(problemID == "b"){active-problem}">
+                    <div class="problem-box @if(problemID == "b"){active-problem}" data-toggle="tooltip" data-placement="right" title="Easy">
                         B
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
@@ -31,7 +31,7 @@
                 </a>
 
                 <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">
-                    <div class="problem-box @if(problemID == "c"){active-problem}">
+                    <div class="problem-box @if(problemID == "c"){active-problem}" data-toggle="tooltip" data-placement="right" title="Medium">
                         C
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
@@ -40,13 +40,17 @@
                 </a>
 
                 <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">
-                    <div class="problem-box @if(problemID == "d"){active-problem}">
+                    <div class="problem-box @if(problemID == "d"){active-problem}" data-toggle="tooltip" data-placement="right" title="Hard">
                         D
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
                         </div>
                     </div>
                 </a>
+
+                <script>
+                    $(".problem-box").tooltip();
+                </script>
 
                 <div class="cm-clearfix"></div>
             </div>
