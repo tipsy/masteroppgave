@@ -12,10 +12,42 @@
 
             <h2 class="collapsing-header"><i class="fa fa-fw fa-angle-down"></i>Problems</h2>
             <div class="collapsible-content">
-                <a class="problem-box @if(problemID == "a"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">A</a>
-                <a class="problem-box @if(problemID == "b"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">B</a>
-                <a class="problem-box @if(problemID == "c"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">C</a>
-                <a class="problem-box @if(problemID == "d"){active-problem}" href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">D</a>
+                <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "a")">
+                    <div class="problem-box @if(problemID == "a"){active-problem}">
+                        A
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "b")">
+                    <div class="problem-box @if(problemID == "b"){active-problem}">
+                        B
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "c")">
+                    <div class="problem-box @if(problemID == "c"){active-problem}">
+                        C
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="@controllers.routes.AssignmentController.serveProblem(assignmentID, "d")">
+                    <div class="problem-box @if(problemID == "d"){active-problem}">
+                        D
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: @{Math.random*100}%"></div>
+                        </div>
+                    </div>
+                </a>
+
                 <div class="cm-clearfix"></div>
             </div>
 
