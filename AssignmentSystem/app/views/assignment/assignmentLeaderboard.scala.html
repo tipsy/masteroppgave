@@ -27,7 +27,7 @@
             @for(n <- 1 to 10){
                 <tr>
                     <td class="text-center">@n</td>
-                    <td class="text-center">@{Math.round( 153-n*6 )}</td>
+                    <td class="text-center">@{Math.round( 153-n*7 - 3*Math.random() )}</td>
                     <td>Mark with the long name</td>
                 </tr>
             }
