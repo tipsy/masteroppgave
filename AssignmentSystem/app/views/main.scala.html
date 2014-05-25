@@ -1,34 +1,33 @@
 @(title: String)(content: Html)
 
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta charset="UTF-8">
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>@title</title>
-    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <title>@title</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
-    <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))">
-    <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("jquery-ui.min.css"))">
-    <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("font-awesome.min.css"))">
+        <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))">
+        <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("jquery-ui.min.css"))">
+        <link rel="stylesheet" href="@routes.WebJarAssets.at(WebJarAssets.locate("font-awesome.min.css"))">
 
-    <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
-    <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))"></script>
+        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
+        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))"></script>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300">
+        <link rel="stylesheet" type="text/css" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300">
 
-    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.min.css")">
-</head>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.min.css")">
+    </head>
 
-<body>
-    @views.html.bitsAndPieces.navbar()
-    <div class="container">
-        <div class="row">
-            @content
+    <body>
+        @views.html.bitsAndPieces.navbar()
+        <div class="container">
+            <div class="row">
+                @content
+            </div>
         </div>
-    </div>
-</body>
-    
-    <script type="text/javascript" src="@routes.Assets.at("javascript/active-menu-element.js")"></script>
-    
+        <script type="text/javascript" src="@routes.Assets.at("javascript/active-menu-element.js")"></script>
+    </body>
 </html>
