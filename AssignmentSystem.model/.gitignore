@@ -34,3 +34,4 @@ src-gen/
 data/
 .project
 target/
+build*.xml
