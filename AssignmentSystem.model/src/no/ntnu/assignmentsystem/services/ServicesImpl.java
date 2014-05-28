@@ -76,7 +76,7 @@ public class ServicesImpl extends Container implements Services {
 			File mainImplementationFile = new File(srcDirectory, codeProblem.getMainImplementationFile().getFilePath());
 			
 			try {
-				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Test/bin/main"), new File("../Test/bin/test"), new File("../Test/junit.jar"));
+				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Output/runs/src"), new File("../Output/runs/test"), new File("../Output/libs/junit.jar"));
 				
 				return codeRunner.runMain(srcDirectory, mainImplementationFile, new File[] {});
 			} catch (Exception e) {

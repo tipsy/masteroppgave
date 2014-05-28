@@ -42,30 +42,28 @@
           id="4"
           title="Hello World"
           maxPoints="100"
-          repoUrl="../Test"
+          repoUrl="../no.hal.jex.collection"
           mainImplementationFile="5"
-          srcPath="src/main/java"
-          testPath="src/test/java">
+          srcPath="src"
+          testPath="src-gen">
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
             id="5"
-            title="App.java"
-            filePath="Test/Test/App.java"
+            title="Main.java"
+            filePath="stateandbehavior/Main.java"
             sourceCode=""
             visible="true"
             editable="true"/>
         <sourceCodeFiles
-            xsi:type="no.ntnu.assignmentsystem:TestFile"
-            id="6"
-            title="AppTest.java"
-            filePath="Test/Test/AppTest.java"
-            sourceCode=""
-            visible="true"/>
+            xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
+            id="7"
+            title="Account.java"
+            filePath="stateandbehavior/Account.java"/>
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:TestFile"
-            id="7"
-            title="AppTest2"
-            filePath="Test/Test/AppTest2.java"
+            id="6"
+            title="AccountTest.java"
+            filePath="stateandbehavior/AccountTest.java"
             visible="true"/>
       </problems>
     </assignments>
