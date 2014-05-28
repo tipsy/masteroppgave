@@ -141,6 +141,24 @@ public class ServicesImpl extends Container implements Services {
 		});
 	}
 	
+	@Override
+	public List<LeaderboardEntryView> getLeaderboard() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<LeaderboardEntryView> getAssignmentLeaderboard(String assignmentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AchievementView> getAchievements(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	// --- Private methods ---
 	
