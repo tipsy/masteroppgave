@@ -18,16 +18,16 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th width="10%" class="text-center">#</th>
-                <th width="20%" class="text-center">Score</th>
-                <th width="70%">User</th>
+                <th class="assingment-lb-place text-center">#</th>
+                <th class="assingment-lb-score text-center">Score</th>
+                <th class="assingment-lb-name">User</th>
             </tr>
         </thead>
         <tbody>
             @for(n <- 1 to 10){
                 <tr>
                     <td class="text-center">@n</td>
-                    <td class="text-center">@{Math.round( 153-n*5*Math.random() )}</td>
+                    <td class="text-center">@{Math.round( 153-n*7 - 3*Math.random() )}</td>
                     <td>Mark with the long name</td>
                 </tr>
             }

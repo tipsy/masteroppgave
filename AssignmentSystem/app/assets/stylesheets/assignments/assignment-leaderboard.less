@@ -3,9 +3,13 @@
 
 .assignment-leaderboard {
 
-  background-color: #eee;
+  .assingment-lb-place{ width: 10%; }
+  .assingment-lb-score{ width: 20%; }
+  .assingment-lb-name{ width: 70%; }
+
+  background-color: @gv-background-gray;
   padding: 15px;
-  .lh-border-radius(5px);
+  .lh-border-radius(@gv-border-radius);
 
   h1 {
     font-size: 24px;
@@ -13,8 +17,8 @@
   }
 
   hr {
-    color: #ddd;
-    background-color: #ddd;
+    color: @gv-border-gray;
+    background-color: @gv-border-gray;
     height: 1px;
     margin: 10px 0;
   }
@@ -96,7 +100,7 @@
   dd {
     text-align: right;
     &:last-child {
-      border-top: 1px solid #ddd;
+      border-top: 1px solid @gv-border-gray;
     }
   }
 

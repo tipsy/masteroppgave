@@ -2,47 +2,57 @@
 @import "../custom-mixins";
 
 @progress-row-height: 30px;
-@success-color: #94D394;
 @row-spacing: 20px;
-.unearned-inset { .lh-box-shadow(inset 1px 2px 2px rgba(0,0,0,.15)); }
 
 .student-assignment-progress {
 
   .progress {
     margin-bottom: @row-spacing;
     height: @progress-row-height;
-    .unearned-inset;
   }
 
-  .progress-bar-success{ background-color: @success-color; .lh-box-shadow(1px 0px 2px rgba(0,0,0,.15)); }
   .cm-starred-progress-bar(-26px);
 
   .titled-progress-bar {
+    display: block;
     position: relative;
+    cursor: pointer;
     h3 {
       position: absolute;
       margin: 0;
       top: 6px;
       left: 10px;
       font-size: 16px;
-      color: black;
+      color: white;
+      .cm-text-shadow;
       font-weight: 400;
     }
   }// end titled progress bar
 
+  .problem-progress-box-wrapper{
+    padding-right: 5px;
+    float: left;
+    margin-bottom: @row-spacing;
+  }
   .problem-progress-box{
     height: @progress-row-height;
     line-height: @progress-row-height;
-    background-color: #f5f5f5;
-    float: left;
-    margin-right: 5px;
-    margin-bottom: @row-spacing;
-    .unearned-inset;
-    .lh-border-radius(4px);
+    color: black;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    background-color: @gv-background-gray;
+    .cm-unearned-inset;
+    .lh-border-radius(@gv-border-radius);
     text-align: center;
     &.earned{
-      background-color: @success-color;
+      color: white;
+      .cm-text-shadow;
+      background-color: @gv-assignment-progress-color;
       .lh-box-shadow(none);
+    }
+    &:hover{
+      text-decoration: none;
     }
   }//end problem progress box
 
