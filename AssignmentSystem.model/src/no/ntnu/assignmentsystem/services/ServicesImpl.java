@@ -3,6 +3,7 @@ package no.ntnu.assignmentsystem.services;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import no.ntnu.assignmentsystem.model.Assignment;
@@ -18,7 +19,6 @@ import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.model.User;
-import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.mapping.AssignmentViewFactory;
 import no.ntnu.assignmentsystem.services.mapping.ProblemViewFactory;
@@ -31,6 +31,8 @@ public class ServicesImpl extends Container implements Services {
 
 	private final ModelLoader modelLoader;
 	private final ServicesPackage servicesPackage;
+	
+	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/libs"), new File("../Output/runs/" + UUID.randomUUID().toString()));
 	
 	public ServicesImpl(ModelLoader modelLoader) {
 		this.modelLoader = modelLoader;
@@ -80,18 +82,8 @@ public class ServicesImpl extends Container implements Services {
 			).map(
 				sourceCodeFile -> new File(rootDirectory, sourceCodeFile.getFilePath())
 			).toArray(File[]::new);
-				
-			File[] libFiles = {};
 			
-			try {
-				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Output/runs/src"), new File("../Output/runs/test"), libFiles);
-				
-				return codeRunner.runMain(srcDirectory, mainImplementationFile, implementationFiles);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
+			return codeRunnerHelper.runCode(srcDirectory, mainImplementationFile, implementationFiles);
 		}).orElse(null);
 	}
 
@@ -116,20 +108,7 @@ public class ServicesImpl extends Container implements Services {
 				sourceCodeFile -> new File(rootDirectory, sourceCodeFile.getFilePath())
 			).toArray(File[]::new);
 			
-			File[] libFiles = {
-				new File("../Output/libs/junit.jar"),
-				new File("../Output/libs/jexercise-standalone.jar")
-			};
-			
-			try {
-				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Output/runs/src"), new File("../Output/runs/test"), libFiles);
-				
-				return codeRunner.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
+			return codeRunnerHelper.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
 		}).orElse(null);
 	}
 
