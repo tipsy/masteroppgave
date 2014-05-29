@@ -66,16 +66,18 @@ public class CodeRunner {
 		File[] compileTestFilesClassPathFiles = {testDirectory, srcOutputDirectory, jUnitFile};
 		File[] runTestsClassPathFiles = {srcOutputDirectory, testOutputDirectory, jUnitFile};
 		
-		List<Callable<Process>> commands = Arrays.asList(
+		String[] testClassNames = Arrays.stream(testFiles).map(
+			testFile -> convertFilePathToClassName(testDirectory, testFile)
+		).toArray(String[]::new);
+		
+		Stream<Callable<Process>> compilationCommands = Stream.of(
 			(Callable<Process>) () -> compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, implementationFiles),
 			(Callable<Process>) () -> compileFiles(testOutputDirectory, compileTestFilesClassPathFiles, testFiles)
 		);
-		
-		Arrays.stream(testFiles).map(
-			testFile -> convertFilePathToClassName(testDirectory, testFile)
-		).forEach(testClassName -> {
-			commands.add((Callable<Process>) () -> runTests(runTestsClassPathFiles, testClassName));
-		});
+		Stream<Callable<Process>> runTestsCommands = Arrays.stream(testClassNames).map(
+			testClassName -> () -> runTests(runTestsClassPathFiles, testClassName)
+		);
+		List<Callable<Process>> commands = Stream.concat(compilationCommands, runTestsCommands).collect(Collectors.toList());
 		
 		return runCommands(commands);
 	}
@@ -138,25 +140,29 @@ public class CodeRunner {
 	}
 	
 	private static String getDelimitedClassPaths(File[] classPathFiles) {
-		return Arrays.stream(classPathFiles).map(
+		String[] classPaths = Arrays.stream(classPathFiles).map(
 			file -> file.getAbsolutePath()
-		).reduce("", (concatenatedText, nextString) -> concatenatedText + ":" + nextString);
+		).toArray(String[]::new);
+		
+		return String.join(":", classPaths);
 	}
 	
 	private static String getDelimitedSourceCodeFilePaths(File[] sourceCodeFiles) {
-		return Arrays.stream(sourceCodeFiles).map(
+		String[] sourceCodeFilePaths = Arrays.stream(sourceCodeFiles).map(
 			file -> file.getAbsolutePath()
-		).reduce("", (concatenatedText, nextString) -> concatenatedText + " " + nextString);
+		).toArray(String[]::new);
+		
+		return String.join(" ", sourceCodeFilePaths);
 	}
 	
-	private static String convertFilePathToClassName(File rootFile, File sourceCodeFile) {
+	private static String convertFilePathToClassName(File rootDirectory, File sourceCodeFile) {
 		// TODO: Make a more dynamic solution?
 		// Read file from disk, find package and class name
 		// Possible solutions:
 		// - com.sun.javadoc (http://www.egtry.com/java/doclet/extract)
 		// - javax.tools (http://www.beyondlinux.com/2011/07/20/3-steps-to-dynamically-compile-instantiate-and-run-a-java-class/)
 		
-		String relativePath = rootFile.toURI().relativize(sourceCodeFile.toURI()).getPath();
+		String relativePath = rootDirectory.toURI().relativize(sourceCodeFile.toURI()).getPath();
 		return relativePath.replace(".java", "").replace("/", ".");
 	}
 }

@@ -5,7 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0"
     xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore"
-    lastGlobalId="11">
+    lastGlobalId="12">
   <users id="8"
       email="hal@idi.ntnu.no"/>
   <users id="9"
@@ -50,7 +50,7 @@
             xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
             id="5"
             title="Main.java"
-            filePath="stateandbehavior/Main.java"
+            filePath="src/stateandbehavior/Main.java"
             sourceCode=""
             visible="true"
             editable="true"/>
@@ -58,12 +58,20 @@
             xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
             id="7"
             title="Account.java"
-            filePath="stateandbehavior/Account.java"/>
+            filePath="src/stateandbehavior/Account.java"
+            visible="true"
+            editable="true"/>
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:TestFile"
             id="6"
             title="AccountTest.java"
-            filePath="stateandbehavior/AccountTest.java"
+            filePath="src-gen/stateandbehavior/AccountTest.java"/>
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:JexTestFile"
+            id="12"
+            title="Account.jextest"
+            filePath="tests/stateandbehavior/Account.jextest"
+            sourceCode=""
             visible="true"/>
       </problems>
     </assignments>
