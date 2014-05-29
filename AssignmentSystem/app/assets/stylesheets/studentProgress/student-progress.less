@@ -4,6 +4,31 @@
 @progress-row-height: 30px;
 @row-spacing: 20px;
 
+.user-info {
+  height: 128px;
+  margin-bottom: @row-spacing;
+  .avatar img {
+    width: 128px;
+    height: 128px;
+    text-align: center;
+    .lh-border-radius(@gv-border-radius);
+  }
+  ul{
+    list-style: none;
+    padding: 0;
+  }
+  li{
+    font-family: "Open Sans";
+    font-weight: 300;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+}
+
+@media(max-width:767px){
+  .user-info{height: initial; text-align: center;}
+}
+
 .student-assignment-progress {
 
   .progress {
