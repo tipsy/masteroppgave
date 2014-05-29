@@ -118,7 +118,6 @@ public class ServicesImpl extends Container implements Services {
 			
 			File[] libFiles = {
 				new File("../Output/libs/junit.jar"),
-				new File("../Output/libs/jexercise-runtime.jar"),
 				new File("../Output/libs/jexercise-standalone.jar")
 			};
 			
