@@ -14,6 +14,8 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.swing.event.ListSelectionEvent;
+
 public class CodeRunner {
 	private static final String compileCommandFormat = "javac -g -d %s -classpath %s %s"; // Placeholders: output directory, classpaths, implementation files (g-flag includes extra debug information)
 	private static final String runCommandFormat = "java -classpath %s %s"; // Placeholders: classpaths, main class name
@@ -24,17 +26,17 @@ public class CodeRunner {
 	private final RuntimeExecutor executor;
 	private final File srcOutputDirectory;
 	private final File testOutputDirectory;
-	private final File jUnitFile;
+	private final File[] libFiles;
 	
-	public CodeRunner(RuntimeExecutor executor, File srcOutputDirectory, File testOutputDirectory, File jUnitFile) {
-		if (executor == null || srcOutputDirectory == null || testOutputDirectory == null || jUnitFile == null) {
+	public CodeRunner(RuntimeExecutor executor, File srcOutputDirectory, File testOutputDirectory, File[] libFiles) {
+		if (executor == null || srcOutputDirectory == null || testOutputDirectory == null || libFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		
 		this.executor = executor;
 		this.srcOutputDirectory = srcOutputDirectory;
 		this.testOutputDirectory = testOutputDirectory;
-		this.jUnitFile = jUnitFile;
+		this.libFiles = libFiles;
 	}
 	
 	public String runMain(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws Exception {
@@ -63,8 +65,8 @@ public class CodeRunner {
 		}
 		
 		File[] compileImplementationFilesClassPathFiles = {srcDirectory};
-		File[] compileTestFilesClassPathFiles = {testDirectory, srcOutputDirectory, jUnitFile};
-		File[] runTestsClassPathFiles = {srcOutputDirectory, testOutputDirectory, jUnitFile};
+		File[] compileTestFilesClassPathFiles = Stream.concat(Stream.of(testDirectory, srcOutputDirectory), Arrays.stream(libFiles)).toArray(File[]::new);
+		File[] runTestsClassPathFiles = Stream.concat(Stream.of(srcOutputDirectory, testOutputDirectory), Arrays.stream(libFiles)).toArray(File[]::new);
 		
 		String[] testClassNames = Arrays.stream(testFiles).map(
 			testFile -> convertFilePathToClassName(testDirectory, testFile)

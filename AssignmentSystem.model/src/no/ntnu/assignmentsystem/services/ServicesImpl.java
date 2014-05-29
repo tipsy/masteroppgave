@@ -81,9 +81,10 @@ public class ServicesImpl extends Container implements Services {
 				sourceCodeFile -> new File(rootDirectory, sourceCodeFile.getFilePath())
 			).toArray(File[]::new);
 				
+			File[] libFiles = {};
 			
 			try {
-				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Output/runs/src"), new File("../Output/runs/test"), new File("../Output/libs/junit.jar"));
+				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Output/runs/src"), new File("../Output/runs/test"), libFiles);
 				
 				return codeRunner.runMain(srcDirectory, mainImplementationFile, implementationFiles);
 			} catch (Exception e) {
@@ -115,8 +116,14 @@ public class ServicesImpl extends Container implements Services {
 				sourceCodeFile -> new File(rootDirectory, sourceCodeFile.getFilePath())
 			).toArray(File[]::new);
 			
+			File[] libFiles = {
+				new File("../Output/libs/junit.jar"),
+				new File("../Output/libs/jexercise-runtime.jar"),
+				new File("../Output/libs/jexercise-standalone.jar")
+			};
+			
 			try {
-				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Output/runs/src"), new File("../Output/runs/test"), new File("../Output/libs/junit.jar"));
+				CodeRunner codeRunner = new CodeRunner(new DefaultRuntimeExecutor(), new File("../Output/runs/src"), new File("../Output/runs/test"), libFiles);
 				
 				return codeRunner.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
 			} catch (Exception e) {
