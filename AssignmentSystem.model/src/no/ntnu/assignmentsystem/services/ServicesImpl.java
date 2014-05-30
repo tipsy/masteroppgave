@@ -84,6 +84,7 @@ public class ServicesImpl extends Container implements Services {
 				File repoOutputDirectory = new File(outputDirectory, "repo");
 				
 				copyDirectory(repoSourceDirectory, repoOutputDirectory);
+				replaceModifiedSourceCodeFiles((Student)participant, codeProblem, repoOutputDirectory);
 				
 				File srcDirectory = new File(repoOutputDirectory, codeProblem.getSrcPath());
 				
@@ -110,6 +111,7 @@ public class ServicesImpl extends Container implements Services {
 				File repoOutputDirectory = new File(outputDirectory, "repo");
 				
 				copyDirectory(repoSourceDirectory, repoOutputDirectory);
+				replaceModifiedSourceCodeFiles((Student)participant, codeProblem, repoOutputDirectory);
 				
 				File srcDirectory = new File(repoOutputDirectory, codeProblem.getSrcPath());
 				File testDirectory = new File(repoOutputDirectory, codeProblem.getTestPath());
@@ -129,28 +131,6 @@ public class ServicesImpl extends Container implements Services {
 				return codeRunnerHelper.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
 			})
 		).orElse(null);
-	}
-	
-	private static void copyDirectory(File sourceDirectory, File targetDirectory) {
-		try {
-			Files.walk(sourceDirectory.toPath()).filter(
-				path -> path.toFile().isFile()
-			).forEach(path -> {
-				String relativePathString = sourceDirectory.toURI().relativize(path.toUri()).getPath();
-				Path outputPath = targetDirectory.toPath().resolve(relativePathString);
-				
-				try {
-					Files.createDirectories(outputPath.getParent());
-					Files.copy(path, outputPath);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -227,5 +207,42 @@ public class ServicesImpl extends Container implements Services {
 	
 	private ModelFactory getModelFactory() {
 		return modelLoader.getFactory();
+	}
+	
+	private static void copyDirectory(File sourceDirectory, File targetDirectory) {
+		try {
+			Files.walk(sourceDirectory.toPath()).forEach(path -> {
+				String relativePathString = sourceDirectory.toURI().relativize(path.toUri()).getPath();
+				Path outputPath = targetDirectory.toPath().resolve(relativePathString);
+				
+				try {
+					Files.createDirectories(outputPath.getParent());
+					Files.copy(path, outputPath);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private static void replaceModifiedSourceCodeFiles(Student student, CodeProblem codeProblem, File targetDirectory) {
+		codeProblem.getSourceCodeFiles().stream().forEach(sourceCodeFile -> {
+			student.getSourceCodeFiles().stream().filter(
+				modifiedSourceCodeFile -> modifiedSourceCodeFile.getOriginalSourceCodeFile().getId().equals(sourceCodeFile.getId())
+			).findAny().ifPresent(modifiedSourceCodeFile -> {
+				Path targetPath = new File(targetDirectory, sourceCodeFile.getFilePath()).toPath();
+				
+				try {
+					Files.write(targetPath, modifiedSourceCodeFile.getSourceCode().getBytes());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		});
 	}
 }

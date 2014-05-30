@@ -95,9 +95,6 @@
         <evaluation
             evaluatedBy="//@courses.0/@participants.3"/>
       </submissions>
-      <sourceCodeFiles
-          sourceCode="This is the modified source code!"
-          originalSourceCodeFile="5"/>
     </participants>
     <participants
         xsi:type="no.ntnu.assignmentsystem:Staff"
