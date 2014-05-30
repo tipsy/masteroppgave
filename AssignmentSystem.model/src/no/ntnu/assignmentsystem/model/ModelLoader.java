@@ -1,9 +1,9 @@
 package no.ntnu.assignmentsystem.model;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.EObject;
 
 public interface ModelLoader {
-	UoD getUoD();
-	Resource getResource();
+	EObject findObject(String id);
 	ModelFactory getFactory();
+	void save();
 }

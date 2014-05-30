@@ -7,9 +7,9 @@ import java.util.Collections;
 import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.ModelPackage;
-import no.ntnu.assignmentsystem.model.UoD;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -20,7 +20,6 @@ public class XmiModelLoader implements ModelLoader {
 	private final ModelPackage modelPackage;
 	
 	private Resource resource;
-	private UoD uod;
 	
 	public XmiModelLoader(File dataFile) {
 		this.dataFile = dataFile;
@@ -28,65 +27,51 @@ public class XmiModelLoader implements ModelLoader {
 		// Initialize model package
 		modelPackage = ModelPackage.eINSTANCE;
 		modelPackage.eClass();
-		
-		loadModel();
 	}
 	
 	
 	// --- ModelLoader ---
 	
 	@Override
-	public UoD getUoD() {
-		return uod;
-	}
-	
-	@Override
-	public Resource getResource() {
-		if (resource == null) {
-		    ResourceSet resourceSet = new ResourceSetImpl();
-	
-		    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
-	
-		    URI fileURI = URI.createFileURI(dataFile.getAbsolutePath());
-	
-		    resource = resourceSet.createResource(fileURI);
-		}
-	    
-	    return resource;
+	public EObject findObject(String id) {
+		return getResource().getEObject(id);
 	}
 	
 	@Override
 	public ModelFactory getFactory() {
 		return (ModelFactory)modelPackage.getEFactoryInstance();
 	}
-
-	private void loadModel() {
-	    Resource resource = getResource();
-	    
-	    // Load the contents of the resource from the file system.
+	
+	@Override
+	public void save() {
+		Resource resource = getResource();
+		
 	    try {
-			resource.load(Collections.EMPTY_MAP);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-	    
-	    uod = (UoD)resource.getContents().get(0);
+	    	resource.save(Collections.EMPTY_MAP);
+	    }
+	    catch (IOException e1) {
+	    	e1.printStackTrace();
+	    }
 	}
 	
 	
 	// --- Private methods ---
 	
-//	private void saveModel() {
-//		Resource resource = getResource();
-//		
-//		resource.getContents().add(uod);
-//		
-//	    // Save the contents of the resource to the file system.
-//	    try
-//	    {
-//	    	resource.save(Collections.EMPTY_MAP);
-//	    }
-//	    catch (IOException e) {
-//	    }
-//	}
+	private Resource getResource() {
+		if (resource == null) {
+			ResourceSet resourceSet = new ResourceSetImpl();
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+			
+			URI fileURI = URI.createFileURI(dataFile.getAbsolutePath());
+			resource = resourceSet.createResource(fileURI);
+			
+			try {
+				resource.load(Collections.EMPTY_MAP);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return resource;
+	}
 }

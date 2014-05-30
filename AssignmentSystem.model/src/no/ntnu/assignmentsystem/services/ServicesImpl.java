@@ -23,8 +23,8 @@ import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.mapping.AssignmentViewFactory;
 import no.ntnu.assignmentsystem.services.mapping.ProblemViewFactory;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
-import org.eclipse.emf.ecore.resource.Resource;
 
 public class ServicesImpl extends Container implements Services {
 	private static final String COURSE_ID = "1";
@@ -157,19 +157,19 @@ public class ServicesImpl extends Container implements Services {
 	// --- Private methods ---
 	
 	private Optional<? extends SourceCodeFile> getSourceCodeFileModel(String fileId) {
-		return Optional.ofNullable((SourceCodeFile)getResource().getEObject(fileId));
+		return Optional.ofNullable((SourceCodeFile)findObject(fileId));
 	}
 	
 	private Optional<? extends Problem> getProblemModel(String problemId) {
-		return Optional.ofNullable((Problem)getResource().getEObject(problemId));
+		return Optional.ofNullable((Problem)findObject(problemId));
 	}
 	
 	private Optional<Assignment> getAssignmentModel(String assignmentId) {
-		return Optional.ofNullable((Assignment)getResource().getEObject(assignmentId));
+		return Optional.ofNullable((Assignment)findObject(assignmentId));
 	}
 	
 	private Optional<Course> getCourseModel(String courseId) {
-		return Optional.ofNullable((Course)getResource().getEObject(courseId));
+		return Optional.ofNullable((Course)findObject(courseId));
 	}
 
 	private Optional<? extends Participant> getParticipantModel(String courseId, String userId) {
@@ -181,11 +181,11 @@ public class ServicesImpl extends Container implements Services {
 	}
 	
 	private Optional<User> getUserModel(String userId) {
-		return Optional.ofNullable((User)getResource().getEObject(userId));
+		return Optional.ofNullable((User)findObject(userId));
 	}
 	
-	private Resource getResource() {
-		return modelLoader.getResource();
+	private EObject findObject(String id) {
+		return modelLoader.findObject(id);
 	}
 	
 	private ModelFactory getModelFactory() {
