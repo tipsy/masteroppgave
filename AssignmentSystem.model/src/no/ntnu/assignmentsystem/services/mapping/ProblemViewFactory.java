@@ -1,17 +1,14 @@
 package no.ntnu.assignmentsystem.services.mapping;
 
-import java.io.File;
-import java.nio.file.Files;
-
 import no.ntnu.assignmentsystem.model.CodeProblem;
-import no.ntnu.assignmentsystem.model.ModifiedSourceCodeFile;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.QuizProblem;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.services.CodeProblemView;
 import no.ntnu.assignmentsystem.services.ExtendedProblemView;
-import no.ntnu.assignmentsystem.services.ProblemView;import no.ntnu.assignmentsystem.services.QuizProblemView;
+import no.ntnu.assignmentsystem.services.ProblemView;
+import no.ntnu.assignmentsystem.services.QuizProblemView;
 import no.ntnu.assignmentsystem.services.SourceCodeFileView;
 
 
