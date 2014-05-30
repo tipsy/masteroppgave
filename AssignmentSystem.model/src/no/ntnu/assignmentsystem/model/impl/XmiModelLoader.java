@@ -15,14 +15,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-public class XmiModelLoaderImpl implements ModelLoader {
+public class XmiModelLoader implements ModelLoader {
 	private final File dataFile;
 	private final ModelPackage modelPackage;
 	
 	private Resource resource;
 	private UoD uod;
 	
-	public XmiModelLoaderImpl(File dataFile) {
+	public XmiModelLoader(File dataFile) {
 		this.dataFile = dataFile;
 		
 		// Initialize model package

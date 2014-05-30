@@ -3,10 +3,10 @@ package no.ntnu.assignmentsystem.model.impl;
 import no.ntnu.assignmentsystem.model.GlobalIdManager;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 
-public class GlobalIdManagerImpl implements GlobalIdManager {
+public class IncrementalGlobalIdManager implements GlobalIdManager {
 	private final ModelLoader modelLoader;
 	
-	public GlobalIdManagerImpl(ModelLoader modelLoader) {
+	public IncrementalGlobalIdManager(ModelLoader modelLoader) {
 		this.modelLoader = modelLoader;
 	}
 
