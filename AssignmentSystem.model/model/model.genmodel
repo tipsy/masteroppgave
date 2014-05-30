@@ -89,6 +89,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/sourceCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/visible"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/editable"/>
+      <genOperations ecoreOperation="model.ecore#//SourceCodeFile/getTest"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//ImplementationFile"/>
     <genClasses ecoreClass="model.ecore#//TestFile"/>

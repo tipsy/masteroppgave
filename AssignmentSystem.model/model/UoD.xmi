@@ -51,7 +51,6 @@
             id="5"
             title="Main.java"
             filePath="src/stateandbehavior/Main.java"
-            sourceCode=""
             visible="true"
             editable="true"/>
         <sourceCodeFiles
@@ -71,7 +70,6 @@
             id="12"
             title="Account.jextest"
             filePath="tests/stateandbehavior/Account.jextest"
-            sourceCode=""
             visible="true"/>
       </problems>
     </assignments>
