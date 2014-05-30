@@ -14,7 +14,7 @@ public class Main {
 		Services services = new ServicesImpl(modelLoader);
 //		System.out.println(services.getAssignments("userId"));
 //		System.out.println(services.getProblem("userId", "3")); // QuizProblem
-		System.out.println(((CodeProblemView)services.getProblem("10", "4"))); // CodeProblem
+		System.out.println(services.getProblem("10", "4")); // CodeProblem
 		System.out.println(((CodeProblemView)services.getProblem("10", "4")).getSourceCodeFiles()); // CodeProblem
 //		System.out.println(services.runCodeProblem("userId", "4")); // CodeProblem
 //		System.out.println(services.testCodeProblem("userId", "4")); // CodeProblem
