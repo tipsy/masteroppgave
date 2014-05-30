@@ -134,7 +134,7 @@ public class ServicesImpl extends Container implements Services {
 	}
 	
 	@Override
-	public List<LeaderboardEntryView> getLeaderboard() {
+	public List<LeaderboardEntryView> getOverallLeaderboard() {
 		// TODO Auto-generated method stub
 		return null;
 	}
