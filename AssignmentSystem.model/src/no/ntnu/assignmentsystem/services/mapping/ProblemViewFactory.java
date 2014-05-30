@@ -7,13 +7,13 @@ import no.ntnu.assignmentsystem.services.ProblemView;
 
 public class ProblemViewFactory extends BaseViewFactory {
 	public static ProblemView createProblemView(Problem problem) {
-		ProblemView problemView = factory().createProblemView();
+		ProblemView problemView = getFactory().createProblemView();
 		Mapper.copyAttributes(problem, problemView);
 		return problemView;
 	}
 	
 	public static ExtendedProblemView createExtendedProblemView(Problem problem) {
-		ExtendedProblemView problemView = (problem instanceof CodeProblem) ? factory().createCodeProblemView() : factory().createQuizProblemView();
+		ExtendedProblemView problemView = (problem instanceof CodeProblem) ? getFactory().createCodeProblemView() : getFactory().createQuizProblemView();
 		Mapper.copyAttributes(problem, problemView);
 		return problemView;
 	}
