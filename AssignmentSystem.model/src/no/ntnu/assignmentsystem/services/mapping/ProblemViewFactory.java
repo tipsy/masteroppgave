@@ -1,8 +1,13 @@
 package no.ntnu.assignmentsystem.services.mapping;
 
+import java.io.File;
+import java.nio.file.Files;
+
 import no.ntnu.assignmentsystem.model.CodeProblem;
+import no.ntnu.assignmentsystem.model.ModifiedSourceCodeFile;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.QuizProblem;
+import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.services.CodeProblemView;
 import no.ntnu.assignmentsystem.services.ExtendedProblemView;
@@ -38,6 +43,7 @@ public class ProblemViewFactory extends BaseViewFactory {
 		codeProblem.getSourceCodeFiles().forEach(sourceCodeFile -> {
 			SourceCodeFileView sourceCodeFileView = getFactory().createSourceCodeFileView();
 			Mapper.copyAttributes(sourceCodeFile, sourceCodeFileView);
+			sourceCodeFileView.setSourceCode(getSourceCode(student, sourceCodeFile));
 			
 			codeProblemView.getSourceCodeFiles().add(sourceCodeFileView);
 		});
@@ -49,5 +55,15 @@ public class ProblemViewFactory extends BaseViewFactory {
 		QuizProblemView quizProblemView = getFactory().createQuizProblemView();
 		
 		return quizProblemView;
+	}
+	
+	private static String getSourceCode(Student student, SourceCodeFile sourceCodeFile) {
+		return student.getSourceCodeFiles().stream().filter(
+			modifiedSourceCodeFile -> modifiedSourceCodeFile.getOriginalSourceCodeFile().getId().equals(sourceCodeFile.getId())
+		).findAny().map(
+			modifiedSourceCodeFile -> modifiedSourceCodeFile.getSourceCode()
+		).orElseGet(
+			() -> sourceCodeFile.getSourceCode()
+		);
 	}
 }

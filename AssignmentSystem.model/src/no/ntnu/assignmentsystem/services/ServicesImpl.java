@@ -132,8 +132,6 @@ public class ServicesImpl extends Container implements Services {
 			}
 			
 			modifiedSourceCodeFile.setSourceCode(sourceCode);
-			
-			System.out.println(modifiedSourceCodeFile);
 		});
 	}
 	
