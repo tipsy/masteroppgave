@@ -76,17 +76,17 @@ public class XmiModelLoaderImpl implements ModelLoader {
 	
 	// --- Private methods ---
 	
-	private void saveModel() {
-		Resource resource = getResource();
-		
-		resource.getContents().add(uod);
-		
-	    // Save the contents of the resource to the file system.
-	    try
-	    {
-	    	resource.save(Collections.EMPTY_MAP);
-	    }
-	    catch (IOException e) {
-	    }
-	}
+//	private void saveModel() {
+//		Resource resource = getResource();
+//		
+//		resource.getContents().add(uod);
+//		
+//	    // Save the contents of the resource to the file system.
+//	    try
+//	    {
+//	    	resource.save(Collections.EMPTY_MAP);
+//	    }
+//	    catch (IOException e) {
+//	    }
+//	}
 }
