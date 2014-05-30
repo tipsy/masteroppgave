@@ -1,6 +1,8 @@
 package no.ntnu.assignmentsystem.services;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,7 +34,8 @@ public class ServicesImpl extends Container implements Services {
 	private final ModelLoader modelLoader;
 	private final ServicesPackage servicesPackage;
 	
-	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/libs"), new File("../Output/runs/" + UUID.randomUUID().toString()));
+	private final File outputDirectory = new File("../Output/runs/" + UUID.randomUUID().toString());
+	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/libs"), new File(outputDirectory, "target"));
 	
 	public ServicesImpl(ModelLoader modelLoader) {
 		this.modelLoader = modelLoader;
@@ -73,47 +76,81 @@ public class ServicesImpl extends Container implements Services {
 	
 	@Override
 	public String runCodeProblem(String userId, String problemId) {
-		return getProblemModel(problemId).map(problem -> {
-			CodeProblem codeProblem = (CodeProblem)problem;
-			
-			File rootDirectory = new File(codeProblem.getRepoUrl());
-			File srcDirectory = new File(rootDirectory, codeProblem.getSrcPath());
-			
-			File mainImplementationFile = new File(rootDirectory, codeProblem.getMainImplementationFile().getFilePath());
-			
-			File[] implementationFiles = codeProblem.getSourceCodeFiles().stream().filter(
-				sourceCodeFile -> sourceCodeFile instanceof ImplementationFile
-			).map(
-				sourceCodeFile -> new File(rootDirectory, sourceCodeFile.getFilePath())
-			).toArray(File[]::new);
-			
-			return codeRunnerHelper.runCode(srcDirectory, mainImplementationFile, implementationFiles);
-		}).orElse(null);
+		return getParticipantModel(COURSE_ID, userId).flatMap(
+			participant -> (Optional<String>)getProblemModel(problemId).map(problem -> {
+				CodeProblem codeProblem = (CodeProblem)problem;
+				
+				File repoSourceDirectory = new File(codeProblem.getRepoUrl());
+				File repoOutputDirectory = new File(outputDirectory, "repo");
+				
+				copyDirectory(repoSourceDirectory, repoOutputDirectory);
+				
+				File srcDirectory = new File(repoOutputDirectory, codeProblem.getSrcPath());
+				
+				File mainImplementationFile = new File(repoOutputDirectory, codeProblem.getMainImplementationFile().getFilePath());
+				
+				File[] implementationFiles = codeProblem.getSourceCodeFiles().stream().filter(
+					sourceCodeFile -> sourceCodeFile instanceof ImplementationFile
+				).map(
+					sourceCodeFile -> new File(repoOutputDirectory, sourceCodeFile.getFilePath())
+				).toArray(File[]::new);
+				
+				return codeRunnerHelper.runCode(srcDirectory, mainImplementationFile, implementationFiles);
+			})
+		).orElse(null);
 	}
 
 	@Override
 	public String testCodeProblem(String userId, String problemId) {
-		return getProblemModel(problemId).map(problem -> {
-			CodeProblem codeProblem = (CodeProblem)problem;
-			
-			File rootDirectory = new File(codeProblem.getRepoUrl());
-			File srcDirectory = new File(rootDirectory, codeProblem.getSrcPath());
-			File testDirectory = new File(rootDirectory, codeProblem.getTestPath());
-			
-			File[] implementationFiles = codeProblem.getSourceCodeFiles().stream().filter(
-				sourceCodeFile -> sourceCodeFile instanceof ImplementationFile
-			).map(
-				sourceCodeFile -> new File(rootDirectory, sourceCodeFile.getFilePath())
-			).toArray(File[]::new);
-			
-			File[] testFiles = codeProblem.getSourceCodeFiles().stream().filter(
-				sourceCodeFile -> sourceCodeFile instanceof TestFile
-			).map(
-				sourceCodeFile -> new File(rootDirectory, sourceCodeFile.getFilePath())
-			).toArray(File[]::new);
-			
-			return codeRunnerHelper.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
-		}).orElse(null);
+		return getParticipantModel(COURSE_ID, userId).flatMap(
+			participant -> (Optional<String>)getProblemModel(problemId).map(problem -> {
+				CodeProblem codeProblem = (CodeProblem)problem;
+				
+				File repoSourceDirectory = new File(codeProblem.getRepoUrl());
+				File repoOutputDirectory = new File(outputDirectory, "repo");
+				
+				copyDirectory(repoSourceDirectory, repoOutputDirectory);
+				
+				File srcDirectory = new File(repoOutputDirectory, codeProblem.getSrcPath());
+				File testDirectory = new File(repoOutputDirectory, codeProblem.getTestPath());
+				
+				File[] implementationFiles = codeProblem.getSourceCodeFiles().stream().filter(
+					sourceCodeFile -> sourceCodeFile instanceof ImplementationFile
+				).map(
+					sourceCodeFile -> new File(repoOutputDirectory, sourceCodeFile.getFilePath())
+				).toArray(File[]::new);
+				
+				File[] testFiles = codeProblem.getSourceCodeFiles().stream().filter(
+					sourceCodeFile -> sourceCodeFile instanceof TestFile
+				).map(
+					sourceCodeFile -> new File(repoOutputDirectory, sourceCodeFile.getFilePath())
+				).toArray(File[]::new);
+				
+				return codeRunnerHelper.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
+			})
+		).orElse(null);
+	}
+	
+	private static void copyDirectory(File sourceDirectory, File targetDirectory) {
+		try {
+			Files.walk(sourceDirectory.toPath()).filter(
+				path -> path.toFile().isFile()
+			).forEach(path -> {
+				String relativePathString = sourceDirectory.toURI().relativize(path.toUri()).getPath();
+				Path outputPath = targetDirectory.toPath().resolve(relativePathString);
+				
+				try {
+					Files.createDirectories(outputPath.getParent());
+					Files.copy(path, outputPath);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

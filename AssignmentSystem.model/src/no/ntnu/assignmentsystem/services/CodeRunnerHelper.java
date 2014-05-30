@@ -8,7 +8,7 @@ import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
 import no.ntnu.assignmentsystem.services.coderunner.RuntimeExecutor;
 
 class CodeRunnerHelper {
-	private static final String srcDirectoryName = "src";
+	private static final String mainDirectoryName = "main";
 	private static final String testDirectoryName = "test";
 	
 	private final RuntimeExecutor runtimeExecutor;
@@ -68,7 +68,7 @@ class CodeRunnerHelper {
 	}
 	
 	private File createOutputSrcDirectory() {
-		File outputSrcDirectory = new File(outputRootDirectory, srcDirectoryName);
+		File outputSrcDirectory = new File(outputRootDirectory, mainDirectoryName);
 		outputSrcDirectory.mkdirs();
 		
 		return outputSrcDirectory;
