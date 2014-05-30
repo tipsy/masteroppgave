@@ -53,17 +53,21 @@ public class ServicesImpl extends Container implements Services {
 	
 	@Override
 	public List<ProblemView> getProblems(String userId, String assignmentId) {
-		return getAssignmentModel(assignmentId).map(
+		return getParticipantModel(COURSE_ID, userId).flatMap(
+			participant -> (Optional<List<ProblemView>>)getAssignmentModel(assignmentId).map(
 				assignment -> assignment.getProblems().stream().map(
-					ProblemViewFactory::createProblemView
+					problem -> ProblemViewFactory.createProblemView((Student)participant, problem)
 				).collect(Collectors.toList())
-			).orElse(null);
+			)
+		).orElse(null);
 	}
 	
 	@Override
 	public ExtendedProblemView getProblem(String userId, String problemId) {
-		return getProblemModel(problemId).map(
-			ProblemViewFactory::createExtendedProblemView
+		return (ExtendedProblemView)getParticipantModel(COURSE_ID, userId).flatMap(
+			participant -> getProblemModel(problemId).map(
+				problem -> ProblemViewFactory.createExtendedProblemView((Student)participant, problem)
+			)
 		).orElse(null);
 	}
 	
