@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="Editor"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="no.ntnu.assignmentsystem.editor.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+     point="org.eclipse.ui.commands">
+      <command
+        name="Do It"
+        id="AssignmentSystem.editor.commands.sampleCommand">
+      </command>
+   </extension>
+   <extension
+     point="org.eclipse.ui.handlers">
+      <handler
+        commandId="AssignmentSystem.editor.commands.sampleCommand"
+        class="no.ntnu.assignmentsystem.editor.SampleHandler">
+      </handler>
+   </extension>
+   <extension
+     point="org.eclipse.ui.bindings">
+      <key
+        commandId="com.vogella.plugin.first.commands.sampleCommand"
+        contextId="org.eclipse.ui.contexts.window"
+        sequence="M1+6"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+  	 <menuContribution
+        locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+           label="Do It Menu"
+           mnemonic="M"
+           id="AssignmentSystem.editor.menus.sampleMenu">
+            <command
+              commandId="AssignmentSystem.editor.commands.sampleCommand"
+              mnemonic="S"
+              id="AssignmentSystem.editor.menus.sampleCommand">
+            </command>
+         </menu>
+     </menuContribution>
+   </extension>
+
+</plugin>
