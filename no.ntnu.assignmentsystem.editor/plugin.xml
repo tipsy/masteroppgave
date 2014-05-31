@@ -16,21 +16,21 @@
    <extension
      point="org.eclipse.ui.commands">
       <command
-        name="Do It"
-        id="AssignmentSystem.editor.commands.sampleCommand">
+        name="Sample Command"
+        id="no.ntnu.assignmentsystem.editor.commands.sampleCommand">
       </command>
    </extension>
    <extension
      point="org.eclipse.ui.handlers">
       <handler
-        commandId="AssignmentSystem.editor.commands.sampleCommand"
+        commandId="no.ntnu.assignmentsystem.editor.commands.sampleCommand"
         class="no.ntnu.assignmentsystem.editor.SampleHandler">
       </handler>
    </extension>
    <extension
      point="org.eclipse.ui.bindings">
       <key
-        commandId="com.vogella.plugin.first.commands.sampleCommand"
+        commandId="no.ntnu.assignmentsystem.editor.commands.sampleCommand"
         contextId="org.eclipse.ui.contexts.window"
         sequence="M1+6"
         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
@@ -41,13 +41,13 @@
   	 <menuContribution
         locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-           label="Do It Menu"
+           label="Sample Menu"
            mnemonic="M"
-           id="AssignmentSystem.editor.menus.sampleMenu">
+           id="no.ntnu.assignmentsystem.editor.menus.sampleMenu">
             <command
-              commandId="AssignmentSystem.editor.commands.sampleCommand"
+              commandId="no.ntnu.assignmentsystem.editor.commands.sampleCommand"
               mnemonic="S"
-              id="AssignmentSystem.editor.menus.sampleCommand">
+              id="no.ntnu.assignmentsystem.editor.menus.sampleCommand">
             </command>
          </menu>
      </menuContribution>
