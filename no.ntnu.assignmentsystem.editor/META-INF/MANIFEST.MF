@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Editor
-Bundle-SymbolicName: AssignmentSystem.editor;singleton:=true
+Bundle-SymbolicName: no.ntnu.assignmentsystem.editor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: no.ntnu.assignmentsystem.editor.Activator
 Require-Bundle: org.eclipse.core.runtime,
