@@ -1,13 +1,9 @@
 package no.ntnu.assignmentsystem;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
-import no.ntnu.assignmentsystem.services.CodeProblemView;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.ServicesImpl;
 
