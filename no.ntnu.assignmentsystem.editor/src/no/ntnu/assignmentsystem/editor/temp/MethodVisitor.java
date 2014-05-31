@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.editor;
+package no.ntnu.assignmentsystem.editor.temp;
 
 import java.util.ArrayList;
 import java.util.List;
