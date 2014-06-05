@@ -7,15 +7,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.4">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="target/repository/plugins/com.google.protobuf_2.5.0.jar"/>
+	<classpathentry kind="lib" path="target/repository/plugins/com.typesafe.akka.actor_2.3.3.jar"/>
+	<classpathentry kind="lib" path="target/repository/plugins/com.typesafe.akka.remote_2.3.3.jar"/>
+	<classpathentry kind="lib" path="target/repository/plugins/com.typesafe.config_1.2.1.jar"/>
+	<classpathentry kind="lib" path="target/repository/plugins/org.jboss.netty_3.8.0.Final.jar"/>
+	<classpathentry kind="lib" path="target/repository/plugins/org.scala-lang.scala-library_2.10.4.v20140209-180020-VFINAL-b66a39653b.jar"/>
+	<classpathentry kind="lib" path="target/repository/plugins/org.uncommons.maths.uncommons-maths_1.2.0.2a.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

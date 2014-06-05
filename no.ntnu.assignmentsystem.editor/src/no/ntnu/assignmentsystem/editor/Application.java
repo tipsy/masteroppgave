@@ -9,7 +9,7 @@ public class Application implements IApplication {
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
-		System.out.println("Application start...");
+		System.out.println("Starting from Application...");
 		
 		Bootstrap.bootstrap();
 //		GenerateProject.doIt();

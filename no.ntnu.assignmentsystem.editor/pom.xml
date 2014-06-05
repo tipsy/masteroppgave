@@ -14,21 +14,45 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.reficio</groupId>
+        <artifactId>p2-maven-plugin</artifactId>
+        <version>1.1.1-SNAPSHOT</version>
+        <executions>
+            <execution>
+                <id>default-cli</id>
+                <configuration>
+                    <artifacts>
+                        <!-- specify your depencies here -->
+                        <!-- groupId:artifactId:version -->
+                        <artifact><id>com.typesafe.akka:akka-actor_2.10:2.3.3</id></artifact>
+                        <artifact><id>com.typesafe.akka:akka-remote_2.10:2.3.3</id></artifact>
+                        <artifact><id>com.typesafe.akka:akka-osgi_2.10:2.3.3</id></artifact>
+                    </artifacts>
+                </configuration>
+            </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>8.1.5.v20120716</version>
+        <configuration>
+            <scanIntervalSeconds>10</scanIntervalSeconds>
+            <webAppSourceDirectory>${basedir}/target/repository/</webAppSourceDirectory>
+            <webApp>
+                <contextPath>/site</contextPath>
+            </webApp>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   
-  <dependencies>
-  	<dependency>
-		<groupId>com.typesafe.akka</groupId>
-		<artifactId>akka-actor_2.10</artifactId>
-		<version>2.3.3</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.typesafe.akka</groupId>
-		<artifactId>akka-remote_2.10</artifactId>
-		<version>2.3.3</version>
-		<scope>compile</scope>
-	</dependency>
-  </dependencies>
+  <pluginRepositories>
+       <pluginRepository>
+           <id>reficio</id>
+           <url>http://repo.reficio.org/maven/</url>
+       </pluginRepository>
+   </pluginRepositories>
 </project>
