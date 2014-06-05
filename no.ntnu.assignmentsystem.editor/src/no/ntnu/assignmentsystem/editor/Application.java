@@ -1,7 +1,5 @@
 package no.ntnu.assignmentsystem.editor;
 
-import no.ntnu.assignmentsystem.editor.akka.Bootstrap;
-
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 
@@ -9,10 +7,7 @@ public class Application implements IApplication {
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
-		System.out.println("Starting from Application...");
-		
-		Bootstrap.bootstrap();
-//		GenerateProject.doIt();
+		System.out.println("Application started");
 		
 		return null;
 	}

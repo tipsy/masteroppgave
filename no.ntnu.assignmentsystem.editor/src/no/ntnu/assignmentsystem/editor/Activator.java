@@ -1,35 +1,19 @@
 package no.ntnu.assignmentsystem.editor;
 
-import no.ntnu.assignmentsystem.editor.akka.Bootstrap;
-
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator implements BundleActivator {
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+import akka.osgi.ActorSystemActivator;
 
-	private static BundleContext context;
-
-	static BundleContext getContext() {
-		return context;
+public class Activator extends ActorSystemActivator {
+	@Override
+	public void configure(BundleContext context, ActorSystem system) {
+		System.out.println("Configuring actor system...");
+		registerService(context, system);
+		
+		ActorRef masterActor = system.actorOf(Props.create(Master.class));
+		masterActor.tell(new Master.Message(), null);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
-		System.out.println("Starting activator...");
-//		Bootstrap.bootstrap();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
-		System.out.println("Stopping activator...");
-	}
-
 }
