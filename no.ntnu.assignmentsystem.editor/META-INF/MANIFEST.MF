@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.launching;bundle-version="3.7.100",
  com.typesafe.akka.actor;bundle-version="2.3.3",
  com.typesafe.akka.remote;bundle-version="2.3.3",
- com.typesafe.akka.osgi;bundle-version="2.3.3"
+ com.typesafe.akka.osgi;bundle-version="2.3.3",
+ com.google.protobuf;bundle-version="2.5.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.commands
