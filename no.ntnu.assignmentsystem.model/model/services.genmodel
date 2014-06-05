@@ -42,16 +42,25 @@
     </genClasses>
     <genClasses ecoreClass="services.ecore#//AssignmentView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/localId"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/title"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/locked"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/locked"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ProblemView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/localId"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/locked"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//AssignmentView/id"/>
     </genClasses>
-    <genClasses ecoreClass="services.ecore#//ExtendedProblemView"/>
+    <genClasses ecoreClass="services.ecore#//ExtendedProblemView">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/title"/>
+    </genClasses>
     <genClasses ecoreClass="services.ecore#//CodeProblemView">
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//CodeProblemView/sourceCodeFiles"/>
     </genClasses>
