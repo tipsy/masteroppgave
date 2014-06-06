@@ -2,6 +2,7 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.WebSocket;
 import utility.Utility;
 import views.html.assignment.aProblem;
 import views.html.assignment.allAssignments;
@@ -14,6 +15,19 @@ public class AssignmentController extends Controller {
 
     public static Result serveProblem(String aID, String pID) {
         return ok(aProblem.render(aID, pID));
+    }
+
+    public static WebSocket<String> openEditorSocket(String pID) {
+        return new WebSocket<String>() {
+            public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {
+
+                out.write("Hello from PlayFramework! I see this is problem " + pID);
+
+                in.onMessage(System.out::println);
+
+            }
+
+        };
     }
 
 }

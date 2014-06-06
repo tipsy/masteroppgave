@@ -1,11 +1,20 @@
-
 $(document).ready(function () {
 
-    var editors = [];
+    var editors = initEditors();
+    var webSocket = openNewWebSocket();
+    var annotationList = createAnnotationList(getAnnotationData());
+    editors[0].getSession().setAnnotations(annotationList);
 
-    $(".ace-editor-instance").each(function(){
-        editors.push( createEditor( $(this).attr("id") ));
-    });
+    console.log("Current route is: "+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL());
+
+    webSocket.onopen = function()  { console.log('ws connected'); };
+    webSocket.onerror = function() { console.log('ws errrrrror'); };
+    webSocket.onclose = function() { console.log('ws cloooosed'); };
+    webSocket.onmessage = function(msgevent) {
+        var msg = msgevent.data;
+        console.log(msg);
+        webSocket.send(editors[0].getSession().getValue());
+    };
 
     $("#ae-toggle-fullscreen").click(function(){
         $(".hidden-when-editor-maximized").toggle();
@@ -20,18 +29,19 @@ $(document).ready(function () {
     });
 
     $(".hidden-when-editor-maximized").collapsible(); //makes ever header in this div collapsible
-
     $(".collapsing-header").click(function(){
-        $(this).find("i").toggleClass("fa-angle-down fa-angle-right");
+        $(this).find("i").toggleClass("fa-angle-down fa-angle-right"); //toggle icon on header-click
     });
 
-    var annotationList = [];
-    annotationList.push( new Annotation(1, "This is an error", "error") );
-    annotationList.push( new Annotation(2, "This is a warning", "warning") );
-    annotationList.push( new Annotation(3, "This is information", "info") );
-    updateAnnotations(editors[0], annotationList);
-
 });
+
+function initEditors() {
+    var editors = [];
+    $(".ace-editor-instance").each(function () {
+        editors.push(createEditor($(this).attr("id")));
+    });
+    return editors;
+}
 
 function createEditor(editorID){
     var editor = ace.edit(editorID);
@@ -40,8 +50,30 @@ function createEditor(editorID){
     return editor;
 }
 
-function updateAnnotations(editor, annotations){
-    editor.getSession().setAnnotations(annotations);
+function openNewWebSocket() {
+    return new WebSocket(jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL());
+}
+
+function getCurrentProblemID(){
+    return $("#problem-id").data("problemid");
+}
+
+function createAnnotationList(data) {
+    var annotationList = data.problems.map(function (problem) {
+        return new Annotation(problem.lineNumber, problem.message, problem.type);
+    });
+    return annotationList;
+}
+
+function getAnnotationData() {
+    var data = {
+        "problems": [
+            {"lineNumber": 1, "message": "Something is wrong", "type": "error"},
+            {"lineNumber": 2, "message": "Something else is wrong too", "type": "warning"},
+            {"lineNumber": 3, "message": "THIS. IS. INFORMATION", "type": "info"}
+        ]
+    }
+    return data;
 }
 
 function Annotation(lineNumber, message, type){
