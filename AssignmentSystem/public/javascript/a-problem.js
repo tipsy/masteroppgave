@@ -35,25 +35,19 @@ $(document).ready(function () {
 
 });
 
-function createEditor(editorID){
-    var editor = ace.edit(editorID);
-    editor.setTheme("ace/theme/eclipse");
-    editor.getSession().setMode("ace/mode/java");
-    return editor;
-}
-
-function Annotation(lineNumber, message, type){
-    this.row = lineNumber;
-    this.text = message;
-    this.type = type; // "error", "warning", "info"
-}
-
 function initEditors() {
     var editors = [];
     $(".ace-editor-instance").each(function () {
         editors.push(createEditor($(this).attr("id")));
     });
     return editors;
+}
+
+function createEditor(editorID){
+    var editor = ace.edit(editorID);
+    editor.setTheme("ace/theme/eclipse");
+    editor.getSession().setMode("ace/mode/java");
+    return editor;
 }
 
 function openNewWebSocket() {
@@ -80,4 +74,10 @@ function getAnnotationData() {
         ]
     }
     return data;
+}
+
+function Annotation(lineNumber, message, type){
+    this.row = lineNumber;
+    this.text = message;
+    this.type = type; // "error", "warning", "info"
 }
