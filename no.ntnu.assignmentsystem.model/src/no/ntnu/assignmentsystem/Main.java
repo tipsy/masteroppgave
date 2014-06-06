@@ -2,6 +2,8 @@ package no.ntnu.assignmentsystem;
 
 import java.io.File;
 
+import akka.actor.ActorSystem;
+import akka.actor.UntypedActor;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
@@ -9,20 +11,8 @@ import no.ntnu.assignmentsystem.services.ServicesImpl;
 
 public class Main {
 	public static void main(String[] args) {
-//		try {
-//			File from = new File("../no.hal.jex.collection/tests/tictactoe/TicTacToeTest.java");
-//			File to = new File("../Output/runs/697b3f47-2c32-4cc9-9b3b-15bd2c24087f/src/tests/tictactoe/TicTacToeTest.java");
-////			System.out.println(new File(".").getAbsolutePath());
-////			if (to.isFile()) {
-////				File toDirectory = to.getParentFile();
-////				toDirectory.mkdirs();
-//				Files.createDirectories(to.toPath().getParent());
-//				Files.copy(from.toPath(), to.toPath());
-////			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		ActorSystem system = ActorSystem.create("PiSystem");
+//		ActorSelection selection = context.actorSelection("akka.tcp://app@10.0.0.1:2552/user/serviceA/worker");
 		ModelLoader modelLoader = new XmiModelLoader(new File("model/UoD.xmi"));
 		Services services = new ServicesImpl(modelLoader);
 //		System.out.println(services.getAssignments("userId"));
@@ -33,5 +23,15 @@ public class Main {
 //		System.out.println(((CodeProblemView)services.getProblem("10", "4")).getSourceCodeFiles()); // CodeProblem
 		System.out.println(services.runCodeProblem("10", "4")); // CodeProblem
 //		System.out.println(services.testCodeProblem("10", "4")); // CodeProblem
+	}
+	
+	public class TestActor extends UntypedActor {
+		@Override
+		public void onReceive(Object message) throws Exception {
+			// TODO Auto-generated method stub
+		}
+	}
+	
+	public static class TestMessage {
 	}
 }
