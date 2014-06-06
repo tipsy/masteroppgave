@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem;
+package no.ntnu.assignmentsystem.services;
 
 import java.io.File;
 
@@ -7,7 +7,6 @@ import akka.actor.UntypedActor;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
-import no.ntnu.assignmentsystem.services.ServicesImpl;
 
 public class Main {
 	public static void main(String[] args) {
