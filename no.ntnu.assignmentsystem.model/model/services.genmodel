@@ -7,6 +7,7 @@
   <foreignModel>services.ecore</foreignModel>
   <genPackages prefix="Services" basePackage="no.ntnu.assignmentsystem" disposableProviderFactory="true"
       contentTypeIdentifier="" ecorePackage="services.ecore#/">
+    <genDataTypes ecoreDataType="services.ecore#//ActorRef"/>
     <genClasses ecoreClass="services.ecore#//Services">
       <genOperations ecoreOperation="services.ecore#//Services/getAssignments">
         <genParameters ecoreParameter="services.ecore#//Services/getAssignments/userId"/>
@@ -38,6 +39,10 @@
       </genOperations>
       <genOperations ecoreOperation="services.ecore#//Services/getAchievements">
         <genParameters ecoreParameter="services.ecore#//Services/getAchievements/userId"/>
+      </genOperations>
+      <genOperations ecoreOperation="services.ecore#//Services/createWorkspace">
+        <genParameters ecoreParameter="services.ecore#//Services/createWorkspace/userId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/createWorkspace/problemId"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//AssignmentView">

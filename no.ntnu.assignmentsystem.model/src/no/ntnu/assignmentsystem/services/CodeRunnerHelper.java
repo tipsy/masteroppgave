@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
 import no.ntnu.assignmentsystem.services.coderunner.RuntimeExecutor;
 
-class CodeRunnerHelper {
+public class CodeRunnerHelper {
 	private static final String mainDirectoryName = "main";
 	private static final String testDirectoryName = "test";
 	
