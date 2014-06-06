@@ -7,14 +7,16 @@ GET        /assets/*file                          controllers.Assets.at(path="/p
 GET        /webjars/*file                         controllers.WebJarAssets.at(file)
 
 
-# Application skeleton
+# Application
 GET        /                                      controllers.MainController.index()
 GET        /javascripts-routes                    controllers.MainController.javascriptRoutes()
 
 GET        /assignments                           controllers.AssignmentController.serveAllAssignments()
 GET        /assignments/:aID/problems/:pID        controllers.AssignmentController.serveProblem(aID : String, pID : String)
-GET        /websocket-test                        controllers.AssignmentController.websocketTest()
 
 GET        /leaderboards                          controllers.LeaderboardsController.serveLeaderboards()
 
 GET        /my-progress                           controllers.MyProgressController.serveStudentProgress()
+
+# WebSockets
+GET        /editor/:pID                           controllers.AssignmentController.openEditorSocket(pID : String)

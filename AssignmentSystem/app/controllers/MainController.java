@@ -20,7 +20,7 @@ public class MainController extends Controller {
         response().setContentType("text/javascript");
         return ok(
             Routes.javascriptRouter("jsRoutes",
-                routes.javascript.AssignmentController.websocketTest()
+                routes.javascript.AssignmentController.openEditorSocket()
             )
         );
     }

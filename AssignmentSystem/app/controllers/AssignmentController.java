@@ -17,11 +17,16 @@ public class AssignmentController extends Controller {
         return ok(aProblem.render(aID, pID));
     }
 
-    public static WebSocket<String> websocketTest() {
+    public static WebSocket<String> openEditorSocket(String pID) {
         return new WebSocket<String>() {
             public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {
-                out.write("Hello from PlayFramework!");
+
+                out.write("Hello from PlayFramework! I see this is problem " + pID);
+
+                in.onMessage(System.out::println);
+
             }
+
         };
     }
 

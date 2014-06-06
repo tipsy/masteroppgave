@@ -4,21 +4,16 @@ $(document).ready(function () {
     var editors = [];
     var annotationList;
 
-    console.log(jsRoutes.controllers.AssignmentController.websocketTest().webSocketURL());
-    var ws = new WebSocket(jsRoutes.controllers.AssignmentController.websocketTest().webSocketURL());
+    console.log("Current route is: "+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL());
+    var webSocket = new WebSocket(jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL());
 
-    ws.onopen = function() {
-        console.log('ws connected');
-    };
-    ws.onerror = function() {
-        console.log('ws error');
-    };
-    ws.onclose = function() {
-        console.log('ws closed');
-    };
-    ws.onmessage = function(msgevent) {
+    webSocket.onopen = function()  { console.log('ws connected'); };
+    webSocket.onerror = function() { console.log('ws errrrrror'); };
+    webSocket.onclose = function() { console.log('ws cloooosed'); };
+    webSocket.onmessage = function(msgevent) {
         var msg = msgevent.data;
         console.log(msg);
+        webSocket.send(editors[0].getSession().getValue());
     };
 
     $(".ace-editor-instance").each(function(){
@@ -61,4 +56,8 @@ function Annotation(lineNumber, message, type){
     this.row = lineNumber;
     this.text = message;
     this.type = type; // "error", "warning", "info"
+}
+
+function getCurrentProblemID(){
+    return $("#problem-id").data("problemid");
 }
