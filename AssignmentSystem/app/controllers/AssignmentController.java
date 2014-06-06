@@ -20,7 +20,7 @@ public class AssignmentController extends Controller {
     public static WebSocket<String> websocketTest() {
         return new WebSocket<String>() {
             public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {
-                out.write("Hello!");
+                out.write("Hello from PlayFramework!");
             }
         };
     }

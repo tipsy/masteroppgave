@@ -5,7 +5,21 @@ $(document).ready(function () {
     var annotationList;
 
     console.log(jsRoutes.controllers.AssignmentController.websocketTest().webSocketURL());
-    var webSocket = new WebSocket(jsRoutes.controllers.AssignmentController.websocketTest().webSocketURL());
+    var ws = new WebSocket(jsRoutes.controllers.AssignmentController.websocketTest().webSocketURL());
+
+    ws.onopen = function() {
+        console.log('ws connected');
+    };
+    ws.onerror = function() {
+        console.log('ws error');
+    };
+    ws.onclose = function() {
+        console.log('ws closed');
+    };
+    ws.onmessage = function(msgevent) {
+        var msg = msgevent.data;
+        console.log(msg);
+    };
 
     $(".ace-editor-instance").each(function(){
         editors.push( createEditor( $(this).attr("id") ));
