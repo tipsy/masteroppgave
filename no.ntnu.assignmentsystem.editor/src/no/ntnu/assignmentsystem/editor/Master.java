@@ -1,11 +1,13 @@
 package no.ntnu.assignmentsystem.editor;
 
+import java.io.Serializable;
+
 import akka.actor.UntypedActor;
 
 public class Master extends UntypedActor {
 	@Override
 	public void preStart() {
-		System.out.println("Starting akka...");
+		System.out.println("Starting akka..." + getSelf());
 	}
 	
 	@Override
@@ -15,6 +17,7 @@ public class Master extends UntypedActor {
 		}
 	}
 	
-	public static class Message {
+	public static class Message implements Serializable {
+		private static final long serialVersionUID = 1L;
 	}
 }
