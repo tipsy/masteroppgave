@@ -14,6 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 		ActorSystem system = ActorSystem.create("PiSystem");
 		ActorSelection selection = system.actorSelection("akka.tcp://bundle-734-ActorSystem@127.0.0.1:2552/user/editor");
+//		Future<ActorRef> future = selection.resolveOne(Timeout.intToTimeout(5));
 		selection.tell(new UpdateSourceCode(), ActorRef.noSender());
 //		system.shutdown();
 		
