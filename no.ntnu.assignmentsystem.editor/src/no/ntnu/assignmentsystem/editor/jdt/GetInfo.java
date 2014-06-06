@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.editor.temp;
+package no.ntnu.assignmentsystem.editor.jdt;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
