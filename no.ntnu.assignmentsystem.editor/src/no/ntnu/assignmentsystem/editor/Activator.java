@@ -1,8 +1,9 @@
 package no.ntnu.assignmentsystem.editor;
 
+import no.ntnu.assignmentsystem.editor.akka.EditorActor;
+
 import org.osgi.framework.BundleContext;
 
-import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.osgi.ActorSystemActivator;
@@ -15,7 +16,6 @@ public class Activator extends ActorSystemActivator {
 //		ConfigFactory.parseFile(new File("remote_reference.conf"));
 		registerService(context, system);
 		
-		ActorRef masterActor = system.actorOf(Props.create(Master.class), "master");
-		masterActor.tell(new Master.Message(), null);
+		system.actorOf(Props.create(EditorActor.class), "editor");
 	}
 }

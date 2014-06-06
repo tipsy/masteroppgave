@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.editor.temp;
+package no.ntnu.assignmentsystem.editor.jdt;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

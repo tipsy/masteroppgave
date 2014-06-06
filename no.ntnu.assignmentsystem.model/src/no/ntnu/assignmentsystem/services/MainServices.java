@@ -21,6 +21,7 @@ import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.model.User;
+import no.ntnu.assignmentsystem.services.akka.WorkspaceActor;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.mapping.AssignmentViewFactory;
 import no.ntnu.assignmentsystem.services.mapping.ProblemViewFactory;
@@ -28,7 +29,11 @@ import no.ntnu.assignmentsystem.services.mapping.ProblemViewFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
 
-public class ServicesImpl extends Container implements Services {
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+
+public class MainServices extends Container implements Services {
 	private static final String COURSE_ID = "1";
 
 	private final ModelLoader modelLoader;
@@ -37,12 +42,24 @@ public class ServicesImpl extends Container implements Services {
 	private final File outputDirectory = new File("../Output/runs/" + UUID.randomUUID().toString());
 	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/libs"), new File(outputDirectory, "target"));
 	
-	public ServicesImpl(ModelLoader modelLoader) {
+	private final ActorSystem actorSystem = ActorSystem.create("AssignmentSystem");
+	
+	public MainServices(ModelLoader modelLoader) {
 		this.modelLoader = modelLoader;
 		
 		// Initialize services package
 	    servicesPackage = ServicesPackage.eINSTANCE;
 	    servicesPackage.eClass();
+	    
+//		ActorSelection selection = system.actorSelection("akka.tcp://bundle-734-ActorSystem@127.0.0.1:2552/user/editor");
+//		Future<ActorRef> future = selection.resolveOne(Timeout.intToTimeout(5));
+//		selection.tell(new UpdateSourceCode(), ActorRef.noSender());
+//		system.shutdown();
+	}
+	
+	@Override
+	public ActorRef createWorkspace(String userId, String problemId) {
+		return actorSystem.actorOf(Props.create(WorkspaceActor.class, getUserModel(userId).get(), getProblemModel(problemId).get()));
 	}
 	
 	@Override
