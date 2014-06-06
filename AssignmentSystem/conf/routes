@@ -9,9 +9,11 @@ GET        /webjars/*file                         controllers.WebJarAssets.at(fi
 
 # Application skeleton
 GET        /                                      controllers.MainController.index()
+GET        /javascripts-routes                    controllers.MainController.javascriptRoutes()
 
 GET        /assignments                           controllers.AssignmentController.serveAllAssignments()
 GET        /assignments/:aID/problems/:pID        controllers.AssignmentController.serveProblem(aID : String, pID : String)
+GET        /websocket-test                        controllers.AssignmentController.websocketTest()
 
 GET        /leaderboards                          controllers.LeaderboardsController.serveLeaderboards()
 
