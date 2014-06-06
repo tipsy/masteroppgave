@@ -32,6 +32,6 @@ local.properties
 # Custom
 src-gen/
 data/
-.project
 target/
 build*.xml
+/target/

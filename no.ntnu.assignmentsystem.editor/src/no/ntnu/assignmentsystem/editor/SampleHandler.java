@@ -7,7 +7,7 @@ import org.eclipse.core.commands.ExecutionException;
 public class SampleHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		GenerateProject.doIt();
+		System.out.println("Handler called");
 		
 		return null;
 	}

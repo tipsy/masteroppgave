@@ -32,7 +32,7 @@
       <key
         commandId="no.ntnu.assignmentsystem.editor.commands.sampleCommand"
         contextId="org.eclipse.ui.contexts.window"
-        sequence="M1+6"
+        sequence="M1+7"
         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
       </key>
    </extension>

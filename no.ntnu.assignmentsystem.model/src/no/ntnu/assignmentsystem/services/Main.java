@@ -1,28 +1,22 @@
-package no.ntnu.assignmentsystem;
+package no.ntnu.assignmentsystem.services;
 
 import java.io.File;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSelection;
+import akka.actor.ActorSystem;
+import no.ntnu.assignmentsystem.editor.Master;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
-import no.ntnu.assignmentsystem.services.ServicesImpl;
 
 public class Main {
 	public static void main(String[] args) {
-//		try {
-//			File from = new File("../no.hal.jex.collection/tests/tictactoe/TicTacToeTest.java");
-//			File to = new File("../Output/runs/697b3f47-2c32-4cc9-9b3b-15bd2c24087f/src/tests/tictactoe/TicTacToeTest.java");
-////			System.out.println(new File(".").getAbsolutePath());
-////			if (to.isFile()) {
-////				File toDirectory = to.getParentFile();
-////				toDirectory.mkdirs();
-//				Files.createDirectories(to.toPath().getParent());
-//				Files.copy(from.toPath(), to.toPath());
-////			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		ActorSystem system = ActorSystem.create("PiSystem");
+		ActorSelection selection = system.actorSelection("akka.tcp://bundle-733-ActorSystem@127.0.0.1:2552/user/master");
+		selection.tell(new Master.Message(), ActorRef.noSender());
+//		system.shutdown();
+		
 		ModelLoader modelLoader = new XmiModelLoader(new File("model/UoD.xmi"));
 		Services services = new ServicesImpl(modelLoader);
 //		System.out.println(services.getAssignments("userId"));
