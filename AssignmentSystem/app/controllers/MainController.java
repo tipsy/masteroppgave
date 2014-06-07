@@ -12,7 +12,9 @@ public class MainController extends Controller {
 //        Services services = new ServicesImpl(new File("../AssignmentSystem.model/model/UoD.xmi"));
 //        List<CourseView> courses = services.getCourses();
 //        return ok(views.html.index.render(courses.get(0).getTitle()));
-        return redirect(routes.AssignmentController.serveAllAssignments());
+        System.out.println("MainController index");
+        // return redirect(routes.AssignmentController.serveAllAssignments());
+        return ok("It works");
     }
 
     /* Expose the routes to Javascript */

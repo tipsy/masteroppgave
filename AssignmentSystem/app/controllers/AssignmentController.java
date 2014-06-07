@@ -14,7 +14,9 @@ import views.html.assignment.allAssignments;
 public class AssignmentController extends Controller {
 
     public static Result serveAllAssignments() {
-        return ok(allAssignments.render( Utility.services.getAssignments("10") ));
+        // return ok(allAssignments.render( Utility.services.getAssignments("10") ));
+        System.out.println("Serve all assignments");
+        return ok(allAssignments.render());
     }
 
     public static Result serveProblem(String aID, String pID) {
@@ -22,46 +24,48 @@ public class AssignmentController extends Controller {
     }
 
     public static WebSocket<String> openEditorSocket(String pID) {
-        ActorRef workspaceActor = Utility.services.createWorkspace("10", pID);
-        ActorRef webSocketActor = Akka.system().actorOf(Props.create(WebSocketActor.class, workspaceActor));
+        // ActorRef workspaceActor = Utility.services.createWorkspace("10", pID);
+        // ActorRef webSocketActor = Akka.system().actorOf(Props.create(WebSocketActor.class, workspaceActor));
 
         return new WebSocket<String>() {
             public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {
-                webSocketActor.tell(new WebSocketActor.Init(in, out), ActorRef.noSender());
+                // webSocketActor.tell(new WebSocketActor.Init(in, out), ActorRef.noSender());
+                out.write("This is sent from actor!");
+                in.onMessage(System.out::println);
             }
         };
     }
 
-    public static class WebSocketActor extends UntypedActor {
-        private final ActorRef workspaceActor;
+    // public static class WebSocketActor extends UntypedActor {
+    //     private final ActorRef workspaceActor;
 
-        private WebSocket.In<String> in;
-        private WebSocket.Out<String> out;
+    //     private WebSocket.In<String> in;
+    //     private WebSocket.Out<String> out;
 
-        public WebSocketActor(ActorRef workspaceActor) {
-            this.workspaceActor = workspaceActor;
-        }
+    //     public WebSocketActor(ActorRef workspaceActor) {
+    //         this.workspaceActor = workspaceActor;
+    //     }
 
-        @Override
-        public void onReceive(Object message) throws Exception {
-            if (message instanceof Init) {
-                Init init = (Init)message;
-                in = init.in;
-                out = init.out;
+    //     @Override
+    //     public void onReceive(Object message) throws Exception {
+    //         if (message instanceof Init) {
+    //             Init init = (Init)message;
+    //             in = init.in;
+    //             out = init.out;
 
-                out.write("This is sent from actor!");
-                in.onMessage(System.out::println);
-            }
-        }
+    //             out.write("This is sent from actor!");
+    //             in.onMessage(System.out::println);
+    //         }
+    //     }
 
-        public static class Init {
-            public final WebSocket.In<String> in;
-            public final WebSocket.Out<String> out;
+    //     public static class Init {
+    //         public final WebSocket.In<String> in;
+    //         public final WebSocket.Out<String> out;
 
-            public Init(WebSocket.In<String> in, WebSocket.Out<String> out) {
-                this.in = in;
-                this.out = out;
-            }
-        }
-    }
+    //         public Init(WebSocket.In<String> in, WebSocket.Out<String> out) {
+    //             this.in = in;
+    //             this.out = out;
+    //         }
+    //     }
+    // }
 }

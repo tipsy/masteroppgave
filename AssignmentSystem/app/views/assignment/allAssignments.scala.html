@@ -1,5 +1,3 @@
-@(assignments : java.util.List[no.ntnu.assignmentsystem.services.AssignmentView])
-
 @main("Assignments"){
     <div class="col-lg-9">
         <div class="row">
@@ -18,8 +16,4 @@
     </div>
 
     <script type="text/javascript" src="@routes.Assets.at("javascript/star-rating.js")"></script>
-
-    @for(assignment <- assignments){
-        @assignment.getTitle
-    }
 }
