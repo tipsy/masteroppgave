@@ -14,7 +14,8 @@ import views.html.assignment.allAssignments;
 public class AssignmentController extends Controller {
 
     public static Result serveAllAssignments() {
-        return ok(allAssignments.render( Utility.services.getAssignments("10") ));
+//        return ok(allAssignments.render( Utility.services.getAssignments("10") ));
+        return ok(allAssignments.render());
     }
 
     public static Result serveProblem(String aID, String pID) {
@@ -22,12 +23,12 @@ public class AssignmentController extends Controller {
     }
 
     public static WebSocket<String> openEditorSocket(String pID) {
-        ActorRef workspaceActor = Utility.services.createWorkspace("10", pID);
-        ActorRef webSocketActor = Akka.system().actorOf(Props.create(WebSocketActor.class, workspaceActor));
+//        ActorRef workspaceActor = Utility.services.createWorkspace("10", pID);
+//        ActorRef webSocketActor = Akka.system().actorOf(Props.create(WebSocketActor.class, workspaceActor));
 
         return new WebSocket<String>() {
             public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {
-                webSocketActor.tell(new WebSocketActor.Init(in, out), ActorRef.noSender());
+//                webSocketActor.tell(new WebSocketActor.Init(in, out), ActorRef.noSender());
             }
         };
     }

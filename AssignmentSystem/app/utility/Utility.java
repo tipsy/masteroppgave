@@ -1,9 +1,9 @@
 package utility;
 
-import no.ntnu.assignmentsystem.services.Services;
+//import no.ntnu.assignmentsystem.services.Services;
 
 public class Utility {
 
-    public static Services services;
+//    public static Services services;
 
 }
