@@ -25,33 +25,32 @@ public class Main {
 //		System.out.println(services.runCodeProblem("10", "4")); // CodeProblem
 //		System.out.println(services.testCodeProblem("10", "4")); // CodeProblem
 		
-		ActorSystem testActorSystem = ActorSystem.create("Test");
-		ActorRef testActor = testActorSystem.actorOf(Props.create(TestActor.class));
-		
 		ActorRef workspaceActor = services.createWorkspace("10", "4");
-		testActor.tell(new Start(workspaceActor), null);
+		
+		ActorSystem testActorSystem = ActorSystem.create();
+		testActorSystem.actorOf(Props.create(TestActor.class, workspaceActor));
 	}
 	
 	public static class TestActor extends UntypedActor {
+		private final ActorRef workspaceActor;
+		
+		public TestActor(ActorRef workspaceActor) {
+			this.workspaceActor = workspaceActor;
+		}
+		
+		@Override
+		public void preStart() throws Exception {
+			super.preStart();
+			
+			workspaceActor.tell(new RunCode(), getSelf());
+		}
+		
 		@Override
 		public void onReceive(Object message) throws Exception {
-			if (message instanceof Start) {
-				Start start = (Start)message;
-				System.out.println("Start");
-				start.actor.tell(new RunCode(), getSelf());
-			}
-			else if (message instanceof RunCodeResult) {
+			if (message instanceof RunCodeResult) {
 				RunCodeResult result = (RunCodeResult)message;
 				System.out.println(getSelf() + ": " + result.getResult());
 			}
-		}
-	}
-	
-	public static class Start {
-		public ActorRef actor;
-		
-		public Start(ActorRef actor) {
-			this.actor = actor;
 		}
 	}
 }
