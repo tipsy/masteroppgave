@@ -9,6 +9,7 @@ public abstract class WebSocketActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
+        // TODO: Queue incoming message before Init?
         if (message instanceof Init) {
             handleInit((Init)message);
         }
