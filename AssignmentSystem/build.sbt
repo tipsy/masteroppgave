@@ -2,9 +2,15 @@ name := """AssignmentSystem"""
 
 version := "1.0-SNAPSHOT"
 
+lazy val root = (project in file(".")).enablePlugins(PlayJava)
+
+scalaVersion := "2.10.4"
+
+includeFilter in (Assets, LessKeys.less) := "main.less"
+
 libraryDependencies ++= Seq(
     javaCore,
-    "org.webjars"           %%          "webjars-play"          %       "2.2.2",
+    "org.webjars"           %%          "webjars-play"          %       "2.3.0",
     "org.webjars"           %           "jquery"                %       "2.1.0-3",
     "org.webjars"           %           "bootstrap"             %       "3.1.1-1",
     "org.webjars"           %           "font-awesome"          %       "4.0.3",
@@ -13,4 +19,4 @@ libraryDependencies ++= Seq(
     "org.webjars"           %           "jquery-ui"             %       "1.10.4"
 )
 
-play.Project.playScalaSettings
+
