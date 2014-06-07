@@ -6,8 +6,6 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.10.4"
 
-includeFilter in (Assets, LessKeys.less) := "main.less"
-
 libraryDependencies ++= Seq(
     javaCore,
     "org.webjars"           %%          "webjars-play"          %       "2.3.0",
