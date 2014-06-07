@@ -7,15 +7,23 @@ $(document).ready(function () {
 
     console.log("Current route is: "+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL());
 
-    webSocket.onopen = function()  { console.log('ws connected'); };
-    webSocket.onerror = function() { console.log('ws errrrrror'); };
-    webSocket.onclose = function() { console.log('ws cloooosed'); };
-    webSocket.onmessage = function(msgevent) {
-        var msg = msgevent.data;
-        console.log(msg);
-        webSocket.send(editors[0].getSession().getValue());
+    webSocket.onopen = function() {
+        console.log('ws connected');
+        webSocket.send(JSON.stringify({"type": "test", "message": {"value": "Value"}}));
     };
 
+    webSocket.onerror = function() {
+        console.log('ws error');
+    };
+
+    webSocket.onclose = function() {
+        console.log('ws closed');
+    };
+
+    webSocket.onmessage = function(msgevent) {
+        var object = JSON.parse(msgevent.data);
+        console.log(object);
+    };
 });
 
 function initEditors() {
