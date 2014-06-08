@@ -1,6 +1,6 @@
 package controllers;
 
-import akka.ServicesWebSocketActor;
+import controllers.akka.ServicesWebSocketActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import global.Global;

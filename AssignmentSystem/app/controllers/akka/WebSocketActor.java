@@ -1,4 +1,4 @@
-package akka;
+package controllers.akka;
 
 import akka.actor.UntypedActor;
 import play.mvc.WebSocket;

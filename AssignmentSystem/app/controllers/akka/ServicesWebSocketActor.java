@@ -1,4 +1,4 @@
-package akka;
+package controllers.akka;
 
 import akka.actor.ActorRef;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
