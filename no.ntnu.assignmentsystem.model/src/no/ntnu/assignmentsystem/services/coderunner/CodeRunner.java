@@ -49,10 +49,10 @@ public class CodeRunner {
 		
 		String mainClassName = convertFilePathToClassName(srcDirectory, mainImplementationFile);
 		
-		List<Callable<Process>> commands = Arrays.asList(
-			(Callable<Process>) () -> compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, allImplementationFiles),
-			(Callable<Process>) () -> runMain(runMainClassPathFiles, mainClassName)
-		);
+		String[] commands = {
+			compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, allImplementationFiles),
+			runMain(runMainClassPathFiles, mainClassName)
+		};
 		
 		return runCommands(commands);
 	}
@@ -70,14 +70,14 @@ public class CodeRunner {
 			testFile -> convertFilePathToClassName(testDirectory, testFile)
 		).toArray(String[]::new);
 		
-		Stream<Callable<Process>> compilationCommands = Stream.of(
-			(Callable<Process>) () -> compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, implementationFiles),
-			(Callable<Process>) () -> compileFiles(testOutputDirectory, compileTestFilesClassPathFiles, testFiles)
-		);
-		Stream<Callable<Process>> runTestsCommands = Arrays.stream(testClassNames).map(
-			testClassName -> () -> runTests(runTestsClassPathFiles, testClassName)
-		);
-		List<Callable<Process>> commands = Stream.concat(compilationCommands, runTestsCommands).collect(Collectors.toList());
+		String[] compilationCommands = {
+			compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, implementationFiles),
+			compileFiles(testOutputDirectory, compileTestFilesClassPathFiles, testFiles)
+		};
+		String[] runTestsCommands = Arrays.stream(testClassNames).map(
+			testClassName -> runTests(runTestsClassPathFiles, testClassName)
+		).toArray(String[]::new);
+		String[] commands = Stream.concat(Arrays.stream(compilationCommands), Arrays.stream(runTestsCommands)).toArray(String[]::new);
 		
 		return runCommands(commands);
 	}
@@ -85,10 +85,10 @@ public class CodeRunner {
 	
 	// --- Private methods ---
 	
-	private static String runCommands(List<Callable<Process>> commands) throws Exception {
+	private String runCommands(String[] commands) throws Exception {
 		List<Process> processes = new ArrayList<>();
-		for (Callable<Process> callable : commands) {
-			Process process = callable.call();
+		for (String command : commands) {
+			Process process = executor.exec(command);
 			processes.add(process);
 			
 			if (process.waitFor() != normalExitCode) {
@@ -99,29 +99,23 @@ public class CodeRunner {
 		return getOutputFromProcesses(processes);
 	}
 	
-	private Process compileFiles(File outputDirectory, File[] classPathFiles, File[] sourceCodeFiles) throws IOException {
+	private String compileFiles(File outputDirectory, File[] classPathFiles, File[] sourceCodeFiles) {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		String delimitedSourceCodeFilePaths = getDelimitedSourceCodeFilePaths(sourceCodeFiles);
 		
-		String command = String.format(compileCommandFormat, outputDirectory.getAbsolutePath(), delimitedClassPaths, delimitedSourceCodeFilePaths);
-		
-		return executor.exec(command);
+		return String.format(compileCommandFormat, outputDirectory.getAbsolutePath(), delimitedClassPaths, delimitedSourceCodeFilePaths);
 	}
 	
-	private Process runMain(File[] classPathFiles, String mainClassName) throws IOException {
+	private String runMain(File[] classPathFiles, String mainClassName) {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		
-		String command = String.format(runCommandFormat, delimitedClassPaths, mainClassName);
-		
-		return executor.exec(command);
+		return String.format(runCommandFormat, delimitedClassPaths, mainClassName);
 	}
 	
-	private Process runTests(File[] classPathFiles, String testClassName) throws IOException {
+	private String runTests(File[] classPathFiles, String testClassName) {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		
-		String command = String.format(testCommandFormat, delimitedClassPaths, testClassName);
-		
-		return executor.exec(command);
+		return String.format(testCommandFormat, delimitedClassPaths, testClassName);
 	}
 	
 	private static String getOutputFromProcesses(List<Process> processes) throws IOException {
