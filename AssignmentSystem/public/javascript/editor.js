@@ -9,7 +9,6 @@ $(document).ready(function () {
 
     webSocket.onopen = function() {
         console.log('ws connected');
-        webSocket.send(JSON.stringify({"type": "runCode", "data": {}}));
     };
 
     webSocket.onerror = function() {
@@ -24,6 +23,23 @@ $(document).ready(function () {
         var object = JSON.parse(msgevent.data);
         console.log(object);
     };
+
+    //button-clicks
+    $("#run-code-button").click(function(){
+        webSocket.send(JSON.stringify({"type": "runCode", "data": {}}));
+        console.log("Sent " + JSON.stringify({"type": "runCode", "data": {}}))
+    });
+
+    $("#run-tests-button").click(function(){
+        webSocket.send(JSON.stringify({"type": "runTests", "data": {}}));
+        console.log("Sent " + JSON.stringify({"type": "runTests", "data": {}}))
+    });
+
+    $("#deliver-assignment-button").click(function(){
+        webSocket.send(JSON.stringify({"type": "deliverAssignment", "data": {}}));
+        console.log("Sent " + JSON.stringify({"type": "deliverAssignment", "data": {}}))
+    });
+
 });
 
 function initEditors() {
