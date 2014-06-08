@@ -20,7 +20,7 @@ public class WorkspaceActor extends UntypedActor {
 	private final Problem problem;
 	
 	private final File outputDirectory = new File("../Output/runs/" + UUID.randomUUID().toString());
-	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/libs"), new File(outputDirectory, "target"));
+	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/lib"), new File(outputDirectory, "target"));
 	
 	public WorkspaceActor(User user, Problem problem) {
 		this.user = user;
