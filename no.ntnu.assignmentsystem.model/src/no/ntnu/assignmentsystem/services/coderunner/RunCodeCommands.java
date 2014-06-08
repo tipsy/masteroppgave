@@ -5,38 +5,29 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.SequenceInputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CodeRunner {
+public class RunCodeCommands {
 	private static final String compileCommandFormat = "javac -g -d %s -classpath %s %s"; // Placeholders: output directory, classpaths, implementation files (g-flag includes extra debug information)
 	private static final String runCommandFormat = "java -classpath %s %s"; // Placeholders: classpaths, main class name
 	private static final String testCommandFormat = "java -classpath %s junit.textui.TestRunner %s"; // Placeholders: classpaths, test class names
 	
-	private static final int normalExitCode = 0;
-	
-	private final RuntimeExecutor executor;
 	private final File srcOutputDirectory;
 	private final File testOutputDirectory;
 	private final File[] libFiles;
 	
-	public CodeRunner(RuntimeExecutor executor, File srcOutputDirectory, File testOutputDirectory, File[] libFiles) {
-		if (executor == null || srcOutputDirectory == null || testOutputDirectory == null || libFiles == null) {
+	public RunCodeCommands(File srcOutputDirectory, File testOutputDirectory, File[] libFiles) {
+		if (srcOutputDirectory == null || testOutputDirectory == null || libFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		this.executor = executor;
 		this.srcOutputDirectory = srcOutputDirectory;
 		this.testOutputDirectory = testOutputDirectory;
 		this.libFiles = libFiles;
 	}
 	
-	public String runMain(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws Exception {
+	public String[] runMain(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws Exception {
 		if (srcDirectory == null || mainImplementationFile == null || otherImplementationFiles == null) {
 			throw new IllegalArgumentException();
 		}
@@ -53,10 +44,10 @@ public class CodeRunner {
 			runMain(runMainClassPathFiles, mainClassName)
 		};
 		
-		return runCommands(commands);
+		return commands;
 	}
 	
-	public String runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) throws Exception {
+	public String[] runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) throws Exception {
 		if (srcDirectory == null || testDirectory == null || implementationFiles.length < 1 || testFiles.length < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -78,25 +69,11 @@ public class CodeRunner {
 		).toArray(String[]::new);
 		String[] commands = Stream.concat(Arrays.stream(compilationCommands), Arrays.stream(runTestsCommands)).toArray(String[]::new);
 		
-		return runCommands(commands);
+		return commands;
 	}
 	
 	
 	// --- Private methods ---
-	
-	private String runCommands(String[] commands) throws Exception {
-		List<Process> processes = new ArrayList<>();
-		for (String command : commands) {
-			Process process = executor.exec(command);
-			processes.add(process);
-			
-			if (process.waitFor() != normalExitCode) {
-				break;
-			}
-		}
-		
-		return getOutputFromProcesses(processes);
-	}
 	
 	private String compileFiles(File outputDirectory, File[] classPathFiles, File[] sourceCodeFiles) {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
@@ -115,15 +92,6 @@ public class CodeRunner {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		
 		return String.format(testCommandFormat, delimitedClassPaths, testClassName);
-	}
-	
-	private static String getOutputFromProcesses(List<Process> processes) throws IOException {
-		List<InputStream> inputStreams = processes.stream().flatMap(
-			process -> Arrays.asList(process.getErrorStream(), process.getInputStream()).stream()
-		).collect(Collectors.toList());
-		
-		InputStream combinedStream = new SequenceInputStream(new Vector<InputStream>(inputStreams).elements());
-		return getStringFromInputStream(combinedStream);
 	}
 	
 	private static String getStringFromInputStream(InputStream inputStream) throws IOException {

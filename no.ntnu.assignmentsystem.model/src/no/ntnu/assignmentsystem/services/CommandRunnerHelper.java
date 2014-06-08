@@ -4,28 +4,31 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import no.ntnu.assignmentsystem.services.coderunner.CodeRunner;
-import no.ntnu.assignmentsystem.services.coderunner.RuntimeExecutor;
+import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
+import no.ntnu.assignmentsystem.services.coderunner.RunCodeCommands;
 
-public class CodeRunnerHelper {
+public class CommandRunnerHelper {
 	private static final String mainDirectoryName = "main";
 	private static final String testDirectoryName = "test";
 	
-	private final RuntimeExecutor runtimeExecutor;
 	private final File libDirectory;
 	private final File outputRootDirectory;
+	private final CommandRunner commandRunner;
 	
-	private CodeRunner codeRunner;
+	private RunCodeCommands runCodeCommands;
 	
-	public CodeRunnerHelper(RuntimeExecutor runtimeExecutor, File libDirectory, File outputRootDirectory) {
-		this.runtimeExecutor = runtimeExecutor;
+	public CommandRunnerHelper(CommandRunner commandRunner, File libDirectory, File outputRootDirectory) {
 		this.libDirectory = libDirectory;
 		this.outputRootDirectory = outputRootDirectory;
+		this.commandRunner = commandRunner;
+		
+		runCodeCommands = new RunCodeCommands(createOutputSrcDirectory(), createOutputTestDirectory(), getLibFiles());
 	}
 	
 	public String runCode(File srcDirectory, File mainImplementationFile, File[] implementationFiles) {
 		try {
-			return getCodeRunner().runMain(srcDirectory, mainImplementationFile, implementationFiles);
+			String[] commands = runCodeCommands.runMain(srcDirectory, mainImplementationFile, implementationFiles);
+			return commandRunner.runCommands(commands);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,7 +39,8 @@ public class CodeRunnerHelper {
 	
 	public String runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) {
 		try {
-			return getCodeRunner().runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
+			String[] commands = runCodeCommands.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
+			return commandRunner.runCommands(commands);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,13 +51,6 @@ public class CodeRunnerHelper {
 	
 	
 	// --- Private methods ---
-	
-	private CodeRunner getCodeRunner() {
-		if (codeRunner == null) {
-			codeRunner = new CodeRunner(runtimeExecutor, createOutputSrcDirectory(), createOutputTestDirectory(), getLibFiles());
-		}
-		return codeRunner;
-	}
 	
 	private File[] getLibFiles() {
 		try {

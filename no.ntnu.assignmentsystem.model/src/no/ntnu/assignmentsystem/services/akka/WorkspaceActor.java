@@ -9,9 +9,10 @@ import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.User;
-import no.ntnu.assignmentsystem.services.CodeRunnerHelper;
+import no.ntnu.assignmentsystem.services.CommandRunnerHelper;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
+import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import akka.actor.UntypedActor;
 
@@ -20,11 +21,17 @@ public class WorkspaceActor extends UntypedActor {
 	private final Problem problem;
 	
 	private final File outputDirectory = new File("../Output/runs/" + UUID.randomUUID().toString());
-	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/lib"), new File(outputDirectory, "target"));
+	private final CommandRunner commandRunner = new CommandRunner(new DefaultRuntimeExecutor());
+	private final CommandRunnerHelper codeRunnerHelper = new CommandRunnerHelper(commandRunner, new File("../Output/lib"), new File(outputDirectory, "target"));
 	
 	public WorkspaceActor(User user, Problem problem) {
 		this.user = user;
 		this.problem = problem;
+	}
+	
+	@Override
+	public void preStart() throws Exception {
+		System.out.println("Starting up");
 	}
 	
 	@Override

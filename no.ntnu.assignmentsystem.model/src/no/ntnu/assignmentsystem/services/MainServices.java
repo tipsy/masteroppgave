@@ -22,6 +22,7 @@ import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.model.User;
 import no.ntnu.assignmentsystem.services.akka.WorkspaceActor;
+import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.mapping.AssignmentViewFactory;
 import no.ntnu.assignmentsystem.services.mapping.ProblemViewFactory;
@@ -40,7 +41,8 @@ public class MainServices extends Container implements Services {
 	private final ServicesPackage servicesPackage;
 	
 	private final File outputDirectory = new File("../Output/runs/" + UUID.randomUUID().toString());
-	private final CodeRunnerHelper codeRunnerHelper = new CodeRunnerHelper(new DefaultRuntimeExecutor(), new File("../Output/lib"), new File(outputDirectory, "target"));
+	private final CommandRunner commandRunner = new CommandRunner(new DefaultRuntimeExecutor());
+	private final CommandRunnerHelper codeRunnerHelper = new CommandRunnerHelper(commandRunner, new File("../Output/lib"), new File(outputDirectory, "target"));
 	
 	private final ActorSystem actorSystem = ActorSystem.create("AssignmentSystem");
 	
