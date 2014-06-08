@@ -29,7 +29,6 @@ public class ServicesWebSocketActor extends DynamicWebSocketActor {
     @Override
     protected Map<String, Class> getClassMapping() {
         Map<String, Class> classMapping = new HashMap<>();
-        classMapping.put("test", Test.class);
         classMapping.put("runCode", RunCode.class);
         classMapping.put("runCodeResult", RunCodeResult.class);
 

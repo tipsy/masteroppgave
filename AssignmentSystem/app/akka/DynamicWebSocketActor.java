@@ -1,11 +1,10 @@
 package akka;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.paranamer.ParanamerModule;
 
 import java.io.IOException;
 import java.util.Map;
@@ -13,6 +12,7 @@ import java.util.Map;
 public abstract class DynamicWebSocketActor extends WebSocketActor {
     private final ObjectMapper objectMapper = new ObjectMapper() {{
         configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        registerModule(new ParanamerModule());
     }};
 
     @Override
@@ -21,7 +21,7 @@ public abstract class DynamicWebSocketActor extends WebSocketActor {
 
         try {
             String type = getClassMapping().entrySet().stream().filter(
-                    entry -> entry.getValue().equals(message.getClass())
+                entry -> entry.getValue().equals(message.getClass())
             ).findAny().get().getKey();
 
             MessageWrapper<?> messageWrapper = new MessageWrapper<>(type, message);
@@ -68,8 +68,7 @@ public abstract class DynamicWebSocketActor extends WebSocketActor {
         public String type;
         public T message;
 
-        @JsonCreator
-        public MessageWrapper(@JsonProperty(typeKey) String type, @JsonProperty(messageKey) T message) {
+        public MessageWrapper(String type, T message) {
             this.type = type;
             this.message = message;
         }
