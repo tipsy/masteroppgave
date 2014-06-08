@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     webSocket.onopen = function() {
         console.log('ws connected');
-        webSocket.send(JSON.stringify({"type": "test", "message": {"value": "Value"}}));
+        webSocket.send(JSON.stringify({"type": "runCode", "data": {}}));
     };
 
     webSocket.onerror = function() {

@@ -41,12 +41,12 @@ public abstract class DynamicWebSocketActor extends WebSocketActor {
         try {
             JsonNode rootNode = objectMapper.readTree(data);
             JsonNode typeNode = rootNode.get(MessageWrapper.typeKey);
-            JsonNode messageNode = rootNode.get(MessageWrapper.messageKey);
+            JsonNode dataNode = rootNode.get(MessageWrapper.dataKey);
 
             String type = typeNode.asText();
             Class clazz = getClassMapping().get(type);
 
-            Object message = objectMapper.treeToValue(messageNode, clazz);
+            Object message = objectMapper.treeToValue(dataNode, clazz);
 
             sendMessage(message);
         } catch (IOException e) {
@@ -63,14 +63,14 @@ public abstract class DynamicWebSocketActor extends WebSocketActor {
 
     public static class MessageWrapper<T> {
         public static final String typeKey = "type";
-        public static final String messageKey = "message";
+        public static final String dataKey = "data";
 
         public String type;
-        public T message;
+        public T data;
 
-        public MessageWrapper(String type, T message) {
+        public MessageWrapper(String type, T data) {
             this.type = type;
-            this.message = message;
+            this.data = data;
         }
     }
 }
