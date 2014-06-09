@@ -1,12 +1,8 @@
 package no.ntnu.assignmentsystem.editor;
 
 import no.ntnu.assignmentsystem.editor.akka.EditorActor;
-import no.ntnu.assignmentsystem.editor.jdt.ProjectCreator;
+import no.ntnu.assignmentsystem.editor.jdt.ProjectManager;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 
@@ -25,18 +21,10 @@ public class Application implements IApplication {
 		System.out.println("Application started");
 		
 		System.out.println("Generating project");
-		ProjectCreator projectCreator = new ProjectCreator("weee");
-		projectCreator.updateSourceCode("");
-		
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		
-		IProject[] projects = root.getProjects();
-		
-		System.out.println("Reading projects:");
-		for (IProject project : projects) {
-			System.out.println(project.getName());
-		}
+		ProjectManager projectManager = new ProjectManager("weee");
+		projectManager.updateSourceCode("");
+//		String result = projectManager.runMain();
+//		System.out.println("RESULT:" + result);
 		
 		String[] arguments = (String[])context.getArguments().get("application.args");
 		if (arguments.length == 1) {
@@ -49,7 +37,7 @@ public class Application implements IApplication {
 			Future<ActorRef> future = selection.resolveOne(timeout);
 			ActorRef workspaceActor = (ActorRef)Await.result(future, timeout.duration());
 			
-			Activator.actorSystem.actorOf(Props.create(EditorActor.class, workspaceActor));
+			Activator.actorSystem.actorOf(Props.create(EditorActor.class, workspaceActor, projectManager));
 		}
 		
 		return null;

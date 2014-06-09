@@ -6,11 +6,11 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import no.ntnu.assignmentsystem.editor.akka.messages.RunCode;
+import no.ntnu.assignmentsystem.editor.akka.messages.RunCodeResult;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
 
 public class Main {
 	public static void main(String[] args) {
@@ -42,14 +42,14 @@ public class Main {
 		public void preStart() throws Exception {
 			super.preStart();
 			
-//			workspaceActor.tell(new RunCode(), getSelf());
+			workspaceActor.tell(new RunCode(), getSelf());
 		}
 		
 		@Override
 		public void onReceive(Object message) throws Exception {
 			if (message instanceof RunCodeResult) {
 				RunCodeResult result = (RunCodeResult)message;
-				System.out.println(getSelf() + ": " + result.getResult());
+				System.out.println(getSelf() + ": " + result.output);
 			}
 		}
 	}

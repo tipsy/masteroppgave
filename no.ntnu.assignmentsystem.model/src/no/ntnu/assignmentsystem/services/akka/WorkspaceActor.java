@@ -6,11 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.SequenceInputStream;
 
-import no.ntnu.assignmentsystem.editor.akka.messages.Debug;
 import no.ntnu.assignmentsystem.editor.akka.messages.Ready;
+import no.ntnu.assignmentsystem.editor.akka.messages.RunCode;
+import no.ntnu.assignmentsystem.editor.akka.messages.RunCodeResult;
 import no.ntnu.assignmentsystem.services.Services;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.coderunner.StartPluginCommands;
@@ -32,6 +31,7 @@ public class WorkspaceActor extends UntypedActorWithStash {
 	);
 	
 	private ActorRef editorActor;
+	private ActorRef consumer;
 	
 	public WorkspaceActor(Services services, String userId, String problemId) {
 		this.services = services;
@@ -80,23 +80,25 @@ public class WorkspaceActor extends UntypedActorWithStash {
 	
 	private Procedure<Object> onReceiveWhenReady = message -> {
 		if (message instanceof RunCode) {
-			handleRunCode();
+			handleRunCode((RunCode)message);
 		}
-		else if (message instanceof Debug) {
-			handleDebug((Debug)message);
+		else if (message instanceof RunCodeResult) {
+			handleRunCodeResult((RunCodeResult)message);
 		}
 		else {
 			unhandled(message);
 		}
 	};
 	
-	private void handleRunCode() {
-		String result = services.runCodeProblem(userId, problemId);
-		getSender().tell(new RunCodeResult(result), getSelf());
+	private void handleRunCode(RunCode runCode) {
+//		String result = services.runCodeProblem(userId, problemId);
+//		getSender().tell(new RunCodeResult(result), getSelf());
+		consumer = getSender();
+		editorActor.tell(runCode, getSelf());
 	}
 	
-	private void handleDebug(Debug debug) {
-		System.out.println(debug.value);
+	private void handleRunCodeResult(RunCodeResult runCodeResult) {
+		consumer.tell(runCodeResult, getSelf());
 	}
 	
 	private String getRemoteAddressString() {
