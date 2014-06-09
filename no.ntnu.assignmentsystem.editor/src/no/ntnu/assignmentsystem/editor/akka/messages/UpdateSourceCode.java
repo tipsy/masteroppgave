@@ -4,5 +4,10 @@ import java.io.Serializable;
 
 public class UpdateSourceCode implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	public String sourceCode;
+	
+	public UpdateSourceCode(String sourceCode) {
+		this.sourceCode = sourceCode;
+	}
 }

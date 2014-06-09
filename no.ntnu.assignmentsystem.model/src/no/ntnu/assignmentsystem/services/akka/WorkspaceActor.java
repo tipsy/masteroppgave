@@ -1,7 +1,12 @@
 package no.ntnu.assignmentsystem.services.akka;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.SequenceInputStream;
 
+import no.ntnu.assignmentsystem.editor.akka.messages.Debug;
 import no.ntnu.assignmentsystem.editor.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
@@ -38,10 +43,15 @@ public class WorkspaceActor extends UntypedActorWithStash {
 	public void preStart() throws Exception {
 		System.out.println("Starting up WorkspaceActor");
 		
-		String command = startPluginCommands.getStartPluginCommand(getRemoteAddressString());
-		commandRunner.runCommands(new String[] {command});
+		File tempFile = File.createTempFile("AssignmentSystem-", "");
+		tempFile.delete();
+		tempFile.mkdir();
 		
-		// TODO: The following is debug code
+		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
+		System.out.println(command);
+		Process[] processes = commandRunner.runCommands(new String[] {command});
+//		
+//		// TODO: The following is debug code
 //		InputStream inputStream = processes[0].getInputStream();
 //		InputStream errorStream = processes[0].getErrorStream();
 //		InputStream combinStream = new SequenceInputStream(inputStream, errorStream);
@@ -70,13 +80,24 @@ public class WorkspaceActor extends UntypedActorWithStash {
 	
 	private Procedure<Object> onReceiveWhenReady = message -> {
 		if (message instanceof RunCode) {
-			String result = services.runCodeProblem(userId, problemId);
-			getSender().tell(new RunCodeResult(result), getSelf());
+			handleRunCode();
+		}
+		else if (message instanceof Debug) {
+			handleDebug((Debug)message);
 		}
 		else {
 			unhandled(message);
 		}
 	};
+	
+	private void handleRunCode() {
+		String result = services.runCodeProblem(userId, problemId);
+		getSender().tell(new RunCodeResult(result), getSelf());
+	}
+	
+	private void handleDebug(Debug debug) {
+		System.out.println(debug.value);
+	}
 	
 	private String getRemoteAddressString() {
 		Address address;
