@@ -29,9 +29,6 @@ public class Main {
 		
 		ActorRef workspaceActor = services.createWorkspace("10", "4");
 		testActorSystem.actorOf(Props.create(TestActor.class, workspaceActor));
-		
-		ActorRef workspaceActor2 = services.createWorkspace("10", "4");
-		testActorSystem.actorOf(Props.create(TestActor.class, workspaceActor2));
 	}
 	
 	public static class TestActor extends UntypedActor {
