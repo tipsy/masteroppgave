@@ -4,28 +4,29 @@ import global.Global;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-
+import views.html.sessionManagement.login;
+import views.html.sessionManagement.loggedOut;
 import static play.data.Form.*;
 
 public class LoginController extends Controller {
 
     public static Result login() {
         return ok(
-                views.html.sessionManagement.login.render(form(Login.class))
+                login.render(form(Login.class))
         );
     }
 
     public static Result logout() {
         session().clear();
         return ok(
-                views.html.sessionManagement.loggedOut.render()
+                loggedOut.render()
         );
     }
 
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
         if (loginForm.hasErrors()) {
-            return badRequest(views.html.sessionManagement.login.render(loginForm));
+            return badRequest(login.render(loginForm));
         } else {
             session().clear();
             session("username", loginForm.get().username);
