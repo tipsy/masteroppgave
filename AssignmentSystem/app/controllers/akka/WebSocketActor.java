@@ -14,14 +14,14 @@ public abstract class WebSocketActor extends UntypedActorWithStash {
             handleInit((Init)message);
 
             unstashAll();
-            getContext().become(dispatchMessages, false);
+            getContext().become(onReceiveAfterInit, false);
         }
         else {
             stash();
         }
     }
 
-    Procedure<Object> dispatchMessages = message -> {
+    Procedure<Object> onReceiveAfterInit = message -> {
         actorInputDispatcher(message);
     };
 
