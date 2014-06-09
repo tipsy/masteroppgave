@@ -14,6 +14,7 @@ import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
+import no.ntnu.assignmentsystem.services.coderunner.StartPluginCommands;
 import akka.actor.UntypedActor;
 
 public class WorkspaceActor extends UntypedActor {
@@ -23,6 +24,7 @@ public class WorkspaceActor extends UntypedActor {
 	private final File outputDirectory = new File("../Output/runs/" + UUID.randomUUID().toString());
 	private final CommandRunner commandRunner = new CommandRunner(new DefaultRuntimeExecutor());
 	private final CommandRunnerHelper codeRunnerHelper = new CommandRunnerHelper(commandRunner, new File("../Output/lib"), new File(outputDirectory, "target"));
+	private final StartPluginCommands startPluginCommands = new StartPluginCommands(new File("/Applications/Eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140415-2008.jar"), "no.ntnu.assignmentsystem.editor.Editor"); 
 	
 	public WorkspaceActor(User user, Problem problem) {
 		this.user = user;
@@ -32,6 +34,7 @@ public class WorkspaceActor extends UntypedActor {
 	@Override
 	public void preStart() throws Exception {
 		System.out.println("Starting up");
+//		commandRunner.runCommands(new String[] {startPluginCommands.getStartPluginCommand(null)}, false);
 	}
 	
 	@Override

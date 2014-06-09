@@ -27,7 +27,7 @@ public class CommandRunnerHelper {
 	
 	public String runCode(File srcDirectory, File mainImplementationFile, File[] implementationFiles) {
 		try {
-			String[] commands = runCodeCommands.runMain(srcDirectory, mainImplementationFile, implementationFiles);
+			String[] commands = runCodeCommands.getRunMainCommands(srcDirectory, mainImplementationFile, implementationFiles);
 			return commandRunner.runCommands(commands);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -39,7 +39,7 @@ public class CommandRunnerHelper {
 	
 	public String runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) {
 		try {
-			String[] commands = runCodeCommands.runTests(srcDirectory, testDirectory, implementationFiles, testFiles);
+			String[] commands = runCodeCommands.getRunTestsCommands(srcDirectory, testDirectory, implementationFiles, testFiles);
 			return commandRunner.runCommands(commands);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

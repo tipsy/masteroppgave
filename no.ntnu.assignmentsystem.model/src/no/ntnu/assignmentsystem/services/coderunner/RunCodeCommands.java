@@ -1,10 +1,6 @@
 package no.ntnu.assignmentsystem.services.coderunner;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -27,7 +23,7 @@ public class RunCodeCommands {
 		this.libFiles = libFiles;
 	}
 	
-	public String[] runMain(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws Exception {
+	public String[] getRunMainCommands(File srcDirectory, File mainImplementationFile, File[] otherImplementationFiles) throws Exception {
 		if (srcDirectory == null || mainImplementationFile == null || otherImplementationFiles == null) {
 			throw new IllegalArgumentException();
 		}
@@ -40,14 +36,14 @@ public class RunCodeCommands {
 		String mainClassName = convertFilePathToClassName(srcDirectory, mainImplementationFile);
 		
 		String[] commands = {
-			compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, allImplementationFiles),
-			runMain(runMainClassPathFiles, mainClassName)
+			getCompileFilesCommand(srcOutputDirectory, compileImplementationFilesClassPathFiles, allImplementationFiles),
+			getRunMainCommand(runMainClassPathFiles, mainClassName)
 		};
 		
 		return commands;
 	}
 	
-	public String[] runTests(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) throws Exception {
+	public String[] getRunTestsCommands(File srcDirectory, File testDirectory, File[] implementationFiles, File[] testFiles) throws Exception {
 		if (srcDirectory == null || testDirectory == null || implementationFiles.length < 1 || testFiles.length < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -61,11 +57,11 @@ public class RunCodeCommands {
 		).toArray(String[]::new);
 		
 		String[] compilationCommands = {
-			compileFiles(srcOutputDirectory, compileImplementationFilesClassPathFiles, implementationFiles),
-			compileFiles(testOutputDirectory, compileTestFilesClassPathFiles, testFiles)
+			getCompileFilesCommand(srcOutputDirectory, compileImplementationFilesClassPathFiles, implementationFiles),
+			getCompileFilesCommand(testOutputDirectory, compileTestFilesClassPathFiles, testFiles)
 		};
 		String[] runTestsCommands = Arrays.stream(testClassNames).map(
-			testClassName -> runTests(runTestsClassPathFiles, testClassName)
+			testClassName -> getRunTestsCommand(runTestsClassPathFiles, testClassName)
 		).toArray(String[]::new);
 		String[] commands = Stream.concat(Arrays.stream(compilationCommands), Arrays.stream(runTestsCommands)).toArray(String[]::new);
 		
@@ -75,29 +71,23 @@ public class RunCodeCommands {
 	
 	// --- Private methods ---
 	
-	private String compileFiles(File outputDirectory, File[] classPathFiles, File[] sourceCodeFiles) {
+	private String getCompileFilesCommand(File outputDirectory, File[] classPathFiles, File[] sourceCodeFiles) {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		String delimitedSourceCodeFilePaths = getDelimitedSourceCodeFilePaths(sourceCodeFiles);
 		
 		return String.format(compileCommandFormat, outputDirectory.getAbsolutePath(), delimitedClassPaths, delimitedSourceCodeFilePaths);
 	}
 	
-	private String runMain(File[] classPathFiles, String mainClassName) {
+	private String getRunMainCommand(File[] classPathFiles, String mainClassName) {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		
 		return String.format(runCommandFormat, delimitedClassPaths, mainClassName);
 	}
 	
-	private String runTests(File[] classPathFiles, String testClassName) {
+	private String getRunTestsCommand(File[] classPathFiles, String testClassName) {
 		String delimitedClassPaths = getDelimitedClassPaths(classPathFiles);
 		
 		return String.format(testCommandFormat, delimitedClassPaths, testClassName);
-	}
-	
-	private static String getStringFromInputStream(InputStream inputStream) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-		
-		return reader.lines().reduce("", (concatenatedText, nextLine) -> concatenatedText + System.lineSeparator() + nextLine);
 	}
 	
 	private static String getDelimitedClassPaths(File[] classPathFiles) {
