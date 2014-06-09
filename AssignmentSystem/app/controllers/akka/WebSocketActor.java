@@ -1,22 +1,29 @@
 package controllers.akka;
 
-import akka.actor.UntypedActor;
+import akka.actor.UntypedActorWithStash;
+import akka.japi.Procedure;
 import play.mvc.WebSocket;
 
-public abstract class WebSocketActor extends UntypedActor {
+public abstract class WebSocketActor extends UntypedActorWithStash {
     protected WebSocket.In<String> in;
     protected WebSocket.Out<String> out;
 
     @Override
     public void onReceive(Object message) throws Exception {
-        // TODO: Queue incoming message before Init?
         if (message instanceof Init) {
             handleInit((Init)message);
+
+            unstashAll();
+            getContext().become(dispatchMessages, false);
         }
         else {
-            actorInputDispatcher(message);
+            stash();
         }
     }
+
+    Procedure<Object> dispatchMessages = message -> {
+        actorInputDispatcher(message);
+    };
 
     private void handleInit(Init init) {
         in = init.in;
