@@ -20,19 +20,17 @@ public class CommandRunner {
 		this.executor = executor;
 	}
 	
-	public String runCommands(String[] commands) throws Exception {
-		return runCommands(commands, true);
+	public void runCommands(String[] commands) throws Exception {
+		for (String command : commands) {
+			executor.exec(command);
+		}
 	}
 	
-	public String runCommands(String[] commands, Boolean shouldWait) throws Exception {
+	public String runCommandsAndWait(String[] commands) throws Exception {
 		List<Process> processes = new ArrayList<>();
 		for (String command : commands) {
 			Process process = executor.exec(command);
 			processes.add(process);
-			
-			if (shouldWait == false) {
-				continue;
-			}
 			
 			if (process.waitFor() != normalExitCode) {
 				break;

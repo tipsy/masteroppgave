@@ -61,7 +61,7 @@ public class MainServices extends Container implements Services {
 	
 	@Override
 	public ActorRef createWorkspace(String userId, String problemId) {
-		return actorSystem.actorOf(Props.create(WorkspaceActor.class, getUserModel(userId).get(), getProblemModel(problemId).get()));
+		return actorSystem.actorOf(Props.create(WorkspaceActor.class, this, userId, problemId));
 	}
 	
 	@Override
