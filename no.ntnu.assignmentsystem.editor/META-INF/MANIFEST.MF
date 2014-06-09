@@ -17,4 +17,5 @@ Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.commands
 Bundle-Activator: no.ntnu.assignmentsystem.editor.Activator
 Bundle-ClassPath: .
-Export-Package: .
+Export-Package: .,
+ no.ntnu.assignmentsystem.editor.akka.messages

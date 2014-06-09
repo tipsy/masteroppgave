@@ -20,10 +20,14 @@ public class CommandRunner {
 		this.executor = executor;
 	}
 	
-	public void runCommands(String[] commands) throws Exception {
+	public Process[] runCommands(String[] commands) throws Exception {
+		List<Process> processes = new ArrayList<>();
 		for (String command : commands) {
-			executor.exec(command);
+			Process process = executor.exec(command);
+			processes.add(process);
 		}
+		
+		return (Process[])processes.toArray(new Process[processes.size()]);
 	}
 	
 	public String runCommandsAndWait(String[] commands) throws Exception {

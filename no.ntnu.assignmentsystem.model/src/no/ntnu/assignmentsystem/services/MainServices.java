@@ -61,14 +61,15 @@ public class MainServices extends Container implements Services {
 	
 	@Override
 	public ActorRef createWorkspace(String userId, String problemId) {
-		return actorSystem.actorOf(Props.create(WorkspaceActor.class, this, userId, problemId));
+		// TODO: Create a unique name for the actor (to be able to reuse it later)
+		return actorSystem.actorOf(Props.create(WorkspaceActor.class, this, userId, problemId), "test");
 	}
 	
 	@Override
 	public List<AssignmentView> getAssignments(String userId) {
 		return getCourseModel(COURSE_ID).map(
 			course -> course.getAssignments().stream().map(
-					AssignmentViewFactory::createAssignmentView
+				AssignmentViewFactory::createAssignmentView
 			).collect(Collectors.toList())
 		).orElse(null);
 	}
