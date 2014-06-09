@@ -62,7 +62,7 @@ public class MainServices extends Container implements Services {
 	@Override
 	public ActorRef createWorkspace(String userId, String problemId) {
 		// TODO: Create a unique name for the actor (to be able to reuse it later)
-		return actorSystem.actorOf(Props.create(WorkspaceActor.class, this, userId, problemId), "test");
+		return actorSystem.actorOf(Props.create(WorkspaceActor.class, this, userId, problemId));
 	}
 	
 	@Override

@@ -25,10 +25,13 @@ public class Main {
 //		System.out.println(services.runCodeProblem("10", "4")); // CodeProblem
 //		System.out.println(services.testCodeProblem("10", "4")); // CodeProblem
 		
-		ActorRef workspaceActor = services.createWorkspace("10", "4");
-		
 		ActorSystem testActorSystem = ActorSystem.create();
+		
+		ActorRef workspaceActor = services.createWorkspace("10", "4");
 		testActorSystem.actorOf(Props.create(TestActor.class, workspaceActor));
+		
+		ActorRef workspaceActor2 = services.createWorkspace("10", "4");
+		testActorSystem.actorOf(Props.create(TestActor.class, workspaceActor2));
 	}
 	
 	public static class TestActor extends UntypedActor {
@@ -42,7 +45,7 @@ public class Main {
 		public void preStart() throws Exception {
 			super.preStart();
 			
-			workspaceActor.tell(new RunCode(), getSelf());
+//			workspaceActor.tell(new RunCode(), getSelf());
 		}
 		
 		@Override
