@@ -46,7 +46,6 @@ public class LoginController extends Controller {
 //            if (Global.services.authenticate(username, password) == null) {
 //                return "Wrong username or password";
 //            }
-//            session().put("userid", Global.services.authenticate(username, password));
             return null;
         }
     }
