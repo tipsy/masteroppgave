@@ -13,11 +13,11 @@ import akka.actor.UntypedActor;
 
 public class PluginActor extends UntypedActor {
 	private final ActorRef editorActor;
-	private final WorkspaceManager projectManager;
+	private final WorkspaceManager workspaceManager;
 	
-	public PluginActor(ActorRef editorActor, WorkspaceManager projectManager) {
+	public PluginActor(ActorRef editorActor, WorkspaceManager workspaceManager) {
 		this.editorActor = editorActor;
-		this.projectManager = projectManager;
+		this.workspaceManager = workspaceManager;
 	}
 	
 	@Override
@@ -44,11 +44,11 @@ public class PluginActor extends UntypedActor {
 	// --- Handlers ---
 	
 	private void handleUpdateSourceCode(PluginUpdateSourceCode updateSourceCode) throws JavaModelException, CoreException {
-		projectManager.updateSourceCode(updateSourceCode.packageName, updateSourceCode.fileName, updateSourceCode.sourceCode);
+		workspaceManager.updateSourceCode(updateSourceCode.packageName, updateSourceCode.fileName, updateSourceCode.sourceCode);
 	}
 	
 	private void handleRunCode(PluginRunCode runCode) throws CoreException {
-		String result = projectManager.runMain(runCode.qualifiedClassName);
+		String result = workspaceManager.runMain(runCode.qualifiedClassName);
 		getSender().tell(new PluginRunCodeResult(result), getSelf());
 	}
 }

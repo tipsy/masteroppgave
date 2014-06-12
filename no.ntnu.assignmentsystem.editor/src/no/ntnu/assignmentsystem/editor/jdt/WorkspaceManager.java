@@ -10,17 +10,17 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.Launch;
 import org.eclipse.debug.core.model.IProcess;
+import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IOpenable;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.WorkingCopyOwner;
 import org.eclipse.jdt.junit.JUnitCore;
-import org.eclipse.jdt.junit.TestRunListener;
-import org.eclipse.jdt.junit.model.ITestCaseElement;
-import org.eclipse.jdt.junit.model.ITestRunSession;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.JavaRuntime;
@@ -41,9 +41,29 @@ public class WorkspaceManager {
 	}
 	
 	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException {
+//		IPackageFragment packageFragment = getSrcFolder().getPackageFragment(packageName);
+//		if (packageFragment != null) {
+//			ICompilationUnit originalCompilationUnit = packageFragment.getCompilationUnit(fileName);
+//			if (originalCompilationUnit != null) {
+//			    ICompilationUnit workingCopy = originalCompilationUnit.getWorkingCopy(null);
+//			    
+//			    IBuffer buffer = ((IOpenable)workingCopy).getBuffer();
+//			    buffer.setContents(sourceCode);
+//			    workingCopy.reconcile(ICompilationUnit.NO_AST, false, null, null);
+//			    
+//			    workingCopy.commitWorkingCopy(false, null);
+//			    
+//			    workingCopy.discardWorkingCopy();
+//			    
+//			    return;
+//			}
+//		}
+		
 		IPackageFragment fragment = getSrcFolder().createPackageFragment(packageName, true, null);
 		ICompilationUnit compilationUnit = fragment.createCompilationUnit(fileName, sourceCode, false, null);
-		compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+//		compilationUnit.save(null, false);
+//		compilationUnit.reconcile(ICompilationUnit.NO_AST, false, null, null);
+//		compilationUnit.commitWorkingCopy(false, null);
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
