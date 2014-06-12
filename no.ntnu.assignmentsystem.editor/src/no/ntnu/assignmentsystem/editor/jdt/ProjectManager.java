@@ -6,12 +6,9 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationType;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.core.Launch;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -19,13 +16,14 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+import org.eclipse.jdt.launching.IVMInstall;
+import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jdt.launching.VMRunnerConfiguration;
 
 public class ProjectManager {
 	private static final String srcFolderName = "src";
-	private static final String binFolderName = "bin";
-	private static final String configName = "RunConfig"; 
+	private static final String binFolderName = "bin"; 
 	
 	private final String projectName;
 	
@@ -43,29 +41,31 @@ public class ProjectManager {
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
-		return launch(getJavaProject(), configName, qualifiedClassName);
+		return launch(getJavaProject(), qualifiedClassName);
 	}
 
 
 	// --- Private methods ---
 	
-	private String launch(IJavaProject javaProject, String configName, String main) throws CoreException {
-		DebugPlugin plugin = DebugPlugin.getDefault();
-		ILaunchManager launchManager = plugin.getLaunchManager();
-		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-		ILaunchConfigurationWorkingCopy workingCopy = launchConfigurationType.newInstance(null, configName);
-		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, javaProject.getElementName());
-		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, main);
-		ILaunchConfiguration launchConfiguration = workingCopy.doSave();   
-		ILaunch launch = launchConfiguration.launch(ILaunchManager.RUN_MODE, null);
+	private String launch(IJavaProject proj, String main) throws CoreException {
+		IVMInstall vm = JavaRuntime.getVMInstall(proj);
+		if (vm == null) { vm = JavaRuntime.getDefaultVMInstall(); }
+		IVMRunner vmr = vm.getVMRunner(ILaunchManager.RUN_MODE);
+		String[] cp = JavaRuntime.computeDefaultRuntimeClassPath(proj);
+		System.out.println("cp.length:" + cp.length);
+		System.out.println("cp[0]:" + cp[0]);
+		VMRunnerConfiguration config = new VMRunnerConfiguration(main, cp);
+		ILaunch launch = new Launch(null, ILaunchManager.RUN_MODE, null);
+		vmr.run(config, launch, null);
 		
 		while (!launch.isTerminated()) {
+			System.out.println("Is it running?");
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException ie) {
 			}
 		}
-		
+	    
 		String output = "";
 		
 		IProcess[] processes = launch.getProcesses();
@@ -127,36 +127,4 @@ public class ProjectManager {
 	private IWorkspaceRoot getWorkspaceRoot() {
 		return ResourcesPlugin.getWorkspace().getRoot();
 	}
-	
-//private String launch(IJavaProject proj, String main) throws CoreException {
-//	IVMInstall vm = JavaRuntime.getVMInstall(proj);
-//	if (vm == null) { vm = JavaRuntime.getDefaultVMInstall(); }
-//	IVMRunner vmr = vm.getVMRunner(ILaunchManager.RUN_MODE);
-//	String[] cp = JavaRuntime.computeDefaultRuntimeClassPath(proj);
-//	System.out.println("cp.length:" + cp.length);
-//	System.out.println("cp[0]:" + cp[0]);
-//	VMRunnerConfiguration config = new VMRunnerConfiguration(main, cp);
-//	ILaunch launch = new Launch(null, ILaunchManager.RUN_MODE, null);
-//	vmr.run(config, launch, null);
-//	
-//	while (!launch.isTerminated()) {
-//		System.out.println("Is it running?");
-//		try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException ie) {
-//		}
-//	}
-//    
-//	IProcess[] processes = launch.getProcesses();
-//	for (IProcess process : processes) {
-//		String outputStream = process.getStreamsProxy().getOutputStreamMonitor().getContents();
-//		if (outputStream != null && outputStream.length() > 0) {
-//			System.out.println("Output stream:" + outputStream);
-//		}
-//		String errorStream = process.getStreamsProxy().getErrorStreamMonitor().getContents();
-//		if (errorStream != null && errorStream.length() > 0) {
-//			System.out.println("Error stream:" + errorStream);
-//		}
-//	}
-//}
 }

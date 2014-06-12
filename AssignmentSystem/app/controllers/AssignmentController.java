@@ -24,7 +24,7 @@ public class AssignmentController extends Controller {
     }
 
     public static WebSocket<String> openEditorSocket(String pID) {
-        ActorRef workspaceActor = Global.services.createWorkspace("10", "4");
+        ActorRef workspaceActor = Global.services.createEditor("10", "4");
         ActorRef webSocketActor = Akka.system().actorOf(Props.create(ServicesWebSocketActor.class, workspaceActor));
 
         return new WebSocket<String>() {

@@ -15,6 +15,7 @@ import akka.actor.Props;
 import akka.util.Timeout;
 
 public class Application implements IApplication {
+	private static final long timeoutSeconds = 5;
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
@@ -27,11 +28,11 @@ public class Application implements IApplication {
 			System.out.println("Received remote address:" + path);
 			
 			ActorSelection selection = Activator.actorSystem.actorSelection(path);
-			Timeout timeout = new Timeout(Duration.create(5, "seconds"));
+			Timeout timeout = new Timeout(Duration.create(timeoutSeconds, "seconds"));
 			Future<ActorRef> future = selection.resolveOne(timeout);
 			ActorRef editorActor = (ActorRef)Await.result(future, timeout.duration());
 			
-			System.out.println("Found EditorActor:" + editorActor);
+			System.out.println("Resolved EditorActor:" + editorActor);
 			
 			ProjectManager projectManager = new ProjectManager("PluginProject"); // TODO: Make it changeable
 			Activator.actorSystem.actorOf(Props.create(PluginActor.class, editorActor, projectManager));

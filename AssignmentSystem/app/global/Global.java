@@ -3,6 +3,7 @@ package global;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.MainServices;
+import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.Services;
 import play.Application;
 import play.GlobalSettings;
@@ -16,7 +17,8 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
         File modelData = new File("../no.ntnu.assignmentsystem.model/model/UoD.xmi");
         ModelLoader modelLoader = new XmiModelLoader(modelData);
-        services = new MainServices(modelLoader);
+        ModelServices modelServices = new ModelServices(modelLoader);
+        services = new MainServices(modelServices);
     }
 
     @Override

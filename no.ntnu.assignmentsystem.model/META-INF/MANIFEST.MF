@@ -22,7 +22,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.typesafe.akka.actor;bundle-version="2.3.3",
  com.typesafe.akka.remote;bundle-version="2.3.3",
  com.google.protobuf;bundle-version="2.5.0",
- org.jboss.netty;bundle-version="3.8.0",
- no.ntnu.assignmentsystem.editor
+ org.jboss.netty;bundle-version="3.8.0"
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.emf.ecore.xmi.impl
+Import-Package: no.ntnu.assignmentsystem.editor.akka.messages,
+ org.eclipse.emf.ecore.xmi.impl

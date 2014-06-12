@@ -7,6 +7,8 @@ import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCode;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.model.CodeProblem;
+import no.ntnu.assignmentsystem.model.ImplementationFile;
+import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
@@ -86,22 +88,22 @@ public class EditorActor extends UntypedActorWithStash {
 	// --- Handlers ---
 	
 	private void handleRunCode(RunCode runCode) {
-		// TODO: Implement
-		String sourceCode = "package example;\n" +
-			"\n" +
-			"import java.util.*;\n" +
-			"\n" +
-			"public class HelloWorld {\n" +
-			"  public static void main(String[] args) {\n" +
-			"    System.out.println(\"Hello world\");\n" +
-			"  }\n" +
-			"}\n";
-		pluginActor.tell(new PluginUpdateSourceCode("example", "HelloWorld.java", sourceCode), getSelf());
-		pluginActor.tell(new PluginRunCode("example.HelloWorld"), getSelf());
+		modelServices.getProblem(problemId).ifPresent(problem -> {
+			CodeProblem codeProblem = (CodeProblem)problem;
+			ImplementationFile mainImplementationFile = codeProblem.getMainImplementationFile();
+			
+			String qualifiedClassName = String.format("%s.%s", mainImplementationFile.getPackageName(), getClassName(mainImplementationFile));
+			
+			pluginActor.tell(new PluginRunCode(qualifiedClassName), getSelf());
+		});
 	}
 	
 	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
-		// TODO: Implement
+		modelServices.getSourceCodeFile(updateSourceCode.id).ifPresent(sourceCodeFile -> {
+			// TODO: Save to model
+			
+			pluginActor.tell(new PluginUpdateSourceCode(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), sourceCodeFile.getSourceCode()), getSelf());
+		});
 	}
 	
 	private void handlePluginRunCodeResult(PluginRunCodeResult pluginRunCodeResult) {
@@ -124,13 +126,9 @@ public class EditorActor extends UntypedActorWithStash {
 		modelServices.getProblem(problemId).ifPresent(problem -> {
 			CodeProblem codeProblem = (CodeProblem)problem;
 			codeProblem.getSourceCodeFiles().stream().forEach(sourceCodeFile -> {
-				
+				pluginActor.tell(new PluginUpdateSourceCode(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), sourceCodeFile.getSourceCode()), getSelf());
 			});
 		});
-//		CodeProblemView codeProblemView = (CodeProblemView)services.getProblem(userId, problemId);
-//		codeProblemView.getSourceCodeFiles().stream().forEach(sourceCodeFile -> {
-////			pluginActor.tell(new PluginUpdateSourceCode("", "", ""), getSelf());
-//		});
 	}
 	
 	private String getRemoteAddressString() {
@@ -142,5 +140,13 @@ public class EditorActor extends UntypedActorWithStash {
 		}
 		
 		return getSelf().path().toStringWithAddress(address);
+	}
+	
+	private static String getFileName(SourceCodeFile sourceCodeFile) {
+		return new File(sourceCodeFile.getFilePath()).getName();
+	}
+	
+	private static String getClassName(SourceCodeFile sourceCodeFile) {
+		return getFileName(sourceCodeFile).replace(".java", "");
 	}
 }
