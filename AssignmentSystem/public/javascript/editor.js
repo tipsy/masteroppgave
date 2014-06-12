@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     $(editors).each(function() {
         var editor = this;
-        
+
         this.on('change', function() {
             throttle(function(){
                 //this code is called 400ms after the last change-event
@@ -38,12 +38,9 @@ $(document).ready(function () {
                 var fileId = $(editor.container).attr('data-file-id');
                 var sourceCode = editor.getSession().getValue();
 
-                sendMessage({
-                    "type": "updateSourceCode",
-                    "data": {
-                        "id": fileId.toString(),
-                        "sourceCode": sourceCode
-                    }
+                sendMessage("updateSourceCode", {
+                    "id": fileId.toString(),
+                    "sourceCode": sourceCode
                 });
             }, 400);
         });
@@ -71,20 +68,23 @@ $(document).ready(function () {
     });
 
     $("#run-code-button").click(function(){
-        sendMessage({"type": "runCode", "data": {}});
+        sendMessage("runCode");
     });
 
     $("#run-tests-button").click(function(){
-        sendMessage({"type": "runTests", "data": {}});
+        sendMessage("runTests");
     });
 
     $("#deliver-assignment-button").click(function(){
-        sendMessage({"type": "deliverAssignment", "data": {}});
+        sendMessage("deliverAssignment");
     });
 
-    function sendMessage(message) {
-        webSocket.send(JSON.stringify(message));
-        console.log("Sent " + JSON.stringify(message));
+    function sendMessage(type, message) {
+        message = message || {};
+        var data = JSON.stringify({type: type, data: message});
+
+        webSocket.send(data);
+        console.log("Sent: " + data);
     }
 });
 
