@@ -30,6 +30,7 @@ public class EditorActor extends UntypedActorWithStash {
 	private final CommandRunner commandRunner = new CommandRunner(new DefaultRuntimeExecutor());
 	private final StartPluginCommands startPluginCommands = new StartPluginCommands(
 		new File("/Applications/Eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140415-2008.jar"),
+//		new File("C:/eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140224-1459.jar"),
 		"no.ntnu.assignmentsystem.editor.Editor"
 	);
 	
