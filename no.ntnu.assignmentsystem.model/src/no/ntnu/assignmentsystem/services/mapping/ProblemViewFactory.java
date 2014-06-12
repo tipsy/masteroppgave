@@ -1,5 +1,7 @@
 package no.ntnu.assignmentsystem.services.mapping;
 
+import java.io.File;
+
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.Problem;
 import no.ntnu.assignmentsystem.model.QuizProblem;
@@ -38,11 +40,18 @@ public class ProblemViewFactory extends BaseViewFactory {
 		CodeProblemView codeProblemView = getFactory().createCodeProblemView();
 		
 		codeProblem.getSourceCodeFiles().forEach(sourceCodeFile -> {
-			SourceCodeFileView sourceCodeFileView = getFactory().createSourceCodeFileView();
-			Mapper.copyAttributes(sourceCodeFile, sourceCodeFileView);
-			sourceCodeFileView.setSourceCode(getSourceCode(student, sourceCodeFile));
-			
-			codeProblemView.getSourceCodeFiles().add(sourceCodeFileView);
+			if (sourceCodeFile.isVisible()) {
+				SourceCodeFileView sourceCodeFileView = getFactory().createSourceCodeFileView();
+				
+				Mapper.copyAttributes(sourceCodeFile, sourceCodeFileView);
+				
+				sourceCodeFileView.setSourceCode(getSourceCode(student, sourceCodeFile));
+				
+				String fileName = new File(sourceCodeFile.getFilePath()).getName();
+				sourceCodeFileView.setTitle(fileName);
+				
+				codeProblemView.getSourceCodeFiles().add(sourceCodeFileView);
+			}
 		});
 		
 		return codeProblemView;

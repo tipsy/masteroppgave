@@ -17,6 +17,10 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.junit.JUnitCore;
+import org.eclipse.jdt.junit.TestRunListener;
+import org.eclipse.jdt.junit.model.ITestCaseElement;
+import org.eclipse.jdt.junit.model.ITestRunSession;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.JavaRuntime;
@@ -61,7 +65,6 @@ public class WorkspaceManager {
 		virtualMachineRunner.run(config, launch, null);
 		
 		while (!launch.isTerminated()) {
-			System.out.println("Is it running?");
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException ie) {
@@ -85,6 +88,25 @@ public class WorkspaceManager {
 		
 		return output;
 	}
+
+	private IJavaProject getJavaProject() throws CoreException {
+		if (_javaProject == null) {
+			_javaProject = JavaCore.create(getProject());
+			
+//			JavaRuntime.get
+			
+			IClasspathEntry[] buildPath = {
+				JavaRuntime.getDefaultJREContainerEntry(),
+				JavaCore.newContainerEntry(JUnitCore.JUNIT3_CONTAINER_PATH),
+//				JavaCore.newLibraryEntry(path, null, null)
+				JavaCore.newSourceEntry(getProject().getFullPath().append(srcFolderName))
+			};
+			
+			_javaProject.setRawClasspath(buildPath, getProject().getFullPath().append(binFolderName), null);
+		}
+		
+		return _javaProject;
+	}
 	
 	private IPackageFragmentRoot getSrcFolder() throws CoreException {
 		if (_srcFolder == null) {
@@ -95,21 +117,6 @@ public class WorkspaceManager {
 		}
 		
 		return _srcFolder;
-	}
-	
-	private IJavaProject getJavaProject() throws CoreException {
-		if (_javaProject == null) {
-			_javaProject = JavaCore.create(getProject());
-			
-			IClasspathEntry[] buildPath = {
-				JavaCore.newSourceEntry(getProject().getFullPath().append(srcFolderName)),
-				JavaRuntime.getDefaultJREContainerEntry()
-			};
-			
-			_javaProject.setRawClasspath(buildPath, getProject().getFullPath().append(binFolderName), null);
-		}
-		
-		return _javaProject;
 	}
 	
 	private IProject getProject() throws CoreException {

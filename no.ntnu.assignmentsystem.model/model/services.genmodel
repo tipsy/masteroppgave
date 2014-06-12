@@ -43,6 +43,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/localId"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/editable"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ProblemView/progress"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ExtendedProblemView"/>
