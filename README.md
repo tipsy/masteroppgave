@@ -8,8 +8,8 @@ Master's thesis by Christian Rasmussen and David Åse.
 
 1. Start Eclipse
 2. Set workspace to the root of project (the folder containing README.md)
-3. Open File > Import...
-4. Select General > Existing Projects into Workspace
+3. Open "File" > "Import..."
+4. Select "General" > "Existing Projects into Workspace"
 5. Press "Next"
 6. In the "Select root directory" field, browse to "<projectDir>/no.ntnu.assignmentsystem.model"
 7. Make sure the project is checked
@@ -17,7 +17,7 @@ Master's thesis by Christian Rasmussen and David Åse.
 
 ### Installing Java 8 plugin
 
-1. Go to Help
+1. Go to "Help" in the menu bar
 2. Open "Eclipse Marketplace"
 3. Search for ```java 8 kepler```
 4. Install "Java 8 support for Eclipse Kepler SR2"
@@ -28,11 +28,11 @@ Master's thesis by Christian Rasmussen and David Åse.
 2. If jre8 is not in the list, click "Add"
 3. Choose "Standard VM"
 4. Set "JRE Home" to your jre8 path. 
-5. Click finish
+5. Click "Finish"
 
 ### Installing Maven plugin
 
-1. Go to Help
+1. Go to "Help" in the menu bar
 2. Open "Eclipse Marketplace"
 3. Search for ```maven 1.4```
 4. Install "Maven Integration for Eclipse (Juno or newer) 1.4"
