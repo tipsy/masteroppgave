@@ -1,7 +1,7 @@
 package no.ntnu.assignmentsystem.editor;
 
 import no.ntnu.assignmentsystem.editor.akka.PluginActor;
-import no.ntnu.assignmentsystem.editor.jdt.ProjectManager;
+import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -34,7 +34,7 @@ public class Application implements IApplication {
 			
 			System.out.println("Resolved EditorActor:" + editorActor);
 			
-			ProjectManager projectManager = new ProjectManager("PluginProject"); // TODO: Make it changeable
+			WorkspaceManager projectManager = new WorkspaceManager("PluginProject"); // TODO: Make it changeable
 			Activator.actorSystem.actorOf(Props.create(PluginActor.class, editorActor, projectManager));
 		}
 		

@@ -11,6 +11,7 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.Launch;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -21,7 +22,7 @@ import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
 
-public class ProjectManager {
+public class WorkspaceManager {
 	private static final String srcFolderName = "src";
 	private static final String binFolderName = "bin"; 
 	
@@ -31,13 +32,14 @@ public class ProjectManager {
 	private IJavaProject _javaProject;
 	private IPackageFragmentRoot _srcFolder;
 	
-	public ProjectManager(String projectName) {
+	public WorkspaceManager(String projectName) {
 		this.projectName = projectName;
 	}
 	
 	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException {
 		IPackageFragment fragment = getSrcFolder().createPackageFragment(packageName, true, null);
-		fragment.createCompilationUnit(fileName, sourceCode, false, null);
+		ICompilationUnit compilationUnit = fragment.createCompilationUnit(fileName, sourceCode, false, null);
+		compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
@@ -47,16 +49,16 @@ public class ProjectManager {
 
 	// --- Private methods ---
 	
-	private String launch(IJavaProject proj, String main) throws CoreException {
-		IVMInstall vm = JavaRuntime.getVMInstall(proj);
-		if (vm == null) { vm = JavaRuntime.getDefaultVMInstall(); }
-		IVMRunner vmr = vm.getVMRunner(ILaunchManager.RUN_MODE);
-		String[] cp = JavaRuntime.computeDefaultRuntimeClassPath(proj);
-		System.out.println("cp.length:" + cp.length);
-		System.out.println("cp[0]:" + cp[0]);
-		VMRunnerConfiguration config = new VMRunnerConfiguration(main, cp);
+	private String launch(IJavaProject project, String qualifiedClassName) throws CoreException {
+		IVMInstall virtualMachine = JavaRuntime.getVMInstall(project);
+		if (virtualMachine == null) {
+			virtualMachine = JavaRuntime.getDefaultVMInstall();
+		}
+		IVMRunner virtualMachineRunner = virtualMachine.getVMRunner(ILaunchManager.RUN_MODE);
+		String[] classPath = JavaRuntime.computeDefaultRuntimeClassPath(project);
+		VMRunnerConfiguration config = new VMRunnerConfiguration(qualifiedClassName, classPath);
 		ILaunch launch = new Launch(null, ILaunchManager.RUN_MODE, null);
-		vmr.run(config, launch, null);
+		virtualMachineRunner.run(config, launch, null);
 		
 		while (!launch.isTerminated()) {
 			System.out.println("Is it running?");

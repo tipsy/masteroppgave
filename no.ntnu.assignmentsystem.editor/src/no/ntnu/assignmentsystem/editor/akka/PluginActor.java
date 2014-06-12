@@ -7,15 +7,15 @@ import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCode;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
-import no.ntnu.assignmentsystem.editor.jdt.ProjectManager;
+import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 
 public class PluginActor extends UntypedActor {
 	private final ActorRef editorActor;
-	private final ProjectManager projectManager;
+	private final WorkspaceManager projectManager;
 	
-	public PluginActor(ActorRef editorActor, ProjectManager projectManager) {
+	public PluginActor(ActorRef editorActor, WorkspaceManager projectManager) {
 		this.editorActor = editorActor;
 		this.projectManager = projectManager;
 	}

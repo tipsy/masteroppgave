@@ -52,6 +52,7 @@ public class Main {
 			if (message instanceof RunCodeResult) {
 				RunCodeResult result = (RunCodeResult)message;
 				System.out.println(getSelf() + ": " + result.output);
+				workspaceActor.tell(new RunCode(), getSelf());
 			}
 		}
 	}
