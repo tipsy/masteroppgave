@@ -39,8 +39,8 @@ $(document).ready(function () {
                 var sourceCode = editor.getSession().getValue();
 
                 sendMessage("updateSourceCode", {
-                    "id": fileId.toString(),
-                    "sourceCode": sourceCode
+                    id: fileId,
+                    sourceCode: sourceCode
                 });
             }, 400);
         });
