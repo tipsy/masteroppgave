@@ -1,6 +1,6 @@
 package no.ntnu.assignmentsystem.editor;
 
-import no.ntnu.assignmentsystem.editor.akka.EditorActor;
+import no.ntnu.assignmentsystem.editor.akka.WorkspaceActor;
 import no.ntnu.assignmentsystem.editor.jdt.ProjectManager;
 
 import org.eclipse.equinox.app.IApplication;
@@ -37,7 +37,7 @@ public class Application implements IApplication {
 			Future<ActorRef> future = selection.resolveOne(timeout);
 			ActorRef workspaceActor = (ActorRef)Await.result(future, timeout.duration());
 			
-			Activator.actorSystem.actorOf(Props.create(EditorActor.class, workspaceActor, projectManager));
+			Activator.actorSystem.actorOf(Props.create(WorkspaceActor.class, workspaceActor, projectManager));
 		}
 		
 		return null;

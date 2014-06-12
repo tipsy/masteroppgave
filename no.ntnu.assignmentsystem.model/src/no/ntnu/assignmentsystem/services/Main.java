@@ -6,11 +6,11 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import no.ntnu.assignmentsystem.editor.akka.messages.RunCode;
-import no.ntnu.assignmentsystem.editor.akka.messages.RunCodeResult;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
+import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
+import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
 
 public class Main {
 	public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class Main {
 		
 		ActorSystem testActorSystem = ActorSystem.create();
 		
-		ActorRef workspaceActor = services.createWorkspace("10", "4");
+		ActorRef workspaceActor = services.createEditor("10", "4");
 		testActorSystem.actorOf(Props.create(TestActor.class, workspaceActor));
 	}
 	

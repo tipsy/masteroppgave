@@ -34,7 +34,7 @@
     <eOperations name="getAchievements" upperBound="-1" eType="#//AchievementView">
       <eParameters name="userId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
-    <eOperations name="createWorkspace" eType="#//ActorRef">
+    <eOperations name="createEditor" eType="#//ActorRef">
       <eParameters name="userId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="problemId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>

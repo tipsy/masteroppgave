@@ -56,15 +56,10 @@ public class ProjectManager {
 		String str = "package example;\n" +
 				"\n" +
 				"import java.util.*;\n" +
-				"import java.io.File;\n" +
-				"import java.io.IOException;\n" +
-				"import java.nio.file.Files;\n" +
 				"\n" +
 				"public class HelloWorld {\n" +
 				"  public static void main(String[] args) {\n" +
 				"    System.out.println(\"Hello world\");\n" +
-				"    try { Files.write(new File(\"/Users/skohorn/Downloads/test.txt\").toPath(), \"It was run!\".getBytes()); }\n" +
-				"    catch (IOException e) { e.printStackTrace(); }\n" +
 				"  }\n" +
 				"}\n";
 		

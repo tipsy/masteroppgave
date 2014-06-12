@@ -2529,11 +2529,11 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_Y-MIUO26EeOlWJ54KyKYow" name="createWorkspace(userId EString, problemId EString) : ActorRef" tooltipText="createWorkspace(userId, problemId) : ActorRef">
-          <target xmi:type="ecore:EOperation" href="services.ecore#//Services/createWorkspace"/>
-          <semanticElements xmi:type="ecore:EOperation" href="services.ecore#//Services/createWorkspace"/>
-          <semanticElements xmi:type="ecore:EParameter" href="services.ecore#//Services/createWorkspace/problemId"/>
-          <semanticElements xmi:type="ecore:EParameter" href="services.ecore#//Services/createWorkspace/userId"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_Y-MIUO26EeOlWJ54KyKYow" name="createEditor(userId EString, problemId EString) : ActorRef" tooltipText="createEditor(userId, problemId) : ActorRef">
+          <target xmi:type="ecore:EOperation" href="services.ecore#//Services/createEditor"/>
+          <semanticElements xmi:type="ecore:EOperation" href="services.ecore#//Services/createEditor"/>
+          <semanticElements xmi:type="ecore:EParameter" href="services.ecore#//Services/createEditor/problemId"/>
+          <semanticElements xmi:type="ecore:EParameter" href="services.ecore#//Services/createEditor/userId"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_Y-MvYO26EeOlWJ54KyKYow" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_Y-MvYe26EeOlWJ54KyKYow"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']/@style"/>

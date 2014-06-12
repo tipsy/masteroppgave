@@ -1,13 +1,13 @@
-package no.ntnu.assignmentsystem.editor.akka.messages;
+package no.ntnu.assignmentsystem.services.akka.messages;
 
 import java.io.Serializable;
 
 public class RunCodeResult implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	public String output;
 	
-	public RunCodeResult(String result) {
-		this.output = result;
+	public RunCodeResult(String output) {
+		this.output = output;
 	}
 }

@@ -2,19 +2,19 @@ package no.ntnu.assignmentsystem.editor.akka;
 
 import org.eclipse.core.runtime.CoreException;
 
-import no.ntnu.assignmentsystem.editor.akka.messages.Ready;
-import no.ntnu.assignmentsystem.editor.akka.messages.RunCode;
-import no.ntnu.assignmentsystem.editor.akka.messages.RunCodeResult;
-import no.ntnu.assignmentsystem.editor.akka.messages.UpdateSourceCode;
+import no.ntnu.assignmentsystem.editor.akka.messages.WorkspaceReady;
+import no.ntnu.assignmentsystem.editor.akka.messages.WorkspaceRunCode;
+import no.ntnu.assignmentsystem.editor.akka.messages.WorkspaceRunCodeResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.WorkspaceUpdateSourceCode;
 import no.ntnu.assignmentsystem.editor.jdt.ProjectManager;
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 
-public class EditorActor extends UntypedActor {
+public class WorkspaceActor extends UntypedActor {
 	private final ActorRef workspaceActor;
 	private final ProjectManager projectManager;
 	
-	public EditorActor(ActorRef workspaceActor, ProjectManager projectManager) {
+	public WorkspaceActor(ActorRef workspaceActor, ProjectManager projectManager) {
 		this.workspaceActor = workspaceActor;
 		this.projectManager = projectManager;
 	}
@@ -23,15 +23,15 @@ public class EditorActor extends UntypedActor {
 	public void preStart() {
 		System.out.println("Starting EditorActor with WorkspaceActor:" + workspaceActor);
 		
-		workspaceActor.tell(new Ready(), getSelf());
+		workspaceActor.tell(new WorkspaceReady(), getSelf());
 	}
 	
 	@Override
 	public void onReceive(Object message) throws Exception {
-		if (message instanceof UpdateSourceCode) {
+		if (message instanceof WorkspaceUpdateSourceCode) {
 			handleUpdateSourceCode();
 		}
-		else if (message instanceof RunCode) {
+		else if (message instanceof WorkspaceRunCode) {
 			handleRunCode();
 		}
 		else {
@@ -49,7 +49,7 @@ public class EditorActor extends UntypedActor {
 	private void handleRunCode() {
 		try {
 			String result = projectManager.runMain();
-			getSender().tell(new RunCodeResult(result), getSelf());
+			getSender().tell(new WorkspaceRunCodeResult(result), getSelf());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

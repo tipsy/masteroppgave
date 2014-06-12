@@ -40,9 +40,9 @@
       <genOperations ecoreOperation="services.ecore#//Services/getAchievements">
         <genParameters ecoreParameter="services.ecore#//Services/getAchievements/userId"/>
       </genOperations>
-      <genOperations ecoreOperation="services.ecore#//Services/createWorkspace">
-        <genParameters ecoreParameter="services.ecore#//Services/createWorkspace/userId"/>
-        <genParameters ecoreParameter="services.ecore#//Services/createWorkspace/problemId"/>
+      <genOperations ecoreOperation="services.ecore#//Services/createEditor">
+        <genParameters ecoreParameter="services.ecore#//Services/createEditor/userId"/>
+        <genParameters ecoreParameter="services.ecore#//Services/createEditor/problemId"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//AssignmentView">

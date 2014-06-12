@@ -21,7 +21,7 @@ import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.model.User;
-import no.ntnu.assignmentsystem.services.akka.WorkspaceActor;
+import no.ntnu.assignmentsystem.services.akka.EditorActor;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.mapping.AssignmentViewFactory;
@@ -52,17 +52,12 @@ public class MainServices extends Container implements Services {
 		// Initialize services package
 	    servicesPackage = ServicesPackage.eINSTANCE;
 	    servicesPackage.eClass();
-	    
-//		ActorSelection selection = system.actorSelection("akka.tcp://bundle-734-ActorSystem@127.0.0.1:2552/user/editor");
-//		Future<ActorRef> future = selection.resolveOne(Timeout.intToTimeout(5));
-//		selection.tell(new UpdateSourceCode(), ActorRef.noSender());
-//		system.shutdown();
 	}
 	
 	@Override
-	public ActorRef createWorkspace(String userId, String problemId) {
+	public ActorRef createEditor(String userId, String problemId) {
 		// TODO: Create a unique name for the actor (to be able to reuse it later)
-		return actorSystem.actorOf(Props.create(WorkspaceActor.class, this, userId, problemId));
+		return actorSystem.actorOf(Props.create(EditorActor.class, this, userId, problemId));
 	}
 	
 	@Override
