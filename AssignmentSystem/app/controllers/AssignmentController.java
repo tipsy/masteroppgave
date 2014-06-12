@@ -4,6 +4,7 @@ import controllers.akka.ServicesWebSocketActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import global.Global;
+import no.ntnu.assignmentsystem.services.CodeProblemView;
 import play.libs.Akka;
 import play.libs.F;
 import play.mvc.Controller;
@@ -20,7 +21,8 @@ public class AssignmentController extends Controller {
     }
 
     public static Result serveProblem(String aID, String pID) {
-        return ok(aProblem.render(aID, pID));
+        CodeProblemView problem = (CodeProblemView)Global.services.getProblem("10", "4");
+        return ok(aProblem.render(aID, pID, problem));
     }
 
     public static WebSocket<String> openEditorSocket(String pID) {
