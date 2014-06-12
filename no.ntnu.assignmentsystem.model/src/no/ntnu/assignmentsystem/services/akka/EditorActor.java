@@ -2,12 +2,14 @@ package no.ntnu.assignmentsystem.services.akka;
 
 import java.io.File;
 
-import no.ntnu.assignmentsystem.editor.akka.messages.WorkspaceReady;
-import no.ntnu.assignmentsystem.editor.akka.messages.WorkspaceRunCode;
-import no.ntnu.assignmentsystem.editor.akka.messages.WorkspaceRunCodeResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCode;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
+import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
 import no.ntnu.assignmentsystem.services.coderunner.StartPluginCommands;
@@ -28,8 +30,8 @@ public class EditorActor extends UntypedActorWithStash {
 		"no.ntnu.assignmentsystem.editor.Editor"
 	);
 	
-	private ActorRef editorActor;
-	private ActorRef consumer;
+	private ActorRef pluginActor;
+	private ActorRef consumerActor;
 	
 	public EditorActor(Services services, String userId, String problemId) {
 		this.services = services;
@@ -39,22 +41,16 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	@Override
 	public void preStart() throws Exception {
-		System.out.println("Starting up EditorActor");
+		System.out.println("EditorActor pre-start");
 		
-		File tempFile = File.createTempFile("AssignmentSystem-", "");
-		tempFile.delete();
-		tempFile.mkdir();
-		
-		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
-//		System.out.println(command);
-		commandRunner.runCommands(new String[] {command});
+		startPlugin();
 	}
 	
 	@Override
 	public void onReceive(Object message) throws Exception {
-		if (message instanceof WorkspaceReady) {
-			System.out.println("Received message from plugin actor:" + getSender());
-			editorActor = getSender();
+		if (message instanceof PluginReady) {
+			System.out.println("Received message from PluginActor:" + getSender());
+			pluginActor = getSender();
 			
 			unstashAll();
 			getContext().become(onReceiveWhenReady, false);
@@ -64,30 +60,59 @@ public class EditorActor extends UntypedActorWithStash {
 		}
 	}
 	
-	
-	// --- Private methods ---
-	
 	private Procedure<Object> onReceiveWhenReady = message -> {
+		if (getSender().equals(pluginActor) == false) {
+			consumerActor = getSender();
+		}
+		
 		if (message instanceof RunCode) {
 			handleRunCode((RunCode)message);
 		}
-		else if (message instanceof WorkspaceRunCodeResult) {
-			handleRunCodeResult((WorkspaceRunCodeResult)message);
+		else if (message instanceof UpdateSourceCode) {
+			handleUpdateSourceCode((UpdateSourceCode)message);
+		}
+		else if (message instanceof PluginRunCodeResult) {
+			handlePluginRunCodeResult((PluginRunCodeResult)message);
 		}
 		else {
 			unhandled(message);
 		}
 	};
 	
+	
+	// --- Handlers ---
+	
 	private void handleRunCode(RunCode runCode) {
-//		String result = services.runCodeProblem(userId, problemId);
-//		getSender().tell(new RunCodeResult(result), getSelf());
-		consumer = getSender();
-		editorActor.tell(new WorkspaceRunCode(), getSelf());
+		pluginActor.tell(new PluginRunCode("example.HelloWorld"), getSelf());
 	}
 	
-	private void handleRunCodeResult(WorkspaceRunCodeResult workspaceRunCodeResult) {
-		consumer.tell(new RunCodeResult(workspaceRunCodeResult.output), getSelf());
+	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
+		String sourceCode = "package example;\n" +
+			"\n" +
+			"import java.util.*;\n" +
+			"\n" +
+			"public class HelloWorld {\n" +
+			"  public static void main(String[] args) {\n" +
+			"    System.out.println(\"Hello world\");\n" +
+			"  }\n" +
+			"}\n";
+		pluginActor.tell(new PluginUpdateSourceCode("example", "HelloWorld.java", sourceCode), getSelf());
+	}
+	
+	private void handlePluginRunCodeResult(PluginRunCodeResult pluginRunCodeResult) {
+		consumerActor.tell(new RunCodeResult(pluginRunCodeResult.output), getSelf());
+	}
+	
+	
+	// --- Private methods ---
+	
+	private void startPlugin() throws Exception {
+		File tempFile = File.createTempFile("AssignmentSystem-", "");
+		tempFile.delete();
+		tempFile.mkdir();
+		
+		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
+		commandRunner.runCommands(new String[] {command});
 	}
 	
 	private String getRemoteAddressString() {

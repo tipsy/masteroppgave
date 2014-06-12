@@ -1,15 +1,5 @@
 package no.ntnu.assignmentsystem.editor.jdt;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.SequenceInputStream;
-import java.nio.file.Files;
-
-import javax.swing.ProgressMonitorInputStream;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -22,7 +12,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.debug.core.Launch;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -31,14 +20,12 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
-import org.eclipse.jdt.launching.IVMInstall;
-import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.jdt.launching.VMRunnerConfiguration;
 
 public class ProjectManager {
 	private static final String srcFolderName = "src";
 	private static final String binFolderName = "bin";
+	private static final String configName = "RunConfig"; 
 	
 	private final String projectName;
 	
@@ -50,24 +37,13 @@ public class ProjectManager {
 		this.projectName = projectName;
 	}
 	
-	public void updateSourceCode(String sourceCode) throws JavaModelException, CoreException {
-		IPackageFragment fragment = getSrcFolder().createPackageFragment("example", true, null);
-
-		String str = "package example;\n" +
-				"\n" +
-				"import java.util.*;\n" +
-				"\n" +
-				"public class HelloWorld {\n" +
-				"  public static void main(String[] args) {\n" +
-				"    System.out.println(\"Hello world\");\n" +
-				"  }\n" +
-				"}\n";
-		
-		fragment.createCompilationUnit("HelloWorld.java", str, false, null);
+	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException {
+		IPackageFragment fragment = getSrcFolder().createPackageFragment(packageName, true, null);
+		fragment.createCompilationUnit(fileName, sourceCode, false, null);
 	}
 	
-	public String runMain() throws CoreException {
-		return launch(getJavaProject(), "RunConfig", "example.HelloWorld");
+	public String runMain(String qualifiedClassName) throws CoreException {
+		return launch(getJavaProject(), configName, qualifiedClassName);
 	}
 
 

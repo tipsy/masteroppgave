@@ -1,6 +1,6 @@
 package no.ntnu.assignmentsystem.editor;
 
-import no.ntnu.assignmentsystem.editor.akka.WorkspaceActor;
+import no.ntnu.assignmentsystem.editor.akka.PluginActor;
 import no.ntnu.assignmentsystem.editor.jdt.ProjectManager;
 
 import org.eclipse.equinox.app.IApplication;
@@ -20,12 +20,6 @@ public class Application implements IApplication {
 	public Object start(IApplicationContext context) throws Exception {
 		System.out.println("Application started");
 		
-		System.out.println("Generating project");
-		ProjectManager projectManager = new ProjectManager("weee");
-		projectManager.updateSourceCode("");
-//		String result = projectManager.runMain();
-//		System.out.println("RESULT:" + result);
-		
 		String[] arguments = (String[])context.getArguments().get("application.args");
 		if (arguments.length == 1) {
 			String path = arguments[0];
@@ -35,9 +29,12 @@ public class Application implements IApplication {
 			ActorSelection selection = Activator.actorSystem.actorSelection(path);
 			Timeout timeout = new Timeout(Duration.create(5, "seconds"));
 			Future<ActorRef> future = selection.resolveOne(timeout);
-			ActorRef workspaceActor = (ActorRef)Await.result(future, timeout.duration());
+			ActorRef editorActor = (ActorRef)Await.result(future, timeout.duration());
 			
-			Activator.actorSystem.actorOf(Props.create(WorkspaceActor.class, workspaceActor, projectManager));
+			System.out.println("Found EditorActor:" + editorActor);
+			
+			ProjectManager projectManager = new ProjectManager("PluginProject"); // TODO: Make it changeable
+			Activator.actorSystem.actorOf(Props.create(PluginActor.class, editorActor, projectManager));
 		}
 		
 		return null;
