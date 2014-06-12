@@ -25,9 +25,19 @@ $(document).ready(function () {
         console.log(object);
     };
 
+    $(editors).each(function() {
+        this.on('change', function() {
+            throttle(function(){
+                //this code is called 400ms after the last change-event
+                webSocket.send(JSON.stringify({"type": "runCode", "data": {}}));
+                console.log("Sent " + JSON.stringify({"type": "runCode", "data": {}}))
+            }, 400 );
+        });
+    });
 
     /*
-        Click listeners go below here
+        Click listeners go here
+        vvvvvvvvvvvvvvvvvvvvvvv
     */
 
     $("#ae-toggle-fullscreen").click(function(){
@@ -113,3 +123,11 @@ function Annotation(lineNumber, message, type){
     this.text = message;
     this.type = type; // "error", "warning", "info"
 }
+
+var throttle = (function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
