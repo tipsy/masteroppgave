@@ -11,12 +11,13 @@ import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
-import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 
 public class Main {
 	public static void main(String[] args) {
 		ModelLoader modelLoader = new XmiModelLoader(new File("model/UoD.xmi"));
-		Services services = new MainServices(modelLoader);
+		ModelServices modelServices = new ModelServices(modelLoader);
+		Services services = new MainServices(modelServices);
+		
 //		System.out.println(services.getAssignments("userId"));
 //		System.out.println(services.getProblem("userId", "3")); // QuizProblem
 //		System.out.println(services.getProblem("10", "4")); // CodeProblem
@@ -43,7 +44,6 @@ public class Main {
 		public void preStart() throws Exception {
 			super.preStart();
 			
-			workspaceActor.tell(new UpdateSourceCode("7", "Abc"), getSelf());
 			workspaceActor.tell(new RunCode(), getSelf());
 		}
 		

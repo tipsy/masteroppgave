@@ -18,10 +18,12 @@
       title="Object-oriented programming with Java">
     <assignments
         id="2"
-        title="Assignment 1 - The basics">
+        localId="1"
+        title="The basics">
       <problems
           xsi:type="no.ntnu.assignmentsystem:QuizProblem"
           id="3"
+          localId="A"
           title="Quiztastic"
           maxPoints="50">
         <questions
@@ -40,36 +42,35 @@
       <problems
           xsi:type="no.ntnu.assignmentsystem:CodeProblem"
           id="4"
+          localId="B"
           title="Hello World"
           maxPoints="100"
           repoUrl="../no.hal.jex.collection"
-          mainImplementationFile="5"
-          srcPath="src"
-          testPath="src-gen">
+          mainImplementationFile="5">
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
             id="5"
-            title="Main.java"
             filePath="src/stateandbehavior/Main.java"
+            packageName="stateandbehavior"
             visible="true"
             editable="true"/>
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
             id="7"
-            title="Account.java"
             filePath="src/stateandbehavior/Account.java"
+            packageName="stateandbehavior"
             visible="true"
             editable="true"/>
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:TestFile"
             id="6"
-            title="AccountTest.java"
-            filePath="src-gen/stateandbehavior/AccountTest.java"/>
+            filePath="src-gen/stateandbehavior/AccountTest.java"
+            packageName="stateandbehavior"/>
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:JexTestFile"
             id="12"
-            title="Account.jextest"
             filePath="tests/stateandbehavior/Account.jextest"
+            packageName="stateandbehavior"
             visible="true"/>
       </problems>
     </assignments>

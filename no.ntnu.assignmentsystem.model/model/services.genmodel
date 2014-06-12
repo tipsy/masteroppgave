@@ -20,19 +20,6 @@
         <genParameters ecoreParameter="services.ecore#//Services/getProblem/userId"/>
         <genParameters ecoreParameter="services.ecore#//Services/getProblem/problemId"/>
       </genOperations>
-      <genOperations ecoreOperation="services.ecore#//Services/runCodeProblem">
-        <genParameters ecoreParameter="services.ecore#//Services/runCodeProblem/userId"/>
-        <genParameters ecoreParameter="services.ecore#//Services/runCodeProblem/problemId"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//Services/testCodeProblem">
-        <genParameters ecoreParameter="services.ecore#//Services/testCodeProblem/userId"/>
-        <genParameters ecoreParameter="services.ecore#//Services/testCodeProblem/problemId"/>
-      </genOperations>
-      <genOperations ecoreOperation="services.ecore#//Services/updateSourceCodeFile">
-        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/userId"/>
-        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/fileId"/>
-        <genParameters ecoreParameter="services.ecore#//Services/updateSourceCodeFile/sourceCode"/>
-      </genOperations>
       <genOperations ecoreOperation="services.ecore#//Services/getOverallLeaderboard"/>
       <genOperations ecoreOperation="services.ecore#//Services/getAssignmentLeaderboard">
         <genParameters ecoreParameter="services.ecore#//Services/getAssignmentLeaderboard/assignmentId"/>

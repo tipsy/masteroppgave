@@ -27,8 +27,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/repoUrl"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//CodeProblem/sourceCodeFiles"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//CodeProblem/mainImplementationFile"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/srcPath"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CodeProblem/testPath"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//User">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//User/id"/>
@@ -86,8 +84,8 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SourceCodeFile">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/filePath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/packageName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/visible"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SourceCodeFile/editable"/>
       <genOperations ecoreOperation="model.ecore#//SourceCodeFile/getSourceCode"/>

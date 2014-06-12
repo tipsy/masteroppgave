@@ -6,7 +6,8 @@ import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCode;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
-import no.ntnu.assignmentsystem.services.Services;
+import no.ntnu.assignmentsystem.model.CodeProblem;
+import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
 import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
@@ -20,7 +21,7 @@ import akka.japi.Procedure;
 import akka.remote.RemoteActorRefProvider;
 
 public class EditorActor extends UntypedActorWithStash {
-	private final Services services;
+	private final ModelServices modelServices;
 	private final String userId;
 	private final String problemId;
 	
@@ -33,8 +34,8 @@ public class EditorActor extends UntypedActorWithStash {
 	private ActorRef pluginActor;
 	private ActorRef consumerActor;
 	
-	public EditorActor(Services services, String userId, String problemId) {
-		this.services = services;
+	public EditorActor(ModelServices modelServices, String userId, String problemId) {
+		this.modelServices = modelServices;
 		this.userId = userId;
 		this.problemId = problemId;
 	}
@@ -51,6 +52,8 @@ public class EditorActor extends UntypedActorWithStash {
 		if (message instanceof PluginReady) {
 			System.out.println("Received message from PluginActor:" + getSender());
 			pluginActor = getSender();
+			
+			bootstrapPlugin();
 			
 			unstashAll();
 			getContext().become(onReceiveWhenReady, false);
@@ -83,10 +86,7 @@ public class EditorActor extends UntypedActorWithStash {
 	// --- Handlers ---
 	
 	private void handleRunCode(RunCode runCode) {
-		pluginActor.tell(new PluginRunCode("example.HelloWorld"), getSelf());
-	}
-	
-	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
+		// TODO: Implement
 		String sourceCode = "package example;\n" +
 			"\n" +
 			"import java.util.*;\n" +
@@ -97,6 +97,11 @@ public class EditorActor extends UntypedActorWithStash {
 			"  }\n" +
 			"}\n";
 		pluginActor.tell(new PluginUpdateSourceCode("example", "HelloWorld.java", sourceCode), getSelf());
+		pluginActor.tell(new PluginRunCode("example.HelloWorld"), getSelf());
+	}
+	
+	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
+		// TODO: Implement
 	}
 	
 	private void handlePluginRunCodeResult(PluginRunCodeResult pluginRunCodeResult) {
@@ -113,6 +118,19 @@ public class EditorActor extends UntypedActorWithStash {
 		
 		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
 		commandRunner.runCommands(new String[] {command});
+	}
+	
+	private void bootstrapPlugin() {
+		modelServices.getProblem(problemId).ifPresent(problem -> {
+			CodeProblem codeProblem = (CodeProblem)problem;
+			codeProblem.getSourceCodeFiles().stream().forEach(sourceCodeFile -> {
+				
+			});
+		});
+//		CodeProblemView codeProblemView = (CodeProblemView)services.getProblem(userId, problemId);
+//		codeProblemView.getSourceCodeFiles().stream().forEach(sourceCodeFile -> {
+////			pluginActor.tell(new PluginUpdateSourceCode("", "", ""), getSelf());
+//		});
 	}
 	
 	private String getRemoteAddressString() {
