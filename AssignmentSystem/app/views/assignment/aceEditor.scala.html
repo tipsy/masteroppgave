@@ -1,26 +1,27 @@
+@(problem : no.ntnu.assignmentsystem.services.CodeProblemView)
+@import no.ntnu.assignmentsystem.services.SourceCodeFileView
+
 <div id="ace-editor-wrapper">
 
     <div id="editor-header">
         <i class="fa fa-terminal" id="editor-logo"></i>
         <ul id="java-class-tabs" class="nav nav-tabs">
-            @for(n <- 0 to 2){
-                <li class="@if(n==0){active}"><a href="#class@n" data-toggle="tab">Class@n</a></li>
-            }
+            @for( ((codefile : SourceCodeFileView), index) <- problem.getSourceCodeFiles.zipWithIndex ){
+                <li class="@if(index==0){active}"><a href="#class@index" data-toggle="tab">@codefile.getTitle</a></li>
+            }<!-- create class tabs -->
         </ul>
         @views.html.assignment.editorToolbar()
     </div>
 
     <div id="assignment-tab-content" class="tab-content bordered">
-        @for(n <- 0 to 2){
-            <div class="tab-pane @if(n==0){active in} slide-left" id="class@n">
-                <div id="editor@n" class="ace-editor-instance">
-public static void main(String[] args) {
-    System.out.println("Hello, World");
-}
-                </div>
+    @for( ((codefile : SourceCodeFileView), index) <- problem.getSourceCodeFiles.zipWithIndex ){
+        <div class="tab-pane @if(index==0){active in} slide-left" id="class@index">
+            <div id="editor@index" class="ace-editor-instance">@codefile.getSourceCode
             </div>
-        }
+        </div>
+    }
     </div>
+
     <div class="ace-editor-console">
         Dette er console-output<br>
         Dette er console-output<br>

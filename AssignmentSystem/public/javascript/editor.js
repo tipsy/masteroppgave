@@ -4,6 +4,7 @@ $(document).ready(function () {
     var webSocket = openNewWebSocket();
     var annotationList = createAnnotationList(getAnnotationData());
     editors[0].getSession().setAnnotations(annotationList);
+    initCollapsibleHeaders();
 
     console.log("Current route is: "+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL());
 
@@ -24,7 +25,27 @@ $(document).ready(function () {
         console.log(object);
     };
 
-    //button-clicks
+
+    /*
+        Click listeners go below here
+    */
+
+    $("#ae-toggle-fullscreen").click(function(){
+        $(".hidden-when-editor-maximized").toggle();
+        $("#ace-editor-wrapper").toggleClass("maximized");
+        $("#ae-toggle-fullscreen").toggleClass("fa-expand fa-compress");
+        $(editors).each(function() { this.resize(); });
+    });
+
+    $(".ae-theme-settings").click(function(){
+        var theme = ("ace/theme/"+$(this).attr("id"));
+        $(editors).each(function() { this.setTheme(theme); });
+    });
+
+    $(".collapsing-header").click(function(){
+        $(this).find("i").toggleClass("fa-angle-down fa-angle-right"); //toggle icon on header-click
+    });
+
     $("#run-code-button").click(function(){
         webSocket.send(JSON.stringify({"type": "runCode", "data": {}}));
         console.log("Sent " + JSON.stringify({"type": "runCode", "data": {}}))
@@ -41,6 +62,10 @@ $(document).ready(function () {
     });
 
 });
+
+function initCollapsibleHeaders() {
+    $(".hidden-when-editor-maximized").collapsible(); //makes ever header in this div collapsible
+}
 
 function initEditors() {
     var editors = [];
