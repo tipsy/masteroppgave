@@ -3,6 +3,7 @@ package controllers.akka;
 import akka.actor.ActorRef;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
+import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class ServicesWebSocketActor extends DynamicWebSocketActor {
         Map<String, Class> classMapping = new HashMap<>();
         classMapping.put("runCode", RunCode.class);
         classMapping.put("runCodeResult", RunCodeResult.class);
+        classMapping.put("updateSourceCode", UpdateSourceCode.class);
 
         return classMapping;
     }

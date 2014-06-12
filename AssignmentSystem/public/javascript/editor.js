@@ -23,15 +23,29 @@ $(document).ready(function () {
     webSocket.onmessage = function(msgevent) {
         var object = JSON.parse(msgevent.data);
         console.log(object);
+        if (object.type === 'runCodeResult') {
+            $('.ace-editor-console').text(object.data.output);
+        }
     };
 
     $(editors).each(function() {
+        var editor = this;
+        
         this.on('change', function() {
             throttle(function(){
                 //this code is called 400ms after the last change-event
-                webSocket.send(JSON.stringify({"type": "runCode", "data": {}}));
-                console.log("Sent " + JSON.stringify({"type": "runCode", "data": {}}))
-            }, 400 );
+
+                var fileId = $(editor.container).attr('data-file-id');
+                var sourceCode = editor.getSession().getValue();
+
+                sendMessage({
+                    "type": "updateSourceCode",
+                    "data": {
+                        "id": fileId.toString(),
+                        "sourceCode": sourceCode
+                    }
+                });
+            }, 400);
         });
     });
 
@@ -57,20 +71,21 @@ $(document).ready(function () {
     });
 
     $("#run-code-button").click(function(){
-        webSocket.send(JSON.stringify({"type": "runCode", "data": {}}));
-        console.log("Sent " + JSON.stringify({"type": "runCode", "data": {}}))
+        sendMessage({"type": "runCode", "data": {}});
     });
 
     $("#run-tests-button").click(function(){
-        webSocket.send(JSON.stringify({"type": "runTests", "data": {}}));
-        console.log("Sent " + JSON.stringify({"type": "runTests", "data": {}}))
+        sendMessage({"type": "runTests", "data": {}});
     });
 
     $("#deliver-assignment-button").click(function(){
-        webSocket.send(JSON.stringify({"type": "deliverAssignment", "data": {}}));
-        console.log("Sent " + JSON.stringify({"type": "deliverAssignment", "data": {}}))
+        sendMessage({"type": "deliverAssignment", "data": {}});
     });
 
+    function sendMessage(message) {
+        webSocket.send(JSON.stringify(message));
+        console.log("Sent " + JSON.stringify(message));
+    }
 });
 
 function initCollapsibleHeaders() {
