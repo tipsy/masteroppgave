@@ -100,7 +100,7 @@ public class EditorActor extends UntypedActorWithStash {
 	}
 	
 	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
-		modelServices.getSourceCodeFile(updateSourceCode.id).ifPresent(sourceCodeFile -> {
+		modelServices.getSourceCodeFile(updateSourceCode.fileId).ifPresent(sourceCodeFile -> {
 			// TODO: Save to model
 			
 			pluginActor.tell(new PluginUpdateSourceCode(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), sourceCodeFile.getSourceCode()), getSelf());
