@@ -26,7 +26,6 @@ public class MainServices extends Container implements Services {
 	
 	public MainServices(ModelServices modelServices) {
 		this.modelServices = modelServices;
-		
 		// Initialize services package
 	    servicesPackage = ServicesPackage.eINSTANCE;
 	    servicesPackage.eClass();

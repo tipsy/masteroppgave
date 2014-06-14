@@ -23,7 +23,7 @@ $(document).ready(function () {
     webSocket.onmessage = function(msgevent) {
         var object = JSON.parse(msgevent.data);
         console.log(object);
-        if (object.type === 'runCodeResult') {
+        if (object.type === 'runMainResult') {
             $('.ace-editor-console').text(object.data.output);
         }
     };
@@ -39,7 +39,7 @@ $(document).ready(function () {
                 var sourceCode = editor.getSession().getValue();
 
                 sendMessage("updateSourceCode", {
-                    id: fileId,
+                    fileId: fileId,
                     sourceCode: sourceCode
                 });
             }, 400);
@@ -68,7 +68,7 @@ $(document).ready(function () {
     });
 
     $("#run-code-button").click(function(){
-        sendMessage("runCode");
+        sendMessage("runMain");
     });
 
     $("#run-tests-button").click(function(){

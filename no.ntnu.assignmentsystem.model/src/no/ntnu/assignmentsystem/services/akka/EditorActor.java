@@ -119,11 +119,11 @@ public class EditorActor extends UntypedActorWithStash {
 		tempFile.delete();
 		tempFile.mkdir();
 		
+		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
 		if (System.getenv().get("debug") != null) {
-			System.out.println("Remote address: " + getRemoteAddressString()); // TODO: Remove
+			System.out.println("Run command: " + command); // TODO: Remove
 		}
 		else {
-			String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
 			commandRunner.runCommands(new String[] {command});
 		}
 	}

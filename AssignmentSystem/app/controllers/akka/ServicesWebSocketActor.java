@@ -1,8 +1,8 @@
 package controllers.akka;
 
 import akka.actor.ActorRef;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
+import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
+import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 
 import java.util.HashMap;
@@ -30,8 +30,8 @@ public class ServicesWebSocketActor extends DynamicWebSocketActor {
     @Override
     protected Map<String, Class> getClassMapping() {
         Map<String, Class> classMapping = new HashMap<>();
-        classMapping.put("runCode", RunCode.class);
-        classMapping.put("runCodeResult", RunCodeResult.class);
+        classMapping.put("runMain", RunMain.class);
+        classMapping.put("runMainResult", RunMainResult.class);
         classMapping.put("updateSourceCode", UpdateSourceCode.class);
 
         return classMapping;
