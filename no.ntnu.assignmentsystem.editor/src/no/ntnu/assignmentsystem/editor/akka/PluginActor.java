@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunTests;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
 import akka.actor.ActorRef;
@@ -35,8 +36,12 @@ public class PluginActor extends UntypedActor {
 			handleUpdateSourceCode((PluginUpdateSourceCode)message);
 		}
 		else if (message instanceof PluginRunMain) {
-			handleRunCode((PluginRunMain)message);
+			handleRunMain((PluginRunMain)message);
 		}
+		else if (message instanceof PluginRunTests) {
+			handleRunTests((PluginRunTests)message);
+		}
+		
 		else {
 			unhandled(message);
 		}
@@ -45,12 +50,17 @@ public class PluginActor extends UntypedActor {
 	
 	// --- Handlers ---
 	
-	private void handleUpdateSourceCode(PluginUpdateSourceCode updateSourceCode) throws JavaModelException, CoreException, IOException {
-		workspaceManager.updateSourceCode(updateSourceCode.packageName, updateSourceCode.fileName, updateSourceCode.sourceCode);
+	private void handleRunMain(PluginRunMain runMain) throws CoreException {
+		String result = workspaceManager.runMain(runMain.qualifiedClassName);
+		getSender().tell(new PluginRunMainResult(result), getSelf());
 	}
 	
-	private void handleRunCode(PluginRunMain runCode) throws CoreException {
-		String result = workspaceManager.runMain(runCode.qualifiedClassName);
-		getSender().tell(new PluginRunMainResult(result), getSelf());
+	private void handleRunTests(PluginRunTests runTests) throws CoreException {
+		String result = workspaceManager.runTests(runTests.qualifiedClassName);
+//		getSender().tell(new PluginRunTestsResult(result), getSelf());
+	}
+	
+	private void handleUpdateSourceCode(PluginUpdateSourceCode updateSourceCode) throws JavaModelException, CoreException, IOException {
+		workspaceManager.updateSourceCode(updateSourceCode.packageName, updateSourceCode.fileName, updateSourceCode.sourceCode);
 	}
 }

@@ -12,22 +12,22 @@ public class AkkaTestRunListener extends TestRunListener {
 	}
 	
 	public void sessionLaunched(ITestRunSession session) {
-		System.out.println(session);
+		System.out.println("TestRunListener[1]: " + session);
 	}
 	
 	public void sessionStarted(ITestRunSession session) {
-		System.out.println(session);
+		System.out.println("TestRunListener[2]: " + session);
 	}
 	
 	public void sessionFinished(ITestRunSession session) {
-		System.out.println(session);
-	}
-	
-	public void testCaseFinished(ITestCaseElement testCaseElement) {
-		System.out.println(testCaseElement);
+		System.out.println("TestRunListener[3]: " + session);
 	}
 	
 	public void testCaseStarted(ITestCaseElement testCaseElement) {
-		System.out.println(testCaseElement);
+		System.out.println("TestRunListener[4]: " + testCaseElement);
+	}
+	
+	public void testCaseFinished(ITestCaseElement testCaseElement) {
+		System.out.println("TestRunListener[5]: " + testCaseElement);
 	}
 }
