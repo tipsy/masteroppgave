@@ -14,7 +14,6 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -75,14 +74,14 @@ public class WorkspaceManager {
 	private String launch(IJavaProject project, String configName, String qualifiedClassName) throws CoreException {
 		DebugPlugin plugin = DebugPlugin.getDefault();
 		ILaunchManager launchManager = plugin.getLaunchManager();
-		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType("org.eclipse.jdt.junit.launchconfig");
+		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
 		ILaunchConfigurationWorkingCopy workingCopy = launchConfigurationType.newInstance(null, configName);
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, getJavaProject().getElementName());
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, qualifiedClassName);
 		ILaunchConfiguration launchConfiguration = workingCopy.doSave();   
 		ILaunch launch = launchConfiguration.launch(ILaunchManager.RUN_MODE, null);
 		
-		//JUnitLaunchConfigurationConstants
+		//JUnitLaunchConfigurationConstants "org.eclipse.jdt.junit.launchconfig"
 		//https://github.com/hallvard/jexercise/blob/master/no.hal.jex.ui/src/no/hal/jex/ui/JexManager.java
 		
 		while (!launch.isTerminated()) {
