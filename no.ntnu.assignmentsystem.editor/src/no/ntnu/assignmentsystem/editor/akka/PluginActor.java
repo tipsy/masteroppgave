@@ -22,7 +22,7 @@ public class PluginActor extends UntypedActor {
 	
 	@Override
 	public void preStart() {
-		System.out.println("PluginActor pre-start");
+		System.out.println(getSelf() + ": Pre-start");
 		
 		editorActor.tell(new PluginReady(), getSelf());
 	}

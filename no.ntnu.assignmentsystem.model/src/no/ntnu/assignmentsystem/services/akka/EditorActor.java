@@ -45,7 +45,7 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	@Override
 	public void preStart() throws Exception {
-		System.out.println("EditorActor pre-start");
+		System.out.println(getSelf() + ": Pre-start");
 		
 		startPlugin();
 	}
@@ -68,6 +68,7 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	private Procedure<Object> onReceiveWhenReady = message -> {
 		if (getSender().equals(pluginActor) == false) {
+			System.out.println("Received message from consumer:" + getSender());
 			consumerActor = getSender();
 		}
 		
@@ -119,9 +120,13 @@ public class EditorActor extends UntypedActorWithStash {
 		tempFile.delete();
 		tempFile.mkdir();
 		
-		System.out.println(getRemoteAddressString());
-//		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
-//		commandRunner.runCommands(new String[] {command});
+		if (System.getenv().get("debug") != null) {
+			System.out.println("Remote address: " + getRemoteAddressString()); // TODO: Remove
+		}
+		else {
+			String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
+			commandRunner.runCommands(new String[] {command});
+		}
 	}
 	
 	private void bootstrapPlugin() {

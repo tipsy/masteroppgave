@@ -25,13 +25,16 @@ import org.eclipse.jdt.launching.JavaRuntime;
 
 public class WorkspaceManager {
 	private static final String srcFolderName = "src";
-	private static final String binFolderName = "bin"; 
+	private static final String binFolderName = "bin";
 	
 	private final String projectName;
+	
 	
 	private IProject _project;
 	private IJavaProject _javaProject;
 	private IPackageFragmentRoot _srcFolder;
+	private ILaunchConfiguration _runMainLaunchConfiguration;
+	private ILaunchConfiguration _runTestsLaunchConfiguration;
 	
 	public WorkspaceManager(String projectName) {
 		this.projectName = projectName;
@@ -65,24 +68,22 @@ public class WorkspaceManager {
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
-		return launch(getJavaProject(), "RunConfig", qualifiedClassName);
+		ILaunchConfiguration launchConfiguration = getRunMainLaunchConfiguration("Run Main", qualifiedClassName);
+		return launch(launchConfiguration);
+	}
+	
+	public String runTests(String qualifiedClassName) throws CoreException {
+		//JUnitLaunchConfigurationConstants "org.eclipse.jdt.junit.launchconfig"
+		//https://github.com/hallvard/jexercise/blob/master/no.hal.jex.ui/src/no/hal/jex/ui/JexManager.java
+		ILaunchConfiguration launchConfiguration = getRunTestsLaunchConfiguration("Run Tests", qualifiedClassName);
+		return launch(launchConfiguration);
 	}
 
 
 	// --- Private methods ---
 	
-	private String launch(IJavaProject project, String configName, String qualifiedClassName) throws CoreException {
-		DebugPlugin plugin = DebugPlugin.getDefault();
-		ILaunchManager launchManager = plugin.getLaunchManager();
-		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-		ILaunchConfigurationWorkingCopy workingCopy = launchConfigurationType.newInstance(null, configName);
-		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, getJavaProject().getElementName());
-		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, qualifiedClassName);
-		ILaunchConfiguration launchConfiguration = workingCopy.doSave();   
+	private String launch(ILaunchConfiguration launchConfiguration) throws CoreException {
 		ILaunch launch = launchConfiguration.launch(ILaunchManager.RUN_MODE, null);
-		
-		//JUnitLaunchConfigurationConstants "org.eclipse.jdt.junit.launchconfig"
-		//https://github.com/hallvard/jexercise/blob/master/no.hal.jex.ui/src/no/hal/jex/ui/JexManager.java
 		
 		while (!launch.isTerminated()) {
 			try {
@@ -107,6 +108,35 @@ public class WorkspaceManager {
 		}
 		
 		return output;
+	}
+	
+	private ILaunchConfiguration getRunMainLaunchConfiguration(String configName, String qualifiedClassName) throws CoreException {
+		if (_runMainLaunchConfiguration == null) {
+			_runMainLaunchConfiguration = createLaunchConfiguration(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION, configName, qualifiedClassName);
+		}
+		
+		return _runMainLaunchConfiguration;
+	}
+	
+	private ILaunchConfiguration getRunTestsLaunchConfiguration(String configName, String qualifiedClassName) throws CoreException {
+		if (_runTestsLaunchConfiguration == null) {
+			_runTestsLaunchConfiguration = createLaunchConfiguration("org.eclipse.jdt.junit.launchconfig", configName, qualifiedClassName);
+		}
+		
+		return _runTestsLaunchConfiguration;
+	}
+	
+	private ILaunchConfiguration createLaunchConfiguration(String launchConfigurationTypeId, String configName, String qualifiedClassName) throws CoreException {
+		ILaunchConfigurationType launchConfigurationType = getLaunchManager().getLaunchConfigurationType(launchConfigurationTypeId);
+		ILaunchConfigurationWorkingCopy workingCopy = launchConfigurationType.newInstance(null, configName);
+		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, getJavaProject().getElementName());
+		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, qualifiedClassName);
+		return workingCopy.doSave();
+	}
+	
+	private ILaunchManager getLaunchManager() {
+		DebugPlugin debugPlugin = DebugPlugin.getDefault();
+		return debugPlugin.getLaunchManager();
 	}
 
 	private IJavaProject getJavaProject() throws CoreException {
