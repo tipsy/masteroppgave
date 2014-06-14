@@ -4,14 +4,14 @@ import java.io.File;
 
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
-import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
+import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
@@ -77,8 +77,8 @@ public class EditorActor extends UntypedActorWithStash {
 		else if (message instanceof UpdateSourceCode) {
 			handleUpdateSourceCode((UpdateSourceCode)message);
 		}
-		else if (message instanceof PluginRunCodeResult) {
-			handlePluginRunCodeResult((PluginRunCodeResult)message);
+		else if (message instanceof PluginRunMainResult) {
+			handlePluginRunCodeResult((PluginRunMainResult)message);
 		}
 		else {
 			unhandled(message);
@@ -107,8 +107,8 @@ public class EditorActor extends UntypedActorWithStash {
 		});
 	}
 	
-	private void handlePluginRunCodeResult(PluginRunCodeResult pluginRunCodeResult) {
-		consumerActor.tell(new RunCodeResult(pluginRunCodeResult.output), getSelf());
+	private void handlePluginRunCodeResult(PluginRunMainResult pluginRunCodeResult) {
+		consumerActor.tell(new RunMainResult(pluginRunCodeResult.output), getSelf());
 	}
 	
 	

@@ -10,7 +10,7 @@ import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
+import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 
 public class Main {
 	public static void main(String[] args) {
@@ -49,8 +49,8 @@ public class Main {
 		
 		@Override
 		public void onReceive(Object message) throws Exception {
-			if (message instanceof RunCodeResult) {
-				RunCodeResult result = (RunCodeResult)message;
+			if (message instanceof RunMainResult) {
+				RunMainResult result = (RunMainResult)message;
 				System.out.println(getSelf() + ": " + result.output);
 				workspaceActor.tell(new RunMain(), getSelf());
 			}

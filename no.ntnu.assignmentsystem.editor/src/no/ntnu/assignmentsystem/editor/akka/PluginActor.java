@@ -5,7 +5,7 @@ import org.eclipse.jdt.core.JavaModelException;
 
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
-import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
 import akka.actor.ActorRef;
@@ -49,6 +49,6 @@ public class PluginActor extends UntypedActor {
 	
 	private void handleRunCode(PluginRunMain runCode) throws CoreException {
 		String result = workspaceManager.runMain(runCode.qualifiedClassName);
-		getSender().tell(new PluginRunCodeResult(result), getSelf());
+		getSender().tell(new PluginRunMainResult(result), getSelf());
 	}
 }
