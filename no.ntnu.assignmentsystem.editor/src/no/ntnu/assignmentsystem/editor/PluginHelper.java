@@ -10,7 +10,7 @@ import akka.actor.ActorSelection;
 import akka.actor.Props;
 import akka.util.Timeout;
 
-public class Plugin {
+public class PluginHelper {
 	private static final long timeoutSeconds = 5;
 	
 	public static void start(String path) throws Exception {

@@ -3,14 +3,14 @@ package no.ntnu.assignmentsystem.services.akka;
 import java.io.File;
 
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
-import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCode;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
+import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
 import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
@@ -68,12 +68,11 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	private Procedure<Object> onReceiveWhenReady = message -> {
 		if (getSender().equals(pluginActor) == false) {
-			System.out.println("Received message from consumer:" + getSender());
 			consumerActor = getSender();
 		}
 		
-		if (message instanceof RunCode) {
-			handleRunCode((RunCode)message);
+		if (message instanceof RunMain) {
+			handleRunCode((RunMain)message);
 		}
 		else if (message instanceof UpdateSourceCode) {
 			handleUpdateSourceCode((UpdateSourceCode)message);
@@ -89,14 +88,14 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	// --- Handlers ---
 	
-	private void handleRunCode(RunCode runCode) {
+	private void handleRunCode(RunMain runCode) {
 		modelServices.getProblem(problemId).ifPresent(problem -> {
 			CodeProblem codeProblem = (CodeProblem)problem;
 			ImplementationFile mainImplementationFile = codeProblem.getMainImplementationFile();
 			
 			String qualifiedClassName = String.format("%s.%s", mainImplementationFile.getPackageName(), getClassName(mainImplementationFile));
 			
-			pluginActor.tell(new PluginRunCode(qualifiedClassName), getSelf());
+			pluginActor.tell(new PluginRunMain(qualifiedClassName), getSelf());
 		});
 	}
 	

@@ -9,7 +9,7 @@ import akka.actor.UntypedActor;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
-import no.ntnu.assignmentsystem.services.akka.messages.RunCode;
+import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunCodeResult;
 
 public class Main {
@@ -44,7 +44,7 @@ public class Main {
 		public void preStart() throws Exception {
 			super.preStart();
 			
-			workspaceActor.tell(new RunCode(), getSelf());
+			workspaceActor.tell(new RunMain(), getSelf());
 		}
 		
 		@Override
@@ -52,7 +52,7 @@ public class Main {
 			if (message instanceof RunCodeResult) {
 				RunCodeResult result = (RunCodeResult)message;
 				System.out.println(getSelf() + ": " + result.output);
-				workspaceActor.tell(new RunCode(), getSelf());
+				workspaceActor.tell(new RunMain(), getSelf());
 			}
 		}
 	}

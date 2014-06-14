@@ -12,7 +12,7 @@ public class BackgroundApplication implements IApplication {
 		if (arguments.length == 1) {
 			String path = arguments[0];
 
-			Plugin.start(path);
+			PluginHelper.start(path);
 		}
 		
 		return null;

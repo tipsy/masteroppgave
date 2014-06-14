@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
-import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCode;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunCodeResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
@@ -32,8 +32,8 @@ public class PluginActor extends UntypedActor {
 		if (message instanceof PluginUpdateSourceCode) {
 			handleUpdateSourceCode((PluginUpdateSourceCode)message);
 		}
-		else if (message instanceof PluginRunCode) {
-			handleRunCode((PluginRunCode)message);
+		else if (message instanceof PluginRunMain) {
+			handleRunCode((PluginRunMain)message);
 		}
 		else {
 			unhandled(message);
@@ -47,7 +47,7 @@ public class PluginActor extends UntypedActor {
 		workspaceManager.updateSourceCode(updateSourceCode.packageName, updateSourceCode.fileName, updateSourceCode.sourceCode);
 	}
 	
-	private void handleRunCode(PluginRunCode runCode) throws CoreException {
+	private void handleRunCode(PluginRunMain runCode) throws CoreException {
 		String result = workspaceManager.runMain(runCode.qualifiedClassName);
 		getSender().tell(new PluginRunCodeResult(result), getSelf());
 	}

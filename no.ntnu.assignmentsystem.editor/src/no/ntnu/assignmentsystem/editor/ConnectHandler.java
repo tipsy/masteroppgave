@@ -23,7 +23,7 @@ public class ConnectHandler extends AbstractHandler {
 			String path = dialog.getValue();
 			
 			try {
-				Plugin.start(path);
+				PluginHelper.start(path);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

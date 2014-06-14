@@ -1,5 +1,7 @@
 package no.ntnu.assignmentsystem.editor.jdt;
 
+import no.ntnu.assignmentsystem.editor.akka.AkkaTestRunListener;
+
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -20,6 +22,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.junit.JUnitCore;
+import org.eclipse.jdt.junit.TestRunListener;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaRuntime;
 
@@ -38,6 +41,8 @@ public class WorkspaceManager {
 	
 	public WorkspaceManager(String projectName) {
 		this.projectName = projectName;
+		
+		JUnitCore.addTestRunListener(new AkkaTestRunListener());
 	}
 	
 	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException {
