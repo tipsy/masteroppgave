@@ -11,6 +11,7 @@ import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
+import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 
 public class Main {
 	public static void main(String[] args) {
@@ -29,22 +30,22 @@ public class Main {
 		
 		ActorSystem testActorSystem = ActorSystem.create();
 		
-		ActorRef workspaceActor = services.createEditor("10", "4");
-		testActorSystem.actorOf(Props.create(TestActor.class, workspaceActor));
+		ActorRef editorActor = services.createEditor("10", "4");
+		testActorSystem.actorOf(Props.create(TestActor.class, editorActor));
 	}
 	
 	public static class TestActor extends UntypedActor {
-		private final ActorRef workspaceActor;
+		private final ActorRef editorActor;
 		
-		public TestActor(ActorRef workspaceActor) {
-			this.workspaceActor = workspaceActor;
+		public TestActor(ActorRef editorActor) {
+			this.editorActor = editorActor;
 		}
 		
 		@Override
 		public void preStart() throws Exception {
 			super.preStart();
-			
-			workspaceActor.tell(new RunMain(), getSelf());
+
+			editorActor.tell(new RunMain(), getSelf());
 		}
 		
 		@Override
@@ -52,7 +53,17 @@ public class Main {
 			if (message instanceof RunMainResult) {
 				RunMainResult result = (RunMainResult)message;
 				System.out.println(getSelf() + ": " + result.output);
-				workspaceActor.tell(new RunMain(), getSelf());
+				
+				String sourceCode = "package stateandbehavior;\n" +
+						"public class Main {\n" +
+						"    public static void main(String[] args) {\n" +
+						"        System.out.println(\"Hello, World2!\");\n" +
+						"    }\n" +
+						"}\n";
+				editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
+				editorActor.tell(new RunMain(), getSelf());
+				
+//				workspaceActor.tell(new RunMain(), getSelf());
 			}
 		}
 	}

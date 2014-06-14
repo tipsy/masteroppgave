@@ -1,5 +1,7 @@
 package no.ntnu.assignmentsystem.editor.akka;
 
+import java.io.IOException;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 
@@ -43,7 +45,7 @@ public class PluginActor extends UntypedActor {
 	
 	// --- Handlers ---
 	
-	private void handleUpdateSourceCode(PluginUpdateSourceCode updateSourceCode) throws JavaModelException, CoreException {
+	private void handleUpdateSourceCode(PluginUpdateSourceCode updateSourceCode) throws JavaModelException, CoreException, IOException {
 		workspaceManager.updateSourceCode(updateSourceCode.packageName, updateSourceCode.fileName, updateSourceCode.sourceCode);
 	}
 	

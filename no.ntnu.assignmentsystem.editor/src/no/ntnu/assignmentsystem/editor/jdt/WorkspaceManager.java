@@ -1,5 +1,7 @@
 package no.ntnu.assignmentsystem.editor.jdt;
 
+import java.io.IOException;
+
 import no.ntnu.assignmentsystem.editor.akka.AkkaTestRunListener;
 
 import org.eclipse.core.resources.IFolder;
@@ -22,13 +24,14 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.junit.JUnitCore;
-import org.eclipse.jdt.junit.TestRunListener;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 public class WorkspaceManager {
 	private static final String srcFolderName = "src";
 	private static final String binFolderName = "bin";
+	private static final String runMainConfigName = "Run Main";
+	private static final String runTestsConfigName = "Run Tests";
 	
 	private final String projectName;
 	
@@ -45,42 +48,20 @@ public class WorkspaceManager {
 		JUnitCore.addTestRunListener(new AkkaTestRunListener());
 	}
 	
-	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException {
-//		IPackageFragment packageFragment = getSrcFolder().getPackageFragment(packageName);
-//		if (packageFragment != null) {
-//			ICompilationUnit originalCompilationUnit = packageFragment.getCompilationUnit(fileName);
-//			if (originalCompilationUnit != null) {
-//			    ICompilationUnit workingCopy = originalCompilationUnit.getWorkingCopy(null);
-//			    
-//			    IBuffer buffer = ((IOpenable)workingCopy).getBuffer();
-//			    buffer.setContents(sourceCode);
-//			    workingCopy.reconcile(ICompilationUnit.NO_AST, false, null, null);
-//			    
-//			    workingCopy.commitWorkingCopy(false, null);
-//			    
-//			    workingCopy.discardWorkingCopy();
-//			    
-//			    return;
-//			}
-//		}
-		
-		IPackageFragment fragment = getSrcFolder().createPackageFragment(packageName, true, null);
-		fragment.createCompilationUnit(fileName, sourceCode, false, null);
-//		compilationUnit.getResource().
-//		compilationUnit.save(null, false);
-//		compilationUnit.reconcile(ICompilationUnit.NO_AST, false, null, null);
-//		compilationUnit.commitWorkingCopy(false, null);
+	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException, IOException {
+		IPackageFragment packageFragment = getSrcFolder().createPackageFragment(packageName, true, null);
+		packageFragment.createCompilationUnit(fileName, sourceCode, true, null);
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
-		ILaunchConfiguration launchConfiguration = getRunMainLaunchConfiguration("Run Main", qualifiedClassName);
+		ILaunchConfiguration launchConfiguration = getRunMainLaunchConfiguration(qualifiedClassName);
 		return launch(launchConfiguration);
 	}
 	
 	public String runTests(String qualifiedClassName) throws CoreException {
 		//JUnitLaunchConfigurationConstants "org.eclipse.jdt.junit.launchconfig"
 		//https://github.com/hallvard/jexercise/blob/master/no.hal.jex.ui/src/no/hal/jex/ui/JexManager.java
-		ILaunchConfiguration launchConfiguration = getRunTestsLaunchConfiguration("Run Tests", qualifiedClassName);
+		ILaunchConfiguration launchConfiguration = getRunTestsLaunchConfiguration(qualifiedClassName);
 		return launch(launchConfiguration);
 	}
 
@@ -115,31 +96,31 @@ public class WorkspaceManager {
 		return output;
 	}
 	
-	private ILaunchConfiguration getRunMainLaunchConfiguration(String configName, String qualifiedClassName) throws CoreException {
+	private ILaunchConfiguration getRunMainLaunchConfiguration(String qualifiedClassName) throws CoreException {
 		if (_runMainLaunchConfiguration == null) {
-			_runMainLaunchConfiguration = createLaunchConfiguration(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION, configName, qualifiedClassName);
+			_runMainLaunchConfiguration = createLaunchConfiguration(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION, getJavaProject().getElementName(), runMainConfigName, qualifiedClassName);
 		}
 		
 		return _runMainLaunchConfiguration;
 	}
 	
-	private ILaunchConfiguration getRunTestsLaunchConfiguration(String configName, String qualifiedClassName) throws CoreException {
+	private ILaunchConfiguration getRunTestsLaunchConfiguration(String qualifiedClassName) throws CoreException {
 		if (_runTestsLaunchConfiguration == null) {
-			_runTestsLaunchConfiguration = createLaunchConfiguration("org.eclipse.jdt.junit.launchconfig", configName, qualifiedClassName);
+			_runTestsLaunchConfiguration = createLaunchConfiguration("org.eclipse.jdt.junit.launchconfig", getJavaProject().getElementName(), runTestsConfigName, qualifiedClassName);
 		}
 		
 		return _runTestsLaunchConfiguration;
 	}
 	
-	private ILaunchConfiguration createLaunchConfiguration(String launchConfigurationTypeId, String configName, String qualifiedClassName) throws CoreException {
+	private static ILaunchConfiguration createLaunchConfiguration(String launchConfigurationTypeId, String projectName, String configName, String qualifiedClassName) throws CoreException {
 		ILaunchConfigurationType launchConfigurationType = getLaunchManager().getLaunchConfigurationType(launchConfigurationTypeId);
 		ILaunchConfigurationWorkingCopy workingCopy = launchConfigurationType.newInstance(null, configName);
-		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, getJavaProject().getElementName());
+		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, projectName);
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, qualifiedClassName);
 		return workingCopy.doSave();
 	}
 	
-	private ILaunchManager getLaunchManager() {
+	private static ILaunchManager getLaunchManager() {
 		DebugPlugin debugPlugin = DebugPlugin.getDefault();
 		return debugPlugin.getLaunchManager();
 	}

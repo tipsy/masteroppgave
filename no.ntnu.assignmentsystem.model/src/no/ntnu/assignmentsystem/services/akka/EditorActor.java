@@ -72,13 +72,13 @@ public class EditorActor extends UntypedActorWithStash {
 		}
 		
 		if (message instanceof RunMain) {
-			handleRunCode((RunMain)message);
+			handleRunMain((RunMain)message);
 		}
 		else if (message instanceof UpdateSourceCode) {
 			handleUpdateSourceCode((UpdateSourceCode)message);
 		}
 		else if (message instanceof PluginRunMainResult) {
-			handlePluginRunCodeResult((PluginRunMainResult)message);
+			handlePluginRunMainResult((PluginRunMainResult)message);
 		}
 		else {
 			unhandled(message);
@@ -88,7 +88,7 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	// --- Handlers ---
 	
-	private void handleRunCode(RunMain runCode) {
+	private void handleRunMain(RunMain runMain) {
 		modelServices.getProblem(problemId).ifPresent(problem -> {
 			CodeProblem codeProblem = (CodeProblem)problem;
 			ImplementationFile mainImplementationFile = codeProblem.getMainImplementationFile();
@@ -102,13 +102,13 @@ public class EditorActor extends UntypedActorWithStash {
 	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
 		modelServices.getSourceCodeFile(updateSourceCode.fileId).ifPresent(sourceCodeFile -> {
 			// TODO: Save to model
-			
-			pluginActor.tell(new PluginUpdateSourceCode(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), sourceCodeFile.getSourceCode()), getSelf());
+			System.out.println("Sending update message to plugin");
+			pluginActor.tell(new PluginUpdateSourceCode(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), updateSourceCode.sourceCode), getSelf());
 		});
 	}
 	
-	private void handlePluginRunCodeResult(PluginRunMainResult pluginRunCodeResult) {
-		consumerActor.tell(new RunMainResult(pluginRunCodeResult.output), getSelf());
+	private void handlePluginRunMainResult(PluginRunMainResult pluginRunMainResult) {
+		consumerActor.tell(new RunMainResult(pluginRunMainResult.output), getSelf());
 	}
 	
 	
