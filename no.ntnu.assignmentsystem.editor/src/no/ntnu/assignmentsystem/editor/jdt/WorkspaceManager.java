@@ -6,25 +6,23 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.debug.core.Launch;
 import org.eclipse.debug.core.model.IProcess;
-import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IOpenable;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.WorkingCopyOwner;
 import org.eclipse.jdt.junit.JUnitCore;
-import org.eclipse.jdt.launching.IVMInstall;
-import org.eclipse.jdt.launching.IVMRunner;
+import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.jdt.launching.VMRunnerConfiguration;
 
 public class WorkspaceManager {
 	private static final String srcFolderName = "src";
@@ -60,29 +58,32 @@ public class WorkspaceManager {
 //		}
 		
 		IPackageFragment fragment = getSrcFolder().createPackageFragment(packageName, true, null);
-		ICompilationUnit compilationUnit = fragment.createCompilationUnit(fileName, sourceCode, false, null);
+		fragment.createCompilationUnit(fileName, sourceCode, false, null);
+//		compilationUnit.getResource().
 //		compilationUnit.save(null, false);
 //		compilationUnit.reconcile(ICompilationUnit.NO_AST, false, null, null);
 //		compilationUnit.commitWorkingCopy(false, null);
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
-		return launch(getJavaProject(), qualifiedClassName);
+		return launch(getJavaProject(), "RunConfig", qualifiedClassName);
 	}
 
 
 	// --- Private methods ---
 	
-	private String launch(IJavaProject project, String qualifiedClassName) throws CoreException {
-		IVMInstall virtualMachine = JavaRuntime.getVMInstall(project);
-		if (virtualMachine == null) {
-			virtualMachine = JavaRuntime.getDefaultVMInstall();
-		}
-		IVMRunner virtualMachineRunner = virtualMachine.getVMRunner(ILaunchManager.RUN_MODE);
-		String[] classPath = JavaRuntime.computeDefaultRuntimeClassPath(project);
-		VMRunnerConfiguration config = new VMRunnerConfiguration(qualifiedClassName, classPath);
-		ILaunch launch = new Launch(null, ILaunchManager.RUN_MODE, null);
-		virtualMachineRunner.run(config, launch, null);
+	private String launch(IJavaProject project, String configName, String qualifiedClassName) throws CoreException {
+		DebugPlugin plugin = DebugPlugin.getDefault();
+		ILaunchManager launchManager = plugin.getLaunchManager();
+		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType("org.eclipse.jdt.junit.launchconfig");
+		ILaunchConfigurationWorkingCopy workingCopy = launchConfigurationType.newInstance(null, configName);
+		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, getJavaProject().getElementName());
+		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, qualifiedClassName);
+		ILaunchConfiguration launchConfiguration = workingCopy.doSave();   
+		ILaunch launch = launchConfiguration.launch(ILaunchManager.RUN_MODE, null);
+		
+		//JUnitLaunchConfigurationConstants
+		//https://github.com/hallvard/jexercise/blob/master/no.hal.jex.ui/src/no/hal/jex/ui/JexManager.java
 		
 		while (!launch.isTerminated()) {
 			try {
@@ -112,8 +113,6 @@ public class WorkspaceManager {
 	private IJavaProject getJavaProject() throws CoreException {
 		if (_javaProject == null) {
 			_javaProject = JavaCore.create(getProject());
-			
-//			JavaRuntime.get
 			
 			IClasspathEntry[] buildPath = {
 				JavaRuntime.getDefaultJREContainerEntry(),

@@ -31,7 +31,7 @@ public class EditorActor extends UntypedActorWithStash {
 	private final StartPluginCommands startPluginCommands = new StartPluginCommands(
 		new File("/Applications/Eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140415-2008.jar"),
 //		new File("C:/eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140224-1459.jar"),
-		"no.ntnu.assignmentsystem.editor.Editor"
+		"no.ntnu.assignmentsystem.editor.BackgroundApplication"
 	);
 	
 	private ActorRef pluginActor;
@@ -119,8 +119,9 @@ public class EditorActor extends UntypedActorWithStash {
 		tempFile.delete();
 		tempFile.mkdir();
 		
-		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
-		commandRunner.runCommands(new String[] {command});
+		System.out.println(getRemoteAddressString());
+//		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
+//		commandRunner.runCommands(new String[] {command});
 	}
 	
 	private void bootstrapPlugin() {

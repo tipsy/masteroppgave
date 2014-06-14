@@ -2,37 +2,37 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="Editor"
+         id="BackgroundApplication"
          point="org.eclipse.core.runtime.applications">
       <application
             cardinality="singleton-global"
             thread="main"
             visible="true">
          <run
-               class="no.ntnu.assignmentsystem.editor.Application">
+               class="no.ntnu.assignmentsystem.editor.BackgroundApplication">
          </run>
       </application>
    </extension>
    <extension
      point="org.eclipse.ui.commands">
       <command
-        name="Sample Command"
-        id="no.ntnu.assignmentsystem.editor.commands.sampleCommand">
+        name="Connect..."
+        id="no.ntnu.assignmentsystem.editor.commands.connectCommand">
       </command>
    </extension>
    <extension
      point="org.eclipse.ui.handlers">
       <handler
-        commandId="no.ntnu.assignmentsystem.editor.commands.sampleCommand"
-        class="no.ntnu.assignmentsystem.editor.SampleHandler">
+        commandId="no.ntnu.assignmentsystem.editor.commands.connectCommand"
+        class="no.ntnu.assignmentsystem.editor.ConnectHandler">
       </handler>
    </extension>
    <extension
      point="org.eclipse.ui.bindings">
       <key
-        commandId="no.ntnu.assignmentsystem.editor.commands.sampleCommand"
+        commandId="no.ntnu.assignmentsystem.editor.commands.connectCommand"
         contextId="org.eclipse.ui.contexts.window"
-        sequence="M1+7"
+        sequence="M1+1"
         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
       </key>
    </extension>
@@ -41,13 +41,13 @@
   	 <menuContribution
         locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-           label="Sample Menu"
+           label="Assignment System"
            mnemonic="M"
-           id="no.ntnu.assignmentsystem.editor.menus.sampleMenu">
+           id="no.ntnu.assignmentsystem.editor.menus.assignmentSystemMenu">
             <command
-              commandId="no.ntnu.assignmentsystem.editor.commands.sampleCommand"
+              commandId="no.ntnu.assignmentsystem.editor.commands.connectCommand"
               mnemonic="S"
-              id="no.ntnu.assignmentsystem.editor.menus.sampleCommand">
+              id="no.ntnu.assignmentsystem.editor.menus.connectCommand">
             </command>
          </menu>
      </menuContribution>
