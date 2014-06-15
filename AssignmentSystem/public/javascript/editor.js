@@ -2,14 +2,14 @@ $(document).ready(function () {
 
     var editors = initEditors();
     var webSocket = openNewWebSocket();
-    var annotationList = createAnnotationList(getAnnotationData());
-    editors[0].getSession().setAnnotations(annotationList);
     initCollapsibleHeaders();
 
-    console.log("Current route is: "+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL());
+    //placeholders
+    var annotationList = createAnnotationList(getAnnotationData());
+    editors[0].getSession().setAnnotations(annotationList);
 
     webSocket.onopen = function() {
-        console.log('ws connected');
+        console.log('ws connected ('+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL()+')');
     };
 
     webSocket.onerror = function() {
