@@ -2,8 +2,6 @@ package no.ntnu.assignmentsystem.editor.jdt;
 
 import java.io.IOException;
 
-import no.ntnu.assignmentsystem.editor.akka.AkkaTestRunListener;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -44,8 +42,6 @@ public class WorkspaceManager {
 	
 	public WorkspaceManager(String projectName) {
 		this.projectName = projectName;
-		
-		JUnitCore.addTestRunListener(new AkkaTestRunListener());
 	}
 	
 	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException, IOException {
