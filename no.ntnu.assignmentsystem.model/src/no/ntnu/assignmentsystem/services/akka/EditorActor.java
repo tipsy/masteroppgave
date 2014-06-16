@@ -1,15 +1,13 @@
 package no.ntnu.assignmentsystem.services.akka;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
+import no.ntnu.assignmentsystem.akka.mapping.RunTestsResultMapper;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunTests;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunTestsResult;
-import no.ntnu.assignmentsystem.editor.akka.messages.PluginTestResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
@@ -18,8 +16,6 @@ import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.RunTests;
-import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
-import no.ntnu.assignmentsystem.services.akka.messages.TestResult;
 import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
@@ -139,7 +135,7 @@ public class EditorActor extends UntypedActorWithStash {
 	}
 	
 	private void handlePluginRunTestsResult(PluginRunTestsResult pluginRunTestsResult) {
-		consumerActor.tell(mapRunTestsResult(pluginRunTestsResult), getSelf());
+		consumerActor.tell(RunTestsResultMapper.createRunTestsResult(pluginRunTestsResult), getSelf());
 	}
 	
 	
@@ -185,32 +181,5 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	private static String getClassName(SourceCodeFile sourceCodeFile) {
 		return getFileName(sourceCodeFile).replace(".java", "");
-	}
-	
-	private static RunTestsResult mapRunTestsResult(PluginRunTestsResult pluginRunTestsResult) {
-		List<TestResult> testResults = new ArrayList<TestResult>();
-		for (PluginTestResult pluginTestResult : pluginRunTestsResult.testResults) {
-			testResults.add(mapTestResult(pluginTestResult));
-		}
-		
-		return new RunTestsResult(testResults);
-	}
-	
-	private static TestResult mapTestResult(PluginTestResult pluginTestResult) {
-		String methodName = pluginTestResult.methodName;
-		TestResult.Status status = mapTestResultStatus(pluginTestResult.status);
-		
-		return new TestResult(methodName, status);
-	}
-	
-	private static TestResult.Status mapTestResultStatus(PluginTestResult.Status status) {
-		switch (status) {
-		case OK:
-			return TestResult.Status.OK;
-		case Ignored:
-			return TestResult.Status.Ignored;
-		default:
-			return TestResult.Status.Failed;
-		}
 	}
 }
