@@ -49,7 +49,7 @@ public class Main {
 			super.preStart();
 
 //			editorActor.tell(new RunMain(), getSelf());
-			editorActor.tell(new RunTests(), getSelf());
+//			editorActor.tell(new RunTests(), getSelf());
 		}
 		
 		@Override
@@ -75,9 +75,7 @@ public class Main {
 					"    }\n" +
 					"}\n";
 			editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
-			editorActor.tell(new RunMain(), getSelf());
-			
-//			workspaceActor.tell(new RunMain(), getSelf());
+//			editorActor.tell(new RunMain(), getSelf());
 		}
 		
 		private void handleRunTestsResult(RunTestsResult result) {

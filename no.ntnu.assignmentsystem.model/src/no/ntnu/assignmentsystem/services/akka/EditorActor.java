@@ -2,7 +2,6 @@ package no.ntnu.assignmentsystem.services.akka;
 
 import java.io.File;
 
-import no.ntnu.assignmentsystem.akka.mapping.RunTestsResultMapper;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
@@ -13,6 +12,7 @@ import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
+import no.ntnu.assignmentsystem.services.akka.mapping.RunTestsResultMapper;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.RunTests;

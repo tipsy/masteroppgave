@@ -1,4 +1,4 @@
-package no.ntnu.assignmentsystem.akka.mapping;
+package no.ntnu.assignmentsystem.services.akka.mapping;
 
 import java.util.ArrayList;
 import java.util.List;

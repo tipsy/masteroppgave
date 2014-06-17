@@ -10,11 +10,15 @@ import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestRunSession;
 
 public class AkkaTestRunListener extends TestRunListener {
-	private final AkkaTestRunListenerDelegate delegate;
+	public interface Delegate {
+		void testRunCompleted(AkkaTestRunListener listener, List<PluginTestResult> testResults);
+	}
+	
+	private final Delegate delegate;
 	
 	private List<PluginTestResult> testResults;
 	
-	public AkkaTestRunListener(AkkaTestRunListenerDelegate delegate) {
+	public AkkaTestRunListener(Delegate delegate) {
 		this.delegate = delegate;
 	}
 	

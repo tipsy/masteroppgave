@@ -15,7 +15,10 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
+import org.eclipse.jdt.core.ElementChangedEvent;
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IElementChangedListener;
+import org.eclipse.jdt.core.IJavaElementDelta;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -25,11 +28,12 @@ import org.eclipse.jdt.junit.JUnitCore;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-public class WorkspaceManager {
+public class WorkspaceManager implements IElementChangedListener {
 	private static final String srcFolderName = "src";
 	private static final String binFolderName = "bin";
 	private static final String runMainConfigName = "Run Main";
 	private static final String runTestsConfigName = "Run Tests";
+	private static final String jUnitLaunchConfigurationId = "org.eclipse.jdt.junit.launchconfig";
 	
 	private final String projectName;
 	
@@ -42,6 +46,8 @@ public class WorkspaceManager {
 	
 	public WorkspaceManager(String projectName) {
 		this.projectName = projectName;
+		
+		JavaCore.addElementChangedListener(this); // TODO: Move to outer scope?
 	}
 	
 	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException, IOException {
@@ -55,10 +61,25 @@ public class WorkspaceManager {
 	}
 	
 	public String runTests(String qualifiedClassName) throws CoreException {
-		//JUnitLaunchConfigurationConstants "org.eclipse.jdt.junit.launchconfig"
-		//https://github.com/hallvard/jexercise/blob/master/no.hal.jex.ui/src/no/hal/jex/ui/JexManager.java
 		ILaunchConfiguration launchConfiguration = getRunTestsLaunchConfiguration(qualifiedClassName);
 		return launch(launchConfiguration);
+	}
+	
+	
+	// --- IElementChangedListener
+	
+	@Override
+	public void elementChanged(ElementChangedEvent event) {
+		IJavaElementDelta delta = event.getDelta();
+		// TODO: Implement
+		System.out.println(event);
+//		System.out.println("SOURCE=" + delta.);
+		for (IJavaElementDelta child : delta.getChangedChildren()) {
+			System.out.println("Child=" + child);
+			for (IJavaElementDelta child2 : child.getChangedChildren()) {
+				System.out.println("Child2=" + child2);
+			}
+		}
 	}
 
 
@@ -102,7 +123,7 @@ public class WorkspaceManager {
 	
 	private ILaunchConfiguration getRunTestsLaunchConfiguration(String qualifiedClassName) throws CoreException {
 		if (_runTestsLaunchConfiguration == null) {
-			_runTestsLaunchConfiguration = createLaunchConfiguration("org.eclipse.jdt.junit.launchconfig", getJavaProject().getElementName(), runTestsConfigName, qualifiedClassName);
+			_runTestsLaunchConfiguration = createLaunchConfiguration(jUnitLaunchConfigurationId, getJavaProject().getElementName(), runTestsConfigName, qualifiedClassName);
 		}
 		
 		return _runTestsLaunchConfiguration;

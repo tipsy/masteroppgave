@@ -18,7 +18,7 @@ import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 
-public class PluginActor extends UntypedActor implements AkkaTestRunListenerDelegate {
+public class PluginActor extends UntypedActor implements AkkaTestRunListener.Delegate {
 	private final ActorRef editorActor;
 	private final WorkspaceManager workspaceManager;
 	
@@ -71,7 +71,7 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListenerDele
 	}
 	
 	
-	// --- AkkaTestRunListenerDelegate ---
+	// --- AkkaTestRunListener.Delegate ---
 
 	@Override
 	public void testRunCompleted(AkkaTestRunListener listener, List<PluginTestResult> testResults) {
