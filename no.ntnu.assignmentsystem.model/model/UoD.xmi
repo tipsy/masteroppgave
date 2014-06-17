@@ -65,7 +65,8 @@
             xsi:type="no.ntnu.assignmentsystem:TestFile"
             id="6"
             filePath="src-gen/stateandbehavior/AccountTest.java"
-            packageName="stateandbehavior"/>
+            packageName="stateandbehavior"
+            visible="true"/>
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:JexTestFile"
             id="12"
