@@ -42,7 +42,7 @@ $(document).ready(function () {
                     fileId: fileId,
                     sourceCode: sourceCode
                 });
-            }, 400);
+            }, 300);
         });
     });
 

@@ -11,6 +11,9 @@ import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
+import no.ntnu.assignmentsystem.services.akka.messages.RunTests;
+import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
+import no.ntnu.assignmentsystem.services.akka.messages.TestResult;
 import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 
 public class Main {
@@ -45,25 +48,41 @@ public class Main {
 		public void preStart() throws Exception {
 			super.preStart();
 
-			editorActor.tell(new RunMain(), getSelf());
+//			editorActor.tell(new RunMain(), getSelf());
+			editorActor.tell(new RunTests(), getSelf());
 		}
 		
 		@Override
 		public void onReceive(Object message) throws Exception {
+			System.out.println(getSelf() + ": Received message:" + message);
+			
 			if (message instanceof RunMainResult) {
-				RunMainResult result = (RunMainResult)message;
-				System.out.println(getSelf() + ": " + result.output);
+				handleRunMainResult((RunMainResult)message);
 				
-				String sourceCode = "package stateandbehavior;\n" +
-						"public class Main {\n" +
-						"    public static void main(String[] args) {\n" +
-						"        System.out.println(\"Hello, World2!\");\n" +
-						"    }\n" +
-						"}\n";
-				editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
-				editorActor.tell(new RunMain(), getSelf());
-				
-//				workspaceActor.tell(new RunMain(), getSelf());
+			}
+			else if (message instanceof RunTestsResult) {
+				handleRunTestsResult((RunTestsResult)message);
+			}
+		}
+		
+		private void handleRunMainResult(RunMainResult result) {
+			System.out.println(result.output);
+			
+			String sourceCode = "package stateandbehavior;\n" +
+					"public class Main {\n" +
+					"    public static void main(String[] args) {\n" +
+					"        System.out.println(\"Hello, World3!\");\n" +
+					"    }\n" +
+					"}\n";
+			editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
+			editorActor.tell(new RunMain(), getSelf());
+			
+//			workspaceActor.tell(new RunMain(), getSelf());
+		}
+		
+		private void handleRunTestsResult(RunTestsResult result) {
+			for (TestResult testResult : result.testResults) {
+				System.out.println(testResult.methodName + "-" + testResult.status.name());
 			}
 		}
 	}

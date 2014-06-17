@@ -2,9 +2,12 @@ package no.ntnu.assignmentsystem.services.akka;
 
 import java.io.File;
 
+import no.ntnu.assignmentsystem.akka.mapping.RunTestsResultMapper;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunTests;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunTestsResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
@@ -12,6 +15,7 @@ import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
+import no.ntnu.assignmentsystem.services.akka.messages.RunTests;
 import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 import no.ntnu.assignmentsystem.services.coderunner.CommandRunner;
 import no.ntnu.assignmentsystem.services.coderunner.DefaultRuntimeExecutor;
@@ -67,19 +71,33 @@ public class EditorActor extends UntypedActorWithStash {
 	}
 	
 	private Procedure<Object> onReceiveWhenReady = message -> {
-		if (getSender().equals(pluginActor) == false) {
+		Boolean shouldSetConsumer = (consumerActor == null && getSender().equals(pluginActor) == false);
+		if (shouldSetConsumer) {
+			System.out.println(getSelf() + ": Received message from consumer:" + getSender());
 			consumerActor = getSender();
 		}
 		
+		System.out.println(getSelf() + ": Received message:" + message);
+		
+		// From consumer
 		if (message instanceof RunMain) {
 			handleRunMain((RunMain)message);
+		}
+		else if (message instanceof RunTests) {
+			handleRunTests((RunTests)message);
 		}
 		else if (message instanceof UpdateSourceCode) {
 			handleUpdateSourceCode((UpdateSourceCode)message);
 		}
+		
+		// From plugin
 		else if (message instanceof PluginRunMainResult) {
 			handlePluginRunMainResult((PluginRunMainResult)message);
 		}
+		else if (message instanceof PluginRunTestsResult) {
+			handlePluginRunTestsResult((PluginRunTestsResult)message);
+		}
+		
 		else {
 			unhandled(message);
 		}
@@ -99,6 +117,11 @@ public class EditorActor extends UntypedActorWithStash {
 		});
 	}
 	
+	private void handleRunTests(RunTests runTests) {
+		// TODO: Implement
+		pluginActor.tell(new PluginRunTests("stateandbehavior.AccountTest"), getSelf());
+	}
+	
 	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
 		modelServices.getSourceCodeFile(updateSourceCode.fileId).ifPresent(sourceCodeFile -> {
 			// TODO: Save to model
@@ -109,6 +132,10 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	private void handlePluginRunMainResult(PluginRunMainResult pluginRunMainResult) {
 		consumerActor.tell(new RunMainResult(pluginRunMainResult.output), getSelf());
+	}
+	
+	private void handlePluginRunTestsResult(PluginRunTestsResult pluginRunTestsResult) {
+		consumerActor.tell(RunTestsResultMapper.createRunTestsResult(pluginRunTestsResult), getSelf());
 	}
 	
 	
