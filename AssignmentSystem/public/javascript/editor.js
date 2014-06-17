@@ -98,9 +98,9 @@ $(document).ready(function () {
 
     function initEditors() {
         var editors = [];
-        $(".ace-editor-instance").each(function () {
-            editors.push(createEditor($(this).attr("id")));
-        });
+        var autoCompleter = ace.require("ace/ext/language_tools");
+        $(".ace-editor-instance").each(function () { editors.push(createEditor($(this).attr("id"))); });
+        autoCompleter.addCompleter(createCompleter());
         return editors;
     }
 
@@ -108,30 +108,25 @@ $(document).ready(function () {
         var editor = ace.edit(editorID);
         editor.setTheme("ace/theme/eclipse");
         editor.getSession().setMode("ace/mode/java");
-
-        //init auto-complete
         editor.setOptions({enableBasicAutocompletion: true});
-        initAutoRhyme();
-        //end init auto-complete
-
         return editor;
     }
 
-    function initAutoRhyme(){
-        var langTools = ace.require("ace/ext/language_tools");
+    function createCompleter(){
         var rhymeCompleter = {
             getCompletions: function(editor, session, pos, prefix, callback) {
+                console.log(pos);
                 if (prefix.length === 0) { callback(null, []); return }
                 $.getJSON(
                     "http://rhymebrain.com/talk?function=getRhymes&word=" + prefix,
                     function(wordList) {
                         callback(null, wordList.map(function(ea) {
-                            return {name: ea.word, value: ea.word, score: ea.score, meta: "rhyme"}
+                            return {value: ea.word, meta: "rhyme"}
                         }));
                     })
             }
         }
-        langTools.addCompleter(rhymeCompleter);
+        return rhymeCompleter;
     }
 
     function openNewWebSocket() {

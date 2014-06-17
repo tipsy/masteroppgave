@@ -15,7 +15,7 @@
 
     <div id="assignment-tab-content" class="tab-content bordered">
     @for( ((codefile : SourceCodeFileView), index) <- problem.getSourceCodeFiles.zipWithIndex ){
-        <div class="tab-pane @if(index==0){active in} slide-left" id="class@index">
+        <div class="tab-pane @if(index==0){active in}" id="class@index">
             <div id="editor@index" class="ace-editor-instance" data-file-id="@codefile.getId">@codefile.getSourceCode</div>
         </div>
     }
