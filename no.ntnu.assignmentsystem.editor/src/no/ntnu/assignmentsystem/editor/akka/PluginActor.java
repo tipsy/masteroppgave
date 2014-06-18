@@ -93,10 +93,7 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 	
 	@Override
 	public void problemMarkerDidChange(String packageName, String fileName, IMarker[] markers) {
-		System.out.println("Should notify about problems");
-		System.out.println("Input:" + packageName + " " + fileName + " " + markers);
 		PluginErrorCheckingResult errorCheckingResult = PluginErrorCheckingResultMapper.createErrorCheckingResult(packageName, fileName, markers);
-		System.out.println("ErrorCheckingResult:" + errorCheckingResult);
 		consumerActor.tell(errorCheckingResult, getSelf());
 	}
 }
