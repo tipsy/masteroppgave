@@ -97,9 +97,6 @@
         <evaluation
             evaluatedBy="//@courses.0/@participants.3"/>
       </submissions>
-      <sourceCodeFiles
-          sourceCode="package stateandbehavior;&#xA;&#xA;public class Main {&#xA;    public static void main(String[] args) {&#xA;        System.out.println(&quot;Hello, World2!&quot;);&#xA;    }&#xA;}&#xA;"
-          originalSourceCodeFile="5"/>
     </participants>
     <participants
         xsi:type="no.ntnu.assignmentsystem:Staff"
