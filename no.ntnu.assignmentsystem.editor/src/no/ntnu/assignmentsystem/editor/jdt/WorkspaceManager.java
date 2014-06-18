@@ -1,10 +1,15 @@
 package no.ntnu.assignmentsystem.editor.jdt;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -17,8 +22,9 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jdt.core.ElementChangedEvent;
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IElementChangedListener;
-import org.eclipse.jdt.core.IJavaElementDelta;
+import org.eclipse.jdt.core.IJavaModelMarker;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -29,6 +35,10 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 public class WorkspaceManager implements IElementChangedListener {
+	public interface Listener {
+		void problemMarkerDidChange(String packageName, String fileName, IMarker[] markers);
+	}
+	
 	private static final String srcFolderName = "src";
 	private static final String binFolderName = "bin";
 	private static final String runMainConfigName = "Run Main";
@@ -36,7 +46,6 @@ public class WorkspaceManager implements IElementChangedListener {
 	private static final String jUnitLaunchConfigurationId = "org.eclipse.jdt.junit.launchconfig";
 	
 	private final String projectName;
-	
 	
 	private IProject _project;
 	private IJavaProject _javaProject;
@@ -47,12 +56,39 @@ public class WorkspaceManager implements IElementChangedListener {
 	public WorkspaceManager(String projectName) {
 		this.projectName = projectName;
 		
-		JavaCore.addElementChangedListener(this); // TODO: Move to outer scope?
+		JavaCore.addElementChangedListener(this);
+	}
+	
+	public void dispose() {
+		JavaCore.removeElementChangedListener(this);
+	}
+	
+	private final static List<Listener> listeners = new ArrayList<>();
+	
+	public void addListener(Listener listener) {
+		listeners.add(listener);
+	}
+	
+	public void removeListener(Listener listener) {
+		listeners.add(listener);
+	}
+	
+	public void notifyListeners(Consumer<Listener> consumer) {
+		listeners.stream().forEach(consumer);
 	}
 	
 	public void updateSourceCode(String packageName, String fileName, String sourceCode) throws JavaModelException, CoreException, IOException {
+		if (fileName.endsWith(".java") == false) {
+			return;
+		}
+		
 		IPackageFragment packageFragment = getSrcFolder().createPackageFragment(packageName, true, null);
-		packageFragment.createCompilationUnit(fileName, sourceCode, true, null);
+		ICompilationUnit compilationUnit = packageFragment.createCompilationUnit(fileName, sourceCode, true, null);
+		
+		IResource javaSourceFile = compilationUnit.getUnderlyingResource();
+		IMarker[] markers = javaSourceFile.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
+		
+		notifyListeners(listener -> listener.problemMarkerDidChange(packageName, fileName, markers));
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
@@ -70,17 +106,34 @@ public class WorkspaceManager implements IElementChangedListener {
 	
 	@Override
 	public void elementChanged(ElementChangedEvent event) {
-		IJavaElementDelta delta = event.getDelta();
+//		IJavaElementDelta delta = event.getDelta();
 		// TODO: Implement
-		System.out.println(event);
-//		System.out.println("SOURCE=" + delta.);
-		for (IJavaElementDelta child : delta.getChangedChildren()) {
-			System.out.println("Child=" + child);
-			for (IJavaElementDelta child2 : child.getChangedChildren()) {
-				System.out.println("Child2=" + child2);
-			}
-		}
+//		System.out.println(event);
+//		System.out.println("Content changed in element:" + findContentElement(delta));
+//		
+////		System.out.println("SOURCE=" + delta.);
+////		for (IJavaElementDelta child : delta.getChangedChildren()) {
+////			System.out.println("Child=" + child);
+////			for (IJavaElementDelta child2 : child.getChangedChildren()) {
+////				System.out.println("Child2=" + child2);
+////			}
+////		}
 	}
+	
+//	private IJavaElementDelta findContentElement(IJavaElementDelta delta) {
+//		if ((delta.getFlags() & IJavaElementDelta.F_CONTENT) != 0) {
+//			return delta;
+//		}
+//		else {
+//			for (IJavaElementDelta childDelta : delta.getChangedChildren()) {
+//				if (findContentElement(childDelta) != null) {
+//					return childDelta;
+//				}
+//			}
+//		}
+//		
+//		return null;
+//	}
 
 
 	// --- Private methods ---

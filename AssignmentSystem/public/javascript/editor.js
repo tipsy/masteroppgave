@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     webSocket.onopen = function() {
         console.log('ws connected ('+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL()+')');
+        sendMessage("notifyOnReady");
     };
 
     webSocket.onerror = function() {

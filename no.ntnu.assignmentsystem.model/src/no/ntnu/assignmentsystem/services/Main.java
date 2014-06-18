@@ -1,6 +1,9 @@
 package no.ntnu.assignmentsystem.services;
 
 import java.io.File;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -9,6 +12,8 @@ import akka.actor.UntypedActor;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.Services;
+import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
+import no.ntnu.assignmentsystem.services.akka.messages.ProblemMarker;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.RunTests;
@@ -47,7 +52,7 @@ public class Main {
 		@Override
 		public void preStart() throws Exception {
 			super.preStart();
-
+			
 //			editorActor.tell(new RunMain(), getSelf());
 //			editorActor.tell(new RunTests(), getSelf());
 		}
@@ -63,6 +68,9 @@ public class Main {
 			else if (message instanceof RunTestsResult) {
 				handleRunTestsResult((RunTestsResult)message);
 			}
+			else if (message instanceof ErrorCheckingResult) {
+				handleErrorCheckingResult((ErrorCheckingResult)message);
+			}
 		}
 		
 		private void handleRunMainResult(RunMainResult result) {
@@ -71,7 +79,7 @@ public class Main {
 			String sourceCode = "package stateandbehavior;\n" +
 					"public class Main {\n" +
 					"    public static void main(String[] args) {\n" +
-					"        System.out.println(\"Hello, World3!\");\n" +
+					"        System.out.printlns(\"Hello, World3!\");\n" +
 					"    }\n" +
 					"}\n";
 			editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
@@ -81,6 +89,13 @@ public class Main {
 		private void handleRunTestsResult(RunTestsResult result) {
 			for (TestResult testResult : result.testResults) {
 				System.out.println(testResult.methodName + "-" + testResult.status.name());
+			}
+		}
+		
+		private void handleErrorCheckingResult(ErrorCheckingResult result) {
+			System.out.println("Found problems in:" + result.fileId);
+			for (ProblemMarker problemMarker : result.problemMarkers) {
+				System.out.println(problemMarker.lineNumber + " " + problemMarker.description + " " + problemMarker.type);
 			}
 		}
 	}

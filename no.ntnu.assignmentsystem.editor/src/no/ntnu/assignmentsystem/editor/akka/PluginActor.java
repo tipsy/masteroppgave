@@ -3,10 +3,8 @@ package no.ntnu.assignmentsystem.editor.akka;
 import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.junit.JUnitCore;
-
+import no.ntnu.assignmentsystem.editor.akka.mapping.PluginErrorCheckingResultMapper;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginErrorCheckingResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
@@ -15,16 +13,26 @@ import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunTestsResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginTestResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
+
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.junit.JUnitCore;
+
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 
-public class PluginActor extends UntypedActor implements AkkaTestRunListener.Delegate {
-	private final ActorRef editorActor;
+public class PluginActor extends UntypedActor implements AkkaTestRunListener.Delegate, WorkspaceManager.Listener {
+	private final ActorRef consumerActor;
 	private final WorkspaceManager workspaceManager;
 	
-	public PluginActor(ActorRef editorActor, WorkspaceManager workspaceManager) {
-		this.editorActor = editorActor;
+	public PluginActor(ActorRef consumerActor, WorkspaceManager workspaceManager) {
+		System.out.println("Constructing PluginActor:" + this);
+		
+		this.consumerActor = consumerActor;
 		this.workspaceManager = workspaceManager;
+		
+		workspaceManager.addListener(this); // TODO: Add removeListener
 	}
 	
 	@Override
@@ -33,11 +41,13 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 		
 		JUnitCore.addTestRunListener(new AkkaTestRunListener(this));
 		
-		editorActor.tell(new PluginReady(), getSelf());
+		consumerActor.tell(new PluginReady(), getSelf());
 	}
 	
 	@Override
 	public void onReceive(Object message) throws Exception {
+		System.out.println(getSelf() + ": Received message:" + message);
+		
 		if (message instanceof PluginUpdateSourceCode) {
 			handleUpdateSourceCode((PluginUpdateSourceCode)message);
 		}
@@ -72,9 +82,21 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 	
 	
 	// --- AkkaTestRunListener.Delegate ---
-
+	
 	@Override
 	public void testRunCompleted(AkkaTestRunListener listener, List<PluginTestResult> testResults) {
-		editorActor.tell(new PluginRunTestsResult(testResults), getSelf());
+		consumerActor.tell(new PluginRunTestsResult(testResults), getSelf());
+	}
+	
+	
+	// --- WorkspaceManager.Listener ---
+	
+	@Override
+	public void problemMarkerDidChange(String packageName, String fileName, IMarker[] markers) {
+		System.out.println("Should notify about problems");
+		System.out.println("Input:" + packageName + " " + fileName + " " + markers);
+		PluginErrorCheckingResult errorCheckingResult = PluginErrorCheckingResultMapper.createErrorCheckingResult(packageName, fileName, markers);
+		System.out.println("ErrorCheckingResult:" + errorCheckingResult);
+		consumerActor.tell(errorCheckingResult, getSelf());
 	}
 }

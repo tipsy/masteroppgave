@@ -2,6 +2,7 @@ package no.ntnu.assignmentsystem.services.akka;
 
 import java.io.File;
 
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginErrorCheckingResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMainResult;
@@ -12,7 +13,11 @@ import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
+import no.ntnu.assignmentsystem.services.akka.mapping.ErrorCheckingResultMapper;
 import no.ntnu.assignmentsystem.services.akka.mapping.RunTestsResultMapper;
+import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
+import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
+import no.ntnu.assignmentsystem.services.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.RunTests;
@@ -57,26 +62,28 @@ public class EditorActor extends UntypedActorWithStash {
 	@Override
 	public void onReceive(Object message) throws Exception {
 		if (message instanceof PluginReady) {
-			System.out.println("Received message from PluginActor:" + getSender());
+			System.out.println("Set PluginActor to:" + getSender());
 			pluginActor = getSender();
 			
 			bootstrapPlugin();
-			
-			unstashAll();
-			getContext().become(onReceiveWhenReady, false);
+		}
+		else if (message instanceof NotifyOnReady) {
+			System.out.println("Set consumer to:" + getSender());
+			consumerActor = getSender();
 		}
 		else {
 			stash();
 		}
+		
+		if (pluginActor != null && consumerActor != null) {
+			unstashAll();
+			getContext().become(onReceiveWhenReady, false);
+			
+			consumerActor.tell(new Ready(), getSelf());
+		}
 	}
 	
 	private Procedure<Object> onReceiveWhenReady = message -> {
-		Boolean shouldSetConsumer = (consumerActor == null && getSender().equals(pluginActor) == false);
-		if (shouldSetConsumer) {
-			System.out.println(getSelf() + ": Received message from consumer:" + getSender());
-			consumerActor = getSender();
-		}
-		
 		System.out.println(getSelf() + ": Received message:" + message);
 		
 		// From consumer
@@ -96,6 +103,9 @@ public class EditorActor extends UntypedActorWithStash {
 		}
 		else if (message instanceof PluginRunTestsResult) {
 			handlePluginRunTestsResult((PluginRunTestsResult)message);
+		}
+		else if (message instanceof PluginErrorCheckingResult) {
+			handlePluginErrorCheckingResult((PluginErrorCheckingResult)message);
 		}
 		
 		else {
@@ -138,6 +148,11 @@ public class EditorActor extends UntypedActorWithStash {
 		consumerActor.tell(RunTestsResultMapper.createRunTestsResult(pluginRunTestsResult), getSelf());
 	}
 	
+	private void handlePluginErrorCheckingResult(PluginErrorCheckingResult pluginErrorCheckingResult) {
+		String fileId = "5"; // TODO: Fix this
+		consumerActor.tell(ErrorCheckingResultMapper.createErrorCheckingResult(fileId, pluginErrorCheckingResult), getSelf());
+	}
+	
 	
 	// --- Private methods ---
 	
@@ -147,12 +162,12 @@ public class EditorActor extends UntypedActorWithStash {
 		tempFile.mkdir();
 		
 		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
-		if (System.getenv().get("debug") != null) {
+//		if (System.getenv().get("debug") != null) {
 			System.out.println("Run command: " + command); // TODO: Remove
-		}
-		else {
-			commandRunner.runCommands(new String[] {command});
-		}
+//		}
+//		else {
+//			commandRunner.runCommands(new String[] {command});
+//		}
 	}
 	
 	private void bootstrapPlugin() {
