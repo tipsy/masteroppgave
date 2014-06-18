@@ -4,10 +4,6 @@ $(document).ready(function () {
     var webSocket = openNewWebSocket();
     initCollapsibleHeaders();
 
-    //placeholders
-    var annotationList = createAnnotationList(getAnnotationData());
-    editors[0].getSession().setAnnotations(annotationList);
-
     webSocket.onopen = function() {
         console.log('ws connected ('+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL()+')');
         sendMessage("notifyOnReady");
@@ -24,8 +20,21 @@ $(document).ready(function () {
     webSocket.onmessage = function(msgevent) {
         var object = JSON.parse(msgevent.data);
         console.log(object);
-        if (object.type === 'runMainResult') {
+        if (object.type === 'ready') {
+            $('#editor-logo').addClass('ready');
+        }
+        else if (object.type === 'runMainResult') {
             $('.ace-editor-console').text(object.data.output);
+        }
+        else if (object.type === 'runTestsResult') {
+            // TODO: Implement
+        }
+        else if (object.type === 'errorCheckingResult') {
+            var annotations = object.data.problemMarkers.map(function (problem) {
+                return new Annotation(problem.lineNumber - 1, problem.description, convertType(problem.type));
+            });
+
+            editors[0].getSession().setAnnotations(annotations); // TODO: Set annotations on correct editor based on fileId
         }
     };
 
@@ -34,7 +43,7 @@ $(document).ready(function () {
 
         this.on('change', function() {
             throttle(function(){
-                //this code is called 400ms after the last change-event
+                //this code is called 300ms after the last change-event
 
                 var fileId = $(editor.container).attr('data-file-id');
                 var sourceCode = editor.getSession().getValue();
@@ -138,22 +147,15 @@ $(document).ready(function () {
         return $("#problem-id").data("problemid");
     }
 
-    function createAnnotationList(data) {
-        var annotationList = data.problems.map(function (problem) {
-            return new Annotation(problem.lineNumber, problem.message, problem.type);
-        });
-        return annotationList;
-    }
-
-    function getAnnotationData() {
-        var data = {
-            "problems": [
-                {"lineNumber": 1, "message": "Something is wrong", "type": "error"},
-                {"lineNumber": 2, "message": "Something else is wrong too", "type": "warning"},
-                {"lineNumber": 3, "message": "THIS. IS. INFORMATION", "type": "info"}
-            ]
+    function convertType(type) {
+        switch (type) {
+            case 'Warning':
+                return 'warning';
+            case 'Information':
+                return 'info';
+            default:
+                return 'error';
         }
-        return data;
     }
 
     function Annotation(lineNumber, message, type){

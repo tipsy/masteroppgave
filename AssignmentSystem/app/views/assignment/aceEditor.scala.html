@@ -4,7 +4,7 @@
 <div id="ace-editor-wrapper">
 
     <div id="editor-header">
-        <i class="fa fa-terminal" id="editor-logo"></i>
+        <i class="fa fa-circle" id="editor-logo"></i>
         <ul id="java-class-tabs" class="nav nav-tabs">
             @for( ((codefile : SourceCodeFileView), index) <- problem.getSourceCodeFiles.zipWithIndex ){
                 <li class="@if(index==0){active}"><a href="#class@index" data-toggle="tab">@codefile.getTitle</a></li>
