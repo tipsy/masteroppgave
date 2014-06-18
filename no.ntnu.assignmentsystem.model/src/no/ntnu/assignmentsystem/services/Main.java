@@ -1,25 +1,20 @@
 package no.ntnu.assignmentsystem.services;
 
 import java.io.File;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
+import no.ntnu.assignmentsystem.model.ModelLoader;
+import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
+import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
+import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
+import no.ntnu.assignmentsystem.services.akka.messages.ProblemMarker;
+import no.ntnu.assignmentsystem.services.akka.messages.Ready;
+import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
+import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
+import no.ntnu.assignmentsystem.services.akka.messages.TestResult;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import no.ntnu.assignmentsystem.model.ModelLoader;
-import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
-import no.ntnu.assignmentsystem.services.Services;
-import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
-import no.ntnu.assignmentsystem.services.akka.messages.ProblemMarker;
-import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
-import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
-import no.ntnu.assignmentsystem.services.akka.messages.RunTests;
-import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
-import no.ntnu.assignmentsystem.services.akka.messages.TestResult;
-import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 
 public class Main {
 	public static void main(String[] args) {
@@ -53,6 +48,7 @@ public class Main {
 		public void preStart() throws Exception {
 			super.preStart();
 			
+			editorActor.tell(new NotifyOnReady(), getSelf());
 //			editorActor.tell(new RunMain(), getSelf());
 //			editorActor.tell(new RunTests(), getSelf());
 		}
@@ -61,9 +57,11 @@ public class Main {
 		public void onReceive(Object message) throws Exception {
 			System.out.println(getSelf() + ": Received message:" + message);
 			
-			if (message instanceof RunMainResult) {
+			if (message instanceof Ready) {
+				handleReady();
+			}
+			else if (message instanceof RunMainResult) {
 				handleRunMainResult((RunMainResult)message);
-				
 			}
 			else if (message instanceof RunTestsResult) {
 				handleRunTestsResult((RunTestsResult)message);
@@ -73,17 +71,20 @@ public class Main {
 			}
 		}
 		
+		private void handleReady() {
+			System.out.println("Editor ready");
+//			String sourceCode = "package stateandbehavior;\n" +
+//					"public class Main {\n" +
+//					"    public static void main(String[] args) {\n" +
+//					"        System.out.printlns(\"Hello, World3!\");\n" +
+//					"    }\n" +
+//					"}\n";
+//			editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
+//			editorActor.tell(new RunMain(), getSelf());
+		}
+		
 		private void handleRunMainResult(RunMainResult result) {
 			System.out.println(result.output);
-			
-			String sourceCode = "package stateandbehavior;\n" +
-					"public class Main {\n" +
-					"    public static void main(String[] args) {\n" +
-					"        System.out.printlns(\"Hello, World3!\");\n" +
-					"    }\n" +
-					"}\n";
-			editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
-//			editorActor.tell(new RunMain(), getSelf());
 		}
 		
 		private void handleRunTestsResult(RunTestsResult result) {

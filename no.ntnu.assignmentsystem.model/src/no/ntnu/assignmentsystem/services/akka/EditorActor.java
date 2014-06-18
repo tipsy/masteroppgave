@@ -15,7 +15,6 @@ import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.akka.mapping.ErrorCheckingResultMapper;
 import no.ntnu.assignmentsystem.services.akka.mapping.RunTestsResultMapper;
-import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
 import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
 import no.ntnu.assignmentsystem.services.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
