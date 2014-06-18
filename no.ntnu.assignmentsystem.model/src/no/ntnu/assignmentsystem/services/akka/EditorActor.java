@@ -161,12 +161,12 @@ public class EditorActor extends UntypedActorWithStash {
 		tempFile.mkdir();
 		
 		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
-//		if (System.getenv().get("debug") != null) {
+		if (System.getenv().get("debug") != null) {
 			System.out.println("Run command: " + command); // TODO: Remove
-//		}
-//		else {
-//			commandRunner.runCommands(new String[] {command});
-//		}
+		}
+		else {
+			commandRunner.runCommands(new String[] {command});
+		}
 	}
 	
 	private void bootstrapPlugin() {
