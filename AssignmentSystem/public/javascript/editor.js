@@ -44,7 +44,8 @@ $(document).ready(function () {
                         return new Annotation(problem.lineNumber - 1, problem.description, convertType(problem.type));
                     });
 
-                    foundEditors[0].getSession().setAnnotations(annotations); // TODO: Set annotations on correct editor based on fileId
+                    var editor = foundEditors[0];
+                    editor.getSession().setAnnotations(annotations);
                 }
             }
         }
