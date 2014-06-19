@@ -155,7 +155,7 @@ public class EditorActor extends UntypedActorWithStash {
 				
 				return codeProblem.getSourceCodeFiles().stream().filter(
 					sourceCodeFile -> sourceCodeFile.getPackageName().equals(packageName) && getFileName(sourceCodeFile).equals(fileName)
-				).findFirst().map(
+				).findAny().map(
 					sourceCodeFile -> sourceCodeFile.getId()
 				).get();
 			}
