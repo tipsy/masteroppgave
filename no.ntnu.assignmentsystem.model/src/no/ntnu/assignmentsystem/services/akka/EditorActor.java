@@ -151,7 +151,13 @@ public class EditorActor extends UntypedActorWithStash {
 		ErrorCheckingResultMapper.IdRetriever idRetriever = new ErrorCheckingResultMapper.IdRetriever() {
 			@Override
 			public String getId(String packageName, String fileName) {
-				return "5"; // TODO: Fix this
+				CodeProblem codeProblem = (CodeProblem)modelServices.getProblem(problemId).get();
+				
+				return codeProblem.getSourceCodeFiles().stream().filter(
+					sourceCodeFile -> sourceCodeFile.getPackageName().equals(packageName) && getFileName(sourceCodeFile).equals(fileName)
+				).findFirst().map(
+					sourceCodeFile -> sourceCodeFile.getId()
+				).get();
 			}
 		};
 		
