@@ -30,11 +30,23 @@ $(document).ready(function () {
             // TODO: Implement
         }
         else if (object.type === 'errorCheckingResult') {
-            var annotations = object.data.problemMarkers.map(function (problem) {
-                return new Annotation(problem.lineNumber - 1, problem.description, convertType(problem.type));
-            });
+            var files = object.data.files;
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
 
-            editors[0].getSession().setAnnotations(annotations); // TODO: Set annotations on correct editor based on fileId
+                var foundEditors = editors.filter(function (editor) {
+                    var fileId = $(editor.container).attr('data-file-id');
+                    return (file.fileId === fileId);
+                });
+
+                if (foundEditors.length == 1) {
+                    var annotations = file.problemMarkers.map(function (problem) {
+                        return new Annotation(problem.lineNumber - 1, problem.description, convertType(problem.type));
+                    });
+
+                    foundEditors[0].getSession().setAnnotations(annotations); // TODO: Set annotations on correct editor based on fileId
+                }
+            }
         }
     };
 
