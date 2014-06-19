@@ -10,6 +10,9 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -21,11 +24,13 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jdt.core.ElementChangedEvent;
+import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IElementChangedListener;
 import org.eclipse.jdt.core.IJavaModelMarker;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
@@ -34,7 +39,7 @@ import org.eclipse.jdt.junit.JUnitCore;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-public class WorkspaceManager implements IElementChangedListener {
+public class WorkspaceManager implements IResourceChangeListener {
 	public interface Listener {
 		void problemMarkerDidChange(String packageName, String fileName, IMarker[] markers);
 	}
@@ -53,14 +58,16 @@ public class WorkspaceManager implements IElementChangedListener {
 	private ILaunchConfiguration _runMainLaunchConfiguration;
 	private ILaunchConfiguration _runTestsLaunchConfiguration;
 	
+	private List<ICompilationUnit> compilationUnits = new ArrayList<>();
+	
 	public WorkspaceManager(String projectName) {
 		this.projectName = projectName;
 		
-		JavaCore.addElementChangedListener(this);
+		getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_BUILD);
 	}
 	
 	public void dispose() {
-		JavaCore.removeElementChangedListener(this);
+		getWorkspace().removeResourceChangeListener(this);
 	}
 	
 	private final static List<Listener> listeners = new ArrayList<>();
@@ -85,10 +92,7 @@ public class WorkspaceManager implements IElementChangedListener {
 		IPackageFragment packageFragment = getSrcFolder().createPackageFragment(packageName, true, null);
 		ICompilationUnit compilationUnit = packageFragment.createCompilationUnit(fileName, sourceCode, true, null);
 		
-		IResource javaSourceFile = compilationUnit.getUnderlyingResource();
-		IMarker[] markers = javaSourceFile.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
-		
-		notifyListeners(listener -> listener.problemMarkerDidChange(packageName, fileName, markers));
+		compilationUnits.add(compilationUnit);
 	}
 	
 	public String runMain(String qualifiedClassName) throws CoreException {
@@ -102,38 +106,30 @@ public class WorkspaceManager implements IElementChangedListener {
 	}
 	
 	
-	// --- IElementChangedListener
+	// --- IResourceChangeListener ---
 	
 	@Override
-	public void elementChanged(ElementChangedEvent event) {
-//		IJavaElementDelta delta = event.getDelta();
-		// TODO: Implement
-//		System.out.println(event);
-//		System.out.println("Content changed in element:" + findContentElement(delta));
-//		
-////		System.out.println("SOURCE=" + delta.);
-////		for (IJavaElementDelta child : delta.getChangedChildren()) {
-////			System.out.println("Child=" + child);
-////			for (IJavaElementDelta child2 : child.getChangedChildren()) {
-////				System.out.println("Child2=" + child2);
-////			}
-////		}
+	public void resourceChanged(IResourceChangeEvent event) {
+		compilationUnits.stream().forEach(compilationUnit -> {
+			try {
+				reportErrors(compilationUnit);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		});
 	}
 	
-//	private IJavaElementDelta findContentElement(IJavaElementDelta delta) {
-//		if ((delta.getFlags() & IJavaElementDelta.F_CONTENT) != 0) {
-//			return delta;
-//		}
-//		else {
-//			for (IJavaElementDelta childDelta : delta.getChangedChildren()) {
-//				if (findContentElement(childDelta) != null) {
-//					return childDelta;
-//				}
-//			}
-//		}
-//		
-//		return null;
-//	}
+	private void reportErrors(ICompilationUnit compilationUnit) throws CoreException {
+		IPackageDeclaration[] packageDeclarations = compilationUnit.getPackageDeclarations();
+		String packageName = packageDeclarations[0].getElementName();
+		String fileName = compilationUnit.getElementName();
+		
+		IResource javaSourceFile = compilationUnit.getUnderlyingResource();
+		IMarker[] markers = javaSourceFile.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
+		
+		notifyListeners(listener -> listener.problemMarkerDidChange(packageName, fileName, markers));
+	}
 
 
 	// --- Private methods ---
@@ -216,10 +212,10 @@ public class WorkspaceManager implements IElementChangedListener {
 		if (_srcFolder == null) {
 			IFolder folder = getProject().getFolder(srcFolderName);
 			folder.create(true, true, null);
-			
+
 			_srcFolder = getJavaProject().getPackageFragmentRoot(folder);
 		}
-		
+
 		return _srcFolder;
 	}
 	
@@ -238,6 +234,10 @@ public class WorkspaceManager implements IElementChangedListener {
 	}
 	
 	private IWorkspaceRoot getWorkspaceRoot() {
-		return ResourcesPlugin.getWorkspace().getRoot();
+		return getWorkspace().getRoot();
+	}
+	
+	private IWorkspace getWorkspace() {
+		return ResourcesPlugin.getWorkspace();
 	}
 }

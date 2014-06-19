@@ -37,8 +37,9 @@ public class EditorActor extends UntypedActorWithStash {
 	
 	private final CommandRunner commandRunner = new CommandRunner(new DefaultRuntimeExecutor());
 	private final StartPluginCommands startPluginCommands = new StartPluginCommands(
-		new File("/Applications/Eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140415-2008.jar"),
-//		new File("C:/eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140224-1459.jar"),
+		new File("/Applications/Eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140415-2008.jar"), // Christian's laptop
+//		new File("C:/eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140224-1459.jar"), // David's stationary computer
+//		new File("C:/eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140415-2008.jar"), // David's laptop
 		"no.ntnu.assignmentsystem.editor.BackgroundApplication"
 	);
 	
@@ -134,7 +135,6 @@ public class EditorActor extends UntypedActorWithStash {
 	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
 		modelServices.getSourceCodeFile(updateSourceCode.fileId).ifPresent(sourceCodeFile -> {
 			// TODO: Save to model
-			System.out.println("Sending update message to plugin");
 			pluginActor.tell(new PluginUpdateSourceCode(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), updateSourceCode.sourceCode), getSelf());
 		});
 	}
@@ -161,7 +161,7 @@ public class EditorActor extends UntypedActorWithStash {
 		tempFile.mkdir();
 		
 		String command = startPluginCommands.getStartPluginCommand(tempFile, getRemoteAddressString());
-		if (System.getenv().get("debug") != null) {
+		if (System.getenv().get("debug") != null || System.getProperty("debug") != null) {
 			System.out.println("Run command: " + command); // TODO: Remove
 		}
 		else {
