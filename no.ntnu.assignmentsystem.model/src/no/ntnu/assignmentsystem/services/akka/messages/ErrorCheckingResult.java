@@ -6,11 +6,9 @@ import java.util.List;
 public class ErrorCheckingResult implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	public final String fileId;
-	public final List<ProblemMarker> problemMarkers;
+	public final List<ProblemMarkersFile> files;
 	
-	public ErrorCheckingResult(String fileId, List<ProblemMarker> problemMarkers) {
-		this.fileId = fileId;
-		this.problemMarkers = problemMarkers;
+	public ErrorCheckingResult(List<ProblemMarkersFile> files) {
+		this.files = files;
 	}
 }

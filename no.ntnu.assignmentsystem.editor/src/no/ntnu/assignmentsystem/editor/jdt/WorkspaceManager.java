@@ -23,11 +23,8 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
-import org.eclipse.jdt.core.ElementChangedEvent;
-import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IElementChangedListener;
 import org.eclipse.jdt.core.IJavaModelMarker;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageDeclaration;
@@ -41,7 +38,19 @@ import org.eclipse.jdt.launching.JavaRuntime;
 
 public class WorkspaceManager implements IResourceChangeListener {
 	public interface Listener {
-		void problemMarkerDidChange(String packageName, String fileName, IMarker[] markers);
+		void problemMarkersDidChange(ProblemMarkersFile[] markers);
+		
+		public static class ProblemMarkersFile {
+			public final String packageName;
+			public final String fileName;
+			public final IMarker[] markers;
+			
+			public ProblemMarkersFile(String packageName, String fileName, IMarker[] markers) {
+				this.packageName = packageName;
+				this.fileName = fileName;
+				this.markers = markers;
+			}
+		}
 	}
 	
 	private static final String srcFolderName = "src";
@@ -110,17 +119,21 @@ public class WorkspaceManager implements IResourceChangeListener {
 	
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
-		compilationUnits.stream().forEach(compilationUnit -> {
+		Listener.ProblemMarkersFile[] problemMarkersChanges = compilationUnits.stream().map(compilationUnit -> {
 			try {
-				reportErrors(compilationUnit);
+				return getProblemMarkers(compilationUnit);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
+				
+				return null;
 			}
-		});
+		}).toArray(Listener.ProblemMarkersFile[]::new);
+
+		notifyListeners(listener -> listener.problemMarkersDidChange(problemMarkersChanges));
 	}
 	
-	private void reportErrors(ICompilationUnit compilationUnit) throws CoreException {
+	private Listener.ProblemMarkersFile getProblemMarkers(ICompilationUnit compilationUnit) throws CoreException {
 		IPackageDeclaration[] packageDeclarations = compilationUnit.getPackageDeclarations();
 		String packageName = packageDeclarations[0].getElementName();
 		String fileName = compilationUnit.getElementName();
@@ -128,7 +141,7 @@ public class WorkspaceManager implements IResourceChangeListener {
 		IResource javaSourceFile = compilationUnit.getUnderlyingResource();
 		IMarker[] markers = javaSourceFile.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
 		
-		notifyListeners(listener -> listener.problemMarkerDidChange(packageName, fileName, markers));
+		return new Listener.ProblemMarkersFile(packageName, fileName, markers);
 	}
 
 

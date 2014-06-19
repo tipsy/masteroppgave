@@ -13,8 +13,8 @@ import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunTestsResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginTestResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
+import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager.Listener;
 
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.junit.JUnitCore;
@@ -92,8 +92,8 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 	// --- WorkspaceManager.Listener ---
 	
 	@Override
-	public void problemMarkerDidChange(String packageName, String fileName, IMarker[] markers) {
-		PluginErrorCheckingResult errorCheckingResult = PluginErrorCheckingResultMapper.createErrorCheckingResult(packageName, fileName, markers);
+	public void problemMarkersDidChange(Listener.ProblemMarkersFile[] files) {
+		PluginErrorCheckingResult errorCheckingResult = PluginErrorCheckingResultMapper.createErrorCheckingResult(files);
 		consumerActor.tell(errorCheckingResult, getSelf());
 	}
 }

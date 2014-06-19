@@ -7,6 +7,7 @@ import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
 import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
 import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
 import no.ntnu.assignmentsystem.services.akka.messages.ProblemMarker;
+import no.ntnu.assignmentsystem.services.akka.messages.ProblemMarkersFile;
 import no.ntnu.assignmentsystem.services.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
@@ -94,10 +95,14 @@ public class Main {
 		}
 		
 		private void handleErrorCheckingResult(ErrorCheckingResult result) {
-			System.out.println("Found problems in:" + result.fileId);
-			for (ProblemMarker problemMarker : result.problemMarkers) {
-				System.out.println(problemMarker.lineNumber + " " + problemMarker.description + " " + problemMarker.type);
+			System.out.println("ErrorCheckingResult");
+			for (ProblemMarkersFile file : result.files) {
+				System.out.println("Found problems in:" + file.fileId);
+				for (ProblemMarker problemMarker : file.problemMarkers) {
+					System.out.println(problemMarker.lineNumber + " " + problemMarker.description + " " + problemMarker.type);					
+				}
 			}
+			System.out.println("---");
 		}
 	}
 }

@@ -128,7 +128,7 @@ public class EditorActor extends UntypedActorWithStash {
 	}
 	
 	private void handleRunTests(RunTests runTests) {
-		// TODO: Implement
+		// TODO: Fix this
 		pluginActor.tell(new PluginRunTests("stateandbehavior.AccountTest"), getSelf());
 	}
 	
@@ -148,8 +148,14 @@ public class EditorActor extends UntypedActorWithStash {
 	}
 	
 	private void handlePluginErrorCheckingResult(PluginErrorCheckingResult pluginErrorCheckingResult) {
-		String fileId = "5"; // TODO: Fix this
-		consumerActor.tell(ErrorCheckingResultMapper.createErrorCheckingResult(fileId, pluginErrorCheckingResult), getSelf());
+		ErrorCheckingResultMapper.IdRetriever idRetriever = new ErrorCheckingResultMapper.IdRetriever() {
+			@Override
+			public String getId(String packageName, String fileName) {
+				return "5"; // TODO: Fix this
+			}
+		};
+		
+		consumerActor.tell(ErrorCheckingResultMapper.createErrorCheckingResult(idRetriever, pluginErrorCheckingResult), getSelf());
 	}
 	
 	

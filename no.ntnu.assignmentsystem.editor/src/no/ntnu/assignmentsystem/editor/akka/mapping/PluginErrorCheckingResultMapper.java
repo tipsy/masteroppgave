@@ -3,20 +3,30 @@ package no.ntnu.assignmentsystem.editor.akka.mapping;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.eclipse.core.resources.IMarker;
 
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginProblemMarker;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginErrorCheckingResult;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginProblemMarkersFile;
+import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager.Listener;
 
 public class PluginErrorCheckingResultMapper {
-	public static PluginErrorCheckingResult createErrorCheckingResult(String packageName, String fileName, IMarker[] markers) {
-		List<PluginProblemMarker> problemMarkers = createProblemMarkers(markers);
-		return new PluginErrorCheckingResult(packageName, fileName, problemMarkers);
+	public static PluginErrorCheckingResult createErrorCheckingResult(Listener.ProblemMarkersFile[] files) {
+		List<PluginProblemMarkersFile> problemMarkersFiles = new ArrayList<>();
+		for (Listener.ProblemMarkersFile file : files) {
+			problemMarkersFiles.add(createProblemMarkersFile(file));
+		}
+		
+		return new PluginErrorCheckingResult(problemMarkersFiles);
 	}
 	
 	
 	// --- Private methods ---
+	
+	public static PluginProblemMarkersFile createProblemMarkersFile(Listener.ProblemMarkersFile file) {
+		List<PluginProblemMarker> problemMarkers = createProblemMarkers(file.markers);
+		return new PluginProblemMarkersFile(file.packageName, file.fileName, problemMarkers);
+	}
 	
 	private static List<PluginProblemMarker> createProblemMarkers(IMarker[] markers) {
 		List<PluginProblemMarker> problemMarkers = new ArrayList<>();
