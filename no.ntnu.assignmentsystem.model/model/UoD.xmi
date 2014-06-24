@@ -7,13 +7,17 @@
     xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore"
     lastGlobalId="12">
   <users id="8"
-      email="hal@idi.ntnu.no"/>
+      email="hal@idi.ntnu.no"
+      password="hal"/>
   <users id="9"
-      email="davidas@stud.ntnu.no"/>
+      email="davidas@stud.ntnu.no"
+      password="davidas"/>
   <users id="10"
-      email="christir@stud.ntnu.no"/>
+      email="christir@stud.ntnu.no"
+      password="christir"/>
   <users id="11"
-      email="randomTA@stud.ntnu.no"/>
+      email="randomTA@stud.ntnu.no"
+      password="randomTA"/>
   <courses id="1"
       title="Object-oriented programming with Java">
     <assignments

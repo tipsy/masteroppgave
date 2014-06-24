@@ -7,6 +7,7 @@ import java.util.Collections;
 import no.ntnu.assignmentsystem.model.ModelFactory;
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.ModelPackage;
+import no.ntnu.assignmentsystem.model.UoD;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -31,6 +32,11 @@ public class XmiModelLoader implements ModelLoader {
 	
 	
 	// --- ModelLoader ---
+	
+	@Override
+	public UoD getUoD() {
+		return (UoD)getResource().getContents().get(0);
+	}
 	
 	@Override
 	public EObject findObject(String id) {

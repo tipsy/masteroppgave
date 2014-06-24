@@ -32,10 +32,12 @@ public class Main {
 //		System.out.println(services.runCodeProblem("10", "4")); // CodeProblem
 //		System.out.println(services.testCodeProblem("10", "4")); // CodeProblem
 		
-		ActorSystem testActorSystem = ActorSystem.create();
+		System.out.println(services.authenticate("christir@stud.ntnu.no", "christir"));
 		
-		ActorRef editorActor = services.createEditor("10", "4");
-		testActorSystem.actorOf(Props.create(TestActor.class, editorActor));
+//		ActorSystem testActorSystem = ActorSystem.create();
+//		
+//		ActorRef editorActor = services.createEditor("10", "4");
+//		testActorSystem.actorOf(Props.create(TestActor.class, editorActor));
 	}
 	
 	public static class TestActor extends UntypedActor {

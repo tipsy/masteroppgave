@@ -1,5 +1,6 @@
 package no.ntnu.assignmentsystem.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import no.ntnu.assignmentsystem.model.Assignment;
@@ -45,6 +46,10 @@ public class ModelServices {
 	
 	public Optional<User> getUser(String userId) {
 		return Optional.ofNullable((User)findObject(userId));
+	}
+	
+	public List<User> getUsers() {
+		return modelLoader.getUoD().getUsers();
 	}
 	
 	

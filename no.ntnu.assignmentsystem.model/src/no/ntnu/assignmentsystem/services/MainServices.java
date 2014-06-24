@@ -83,4 +83,13 @@ public class MainServices extends Container implements Services {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String authenticate(String username, String password) {
+		return modelServices.getUsers().stream().filter(
+			user -> user.getEmail().equals(username) && user.getPassword().equals(password)
+		).findAny().map(
+			user -> user.getId()
+		).orElse(null);
+	}
 }

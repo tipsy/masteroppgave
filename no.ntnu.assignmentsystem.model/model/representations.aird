@@ -2121,6 +2121,9 @@
               <children xmi:type="notation:Node" xmi:id="_Y-6hEO26EeOlWJ54KyKYow" type="3010" element="_Y-MIUO26EeOlWJ54KyKYow">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_Y-6hEe26EeOlWJ54KyKYow"/>
               </children>
+              <children xmi:type="notation:Node" xmi:id="_GRv_wPuOEeOdS7iebcBdaA" type="3010" element="_GQcYMPuOEeOdS7iebcBdaA">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_GRv_wfuOEeOdS7iebcBdaA"/>
+              </children>
               <styles xmi:type="notation:SortingStyle" xmi:id="_4er4kdFIEeO_o8KS_9HOoA"/>
               <styles xmi:type="notation:FilteringStyle" xmi:id="_4er4ktFIEeO_o8KS_9HOoA"/>
             </children>
@@ -2468,6 +2471,19 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_GQcYMPuOEeOdS7iebcBdaA" name="authenticate(username EString, password EString) : EString" tooltipText="authenticate(username, password) : EString">
+          <target xmi:type="ecore:EOperation" href="services.ecore#//Services/authenticate"/>
+          <semanticElements xmi:type="ecore:EOperation" href="services.ecore#//Services/authenticate"/>
+          <semanticElements xmi:type="ecore:EParameter" href="services.ecore#//Services/authenticate/password"/>
+          <semanticElements xmi:type="ecore:EParameter" href="services.ecore#//Services/authenticate/username"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_GQdmUPuOEeOdS7iebcBdaA" labelAlignment="LEFT">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_GQdmUfuOEeOdS7iebcBdaA"/>
+            <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']/@style"/>
+            <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_GQdmUvuOEeOdS7iebcBdaA"/>
+            <color xmi:type="viewpoint:RGBValues" xmi:id="_GQdmU_uOEeOdS7iebcBdaA"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
+        </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="__a5FoNFcEeOSQcpNjT8CYw" name="AssignmentView" tooltipText="" width="12" height="10">
         <target xmi:type="ecore:EClass" href="services.ecore#//AssignmentView"/>
@@ -2586,7 +2602,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_lGxy8PJpEeOHPJLAIL6Tqw" name="editable : EBoolean = false" tooltipText="&#xA;ERROR : The required feature 'eAttributeType' of 'org.eclipse.emf.ecore.impl.EAttributeImpl@1adea7e{platform:/resource/no.ntnu.assignmentsystem.model/model/services.ecore#//ProblemView/newAttribute}' must be set&#xA;ERROR : The typed element must have a type">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_lGxy8PJpEeOHPJLAIL6Tqw" name="editable : EBoolean = false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="services.ecore#//ProblemView/editable"/>
           <semanticElements xmi:type="ecore:EAttribute" href="services.ecore#//ProblemView/editable"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_mQRxoPJpEeOHPJLAIL6Tqw" labelAlignment="LEFT">
