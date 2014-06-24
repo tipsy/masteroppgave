@@ -26,18 +26,13 @@ public class Main {
 //		System.out.println(services.getAssignments("userId"));
 //		System.out.println(services.getProblem("userId", "3")); // QuizProblem
 //		System.out.println(services.getProblem("10", "4")); // CodeProblem
-
-//		services.updateSourceCodeFile("10", "7", "Code");
-//		System.out.println(((CodeProblemView)services.getProblem("10", "4")).getSourceCodeFiles()); // CodeProblem
-//		System.out.println(services.runCodeProblem("10", "4")); // CodeProblem
-//		System.out.println(services.testCodeProblem("10", "4")); // CodeProblem
 		
-		System.out.println(services.authenticate("christir@stud.ntnu.no", "christir"));
+//		System.out.println(services.authenticate("christir@stud.ntnu.no", "christir"));
 		
-//		ActorSystem testActorSystem = ActorSystem.create();
-//		
-//		ActorRef editorActor = services.createEditor("10", "4");
-//		testActorSystem.actorOf(Props.create(TestActor.class, editorActor));
+		ActorSystem testActorSystem = ActorSystem.create();
+		
+		ActorRef editorActor = services.createEditor("10", "4");
+		testActorSystem.actorOf(Props.create(TestActor.class, editorActor));
 	}
 	
 	public static class TestActor extends UntypedActor {
