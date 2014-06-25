@@ -148,8 +148,6 @@ $(document).ready(function () {
             getCompletions: function(editor, session, pos, prefix, callback) {
                 console.log(pos);
 
-                editor
-
                 sendMessage("codeCompletion", {
                     fileId: "5",
                     offset: 0
