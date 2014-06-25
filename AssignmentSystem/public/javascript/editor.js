@@ -33,7 +33,11 @@ $(document).ready(function () {
         }
         else if (object.type === 'codeCompletionResult') {
             var proposals = object.data.proposals.map(function (proposal) {
-               return {value: proposal.completion, meta: "eclipse"}
+               return {
+                   value: proposal.completion,
+                   meta: "eclipse",
+                   score: 10000
+               }
             });
             completionCallback(null, proposals);
         }
@@ -146,8 +150,10 @@ $(document).ready(function () {
     function createCompleter(){
         return {
             getCompletions: function(editor, session, pos, prefix, callback) {
+                var fileId = $(editor.container).attr('data-file-id');
+
                 sendMessage("codeCompletion", {
-                    fileId: "5",
+                    fileId: fileId,
                     offset: calculateOffset(session.getValue(), pos)
                 });
                 completionCallback = callback;
