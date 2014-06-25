@@ -4,6 +4,8 @@ $(document).ready(function () {
     var webSocket = openNewWebSocket();
     initCollapsibleHeaders();
 
+    var completionCallback; // FIXME: Create a better solution
+
     webSocket.onopen = function() {
         console.log('ws connected ('+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL()+')');
         sendMessage("notifyOnReady");
@@ -28,6 +30,12 @@ $(document).ready(function () {
         }
         else if (object.type === 'runTestsResult') {
             // TODO: Implement
+        }
+        else if (object.type === 'codeCompletionResult') {
+            var proposals = object.data.proposals.map(function (proposal) {
+               return {value: proposal.completion, meta: "eclipse"}
+            });
+            completionCallback(null, proposals);
         }
         else if (object.type === 'errorCheckingResult') {
             var files = object.data.files;
@@ -136,20 +144,17 @@ $(document).ready(function () {
     }
 
     function createCompleter(){
-        var rhymeCompleter = {
+        return {
             getCompletions: function(editor, session, pos, prefix, callback) {
                 console.log(pos);
-                if (prefix.length === 0) { callback(null, []); return }
-                $.getJSON(
-                    "http://rhymebrain.com/talk?function=getRhymes&word=" + prefix,
-                    function(wordList) {
-                        callback(null, wordList.map(function(ea) {
-                            return {value: ea.word, meta: "rhyme"}
-                        }));
-                    })
+
+                sendMessage("codeCompletion", {
+                    fileId: "5",
+                    offset: 0
+                });
+                completionCallback = callback;
             }
-        }
-        return rhymeCompleter;
+        };
     }
 
     function openNewWebSocket() {
