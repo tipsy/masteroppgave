@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    ace.require("ace/ext/language_tools"); // Required for auto completion
 
     var editors = initEditors();
     var webSocket = openNewWebSocket();
@@ -35,17 +36,13 @@ $(document).ready(function () {
             var proposals = object.data.proposals.map(function (proposal) {
                return {
                    value: proposal.completion,
-                   meta: "eclipse",
-                   score: 10000
+                   meta: "eclipse"
                }
             });
             completionCallback(null, proposals);
         }
         else if (object.type === 'errorCheckingResult') {
-            var files = object.data.files;
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-
+            object.data.files.forEach(function (file) {
                 var foundEditors = editors.filter(function (editor) {
                     var fileId = $(editor.container).attr('data-file-id');
                     return (file.fileId === fileId);
@@ -59,7 +56,7 @@ $(document).ready(function () {
                     var editor = foundEditors[0];
                     editor.getSession().setAnnotations(annotations);
                 }
-            }
+            });
         }
     };
 
@@ -133,9 +130,9 @@ $(document).ready(function () {
 
     function initEditors() {
         var editors = [];
-        var autoCompleter = ace.require("ace/ext/language_tools");
-        $(".ace-editor-instance").each(function () { editors.push(createEditor($(this).attr("id"))); });
-        autoCompleter.addCompleter(createCompleter());
+        $(".ace-editor-instance").each(function () {
+            editors.push(createEditor($(this).attr("id")));
+        });
         return editors;
     }
 
@@ -144,6 +141,7 @@ $(document).ready(function () {
         editor.setTheme("ace/theme/eclipse");
         editor.getSession().setMode("ace/mode/java");
         editor.setOptions({enableBasicAutocompletion: true});
+        editor.completers = [createCompleter()];
         return editor;
     }
 
