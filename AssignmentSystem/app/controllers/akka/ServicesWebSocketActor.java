@@ -1,14 +1,7 @@
 package controllers.akka;
 
 import akka.actor.ActorRef;
-import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
-import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
-import no.ntnu.assignmentsystem.services.akka.messages.Ready;
-import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
-import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
-import no.ntnu.assignmentsystem.services.akka.messages.RunTests;
-import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
-import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
+import no.ntnu.assignmentsystem.services.akka.messages.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +34,8 @@ public class ServicesWebSocketActor extends DynamicWebSocketActor {
         classMapping.put("runMainResult", RunMainResult.class);
         classMapping.put("runTests", RunTests.class);
         classMapping.put("runTestsResult", RunTestsResult.class);
+        classMapping.put("codeCompletion", CodeCompletion.class);
+        classMapping.put("codeCompletionResult", CodeCompletionResult.class);
         classMapping.put("updateSourceCode", UpdateSourceCode.class);
         classMapping.put("errorCheckingResult", ErrorCheckingResult.class);
 
