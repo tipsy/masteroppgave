@@ -4,6 +4,9 @@ import java.io.File;
 
 import no.ntnu.assignmentsystem.model.ModelLoader;
 import no.ntnu.assignmentsystem.model.impl.XmiModelLoader;
+import no.ntnu.assignmentsystem.services.akka.messages.CodeCompletion;
+import no.ntnu.assignmentsystem.services.akka.messages.CodeCompletionProposal;
+import no.ntnu.assignmentsystem.services.akka.messages.CodeCompletionResult;
 import no.ntnu.assignmentsystem.services.akka.messages.ErrorCheckingResult;
 import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
 import no.ntnu.assignmentsystem.services.akka.messages.ProblemMarker;
@@ -12,6 +15,7 @@ import no.ntnu.assignmentsystem.services.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
 import no.ntnu.assignmentsystem.services.akka.messages.TestResult;
+import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
@@ -64,6 +68,9 @@ public class Main {
 			else if (message instanceof RunTestsResult) {
 				handleRunTestsResult((RunTestsResult)message);
 			}
+			else if (message instanceof CodeCompletionResult) {
+				handleCodeCompletionResult((CodeCompletionResult)message);
+			}
 			else if (message instanceof ErrorCheckingResult) {
 				handleErrorCheckingResult((ErrorCheckingResult)message);
 			}
@@ -78,6 +85,7 @@ public class Main {
 //					"    }\n" +
 //					"}\n";
 //			editorActor.tell(new UpdateSourceCode("5", sourceCode), getSelf());
+			editorActor.tell(new CodeCompletion("5", 0), getSelf());
 //			editorActor.tell(new RunMain(), getSelf());
 		}
 		
@@ -88,6 +96,12 @@ public class Main {
 		private void handleRunTestsResult(RunTestsResult result) {
 			for (TestResult testResult : result.testResults) {
 				System.out.println(testResult.methodName + "-" + testResult.status.name());
+			}
+		}
+		
+		private void handleCodeCompletionResult(CodeCompletionResult result) {
+			for (CodeCompletionProposal proposal : result.proposals) {
+				System.out.println(proposal.completion);
 			}
 		}
 		

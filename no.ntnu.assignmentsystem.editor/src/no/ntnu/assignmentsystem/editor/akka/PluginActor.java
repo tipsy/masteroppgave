@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import no.ntnu.assignmentsystem.editor.akka.mapping.PluginErrorCheckingResultMapper;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginCodeCompletion;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginCodeCompletionProposal;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginCodeCompletionResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginErrorCheckingResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
@@ -22,7 +25,7 @@ import org.eclipse.jdt.junit.JUnitCore;
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 
-public class PluginActor extends UntypedActor implements AkkaTestRunListener.Delegate, WorkspaceManager.Listener {
+public class PluginActor extends UntypedActor implements AkkaTestRunListener.Delegate, AkkaCompletionRequestor.Delegate, WorkspaceManager.Listener {
 	private final ActorRef consumerActor;
 	private final WorkspaceManager workspaceManager;
 	
@@ -57,6 +60,9 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 		else if (message instanceof PluginRunTests) {
 			handleRunTests((PluginRunTests)message);
 		}
+		else if (message instanceof PluginCodeCompletion) {
+			handleCodeCompletion((PluginCodeCompletion)message);
+		}
 		
 		else {
 			unhandled(message);
@@ -73,19 +79,32 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 	
 	private void handleRunTests(PluginRunTests runTests) throws CoreException {
 		workspaceManager.runTests(runTests.qualifiedClassName);
-		// NOTE: Result is sent from the testRunCompleted() delegate method
+		// NOTE: Result is sent from the runTestsResult() delegate method
 	}
 	
 	private void handleUpdateSourceCode(PluginUpdateSourceCode updateSourceCode) throws JavaModelException, CoreException, IOException {
 		workspaceManager.updateSourceCode(updateSourceCode.packageName, updateSourceCode.fileName, updateSourceCode.sourceCode);
 	}
 	
+	private void handleCodeCompletion(PluginCodeCompletion codeCompletion) throws JavaModelException {
+		workspaceManager.codeCompletion(codeCompletion.packageName, codeCompletion.fileName, codeCompletion.offset, new AkkaCompletionRequestor(this));
+		// NOTE: Result is sent from the codeCompletionResult() delegate method
+	}
+	
 	
 	// --- AkkaTestRunListener.Delegate ---
 	
 	@Override
-	public void testRunCompleted(AkkaTestRunListener listener, List<PluginTestResult> testResults) {
+	public void runTestsResult(AkkaTestRunListener listener, List<PluginTestResult> testResults) {
 		consumerActor.tell(new PluginRunTestsResult(testResults), getSelf());
+	}
+	
+	
+	// --- AkkaCompletionRequestor.Delegate ---
+
+	@Override
+	public void codeCompletionResult(AkkaCompletionRequestor requestor, List<PluginCodeCompletionProposal> proposals) {
+		consumerActor.tell(new PluginCodeCompletionResult(proposals), getSelf());
 	}
 	
 	

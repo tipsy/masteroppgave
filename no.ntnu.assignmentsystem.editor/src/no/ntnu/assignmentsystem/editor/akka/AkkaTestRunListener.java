@@ -11,7 +11,7 @@ import org.eclipse.jdt.junit.model.ITestRunSession;
 
 public class AkkaTestRunListener extends TestRunListener {
 	public interface Delegate {
-		void testRunCompleted(AkkaTestRunListener listener, List<PluginTestResult> testResults);
+		void runTestsResult(AkkaTestRunListener listener, List<PluginTestResult> testResults);
 	}
 	
 	private final Delegate delegate;
@@ -33,7 +33,7 @@ public class AkkaTestRunListener extends TestRunListener {
 	
 	public void sessionFinished(ITestRunSession session) {
 //		System.out.println("TestRunListener[3]: " + session);
-		delegate.testRunCompleted(this, testResults);
+		delegate.runTestsResult(this, testResults);
 		testResults = null;
 	}
 	

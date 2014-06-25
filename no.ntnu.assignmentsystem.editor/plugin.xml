@@ -19,6 +19,10 @@
         name="Connect..."
         id="no.ntnu.assignmentsystem.editor.commands.connectCommand">
       </command>
+      <command
+            id="no.ntnu.assignmentsystem.editor.commands.testCommand"
+            name="Test">
+      </command>
    </extension>
    <extension
      point="org.eclipse.ui.handlers">
@@ -26,15 +30,10 @@
         commandId="no.ntnu.assignmentsystem.editor.commands.connectCommand"
         class="no.ntnu.assignmentsystem.editor.ConnectHandler">
       </handler>
-   </extension>
-   <extension
-     point="org.eclipse.ui.bindings">
-      <key
-        commandId="no.ntnu.assignmentsystem.editor.commands.connectCommand"
-        contextId="org.eclipse.ui.contexts.window"
-        sequence="M1+7"
-        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
+      <handler
+            class="no.ntnu.assignmentsystem.editor.TestHandler"
+            commandId="no.ntnu.assignmentsystem.editor.commands.testCommand">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -48,6 +47,11 @@
               commandId="no.ntnu.assignmentsystem.editor.commands.connectCommand"
               mnemonic="S"
               id="no.ntnu.assignmentsystem.editor.menus.connectCommand">
+            </command>
+            <command
+                  commandId="no.ntnu.assignmentsystem.editor.commands.testCommand"
+                  mnemonic="S"
+                  id="no.ntnu.assignmentsystem.editor.menus.testCommand">
             </command>
          </menu>
      </menuContribution>

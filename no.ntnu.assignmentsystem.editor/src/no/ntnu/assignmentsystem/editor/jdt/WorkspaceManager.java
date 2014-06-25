@@ -23,6 +23,7 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
+import org.eclipse.jdt.core.CompletionRequestor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaModelMarker;
@@ -114,6 +115,11 @@ public class WorkspaceManager implements IResourceChangeListener {
 		return launch(launchConfiguration);
 	}
 	
+	public void codeCompletion(String packageName, String fileName, int offset, CompletionRequestor requestor) throws JavaModelException {
+		ICompilationUnit compilationUnit = getCompilationUnit(packageName, fileName);
+		compilationUnit.codeComplete(offset, requestor);
+	}
+	
 	
 	// --- IResourceChangeListener ---
 	
@@ -146,6 +152,13 @@ public class WorkspaceManager implements IResourceChangeListener {
 
 
 	// --- Private methods ---
+	
+	private ICompilationUnit getCompilationUnit(String packageName, String fileName) {
+		return compilationUnits.stream().filter(
+			compilationUnit -> compilationUnit.getPackageDeclaration(packageName) != null &&
+				compilationUnit.getResource().getName().equals(fileName)
+		).findAny().orElse(null);
+	}
 	
 	private String launch(ILaunchConfiguration launchConfiguration) throws CoreException {
 		ILaunch launch = launchConfiguration.launch(ILaunchManager.RUN_MODE, null);

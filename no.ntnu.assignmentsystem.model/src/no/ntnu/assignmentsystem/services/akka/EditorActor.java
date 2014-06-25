@@ -2,6 +2,8 @@ package no.ntnu.assignmentsystem.services.akka;
 
 import java.io.File;
 
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginCodeCompletion;
+import no.ntnu.assignmentsystem.editor.akka.messages.PluginCodeCompletionResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginErrorCheckingResult;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginReady;
 import no.ntnu.assignmentsystem.editor.akka.messages.PluginRunMain;
@@ -13,8 +15,11 @@ import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
+import no.ntnu.assignmentsystem.services.akka.mapping.CodeCompletionResultMapper;
 import no.ntnu.assignmentsystem.services.akka.mapping.ErrorCheckingResultMapper;
 import no.ntnu.assignmentsystem.services.akka.mapping.RunTestsResultMapper;
+import no.ntnu.assignmentsystem.services.akka.messages.CodeCompletion;
+import no.ntnu.assignmentsystem.services.akka.messages.CodeCompletionResult;
 import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
 import no.ntnu.assignmentsystem.services.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;
@@ -96,6 +101,9 @@ public class EditorActor extends UntypedActorWithStash {
 		else if (message instanceof UpdateSourceCode) {
 			handleUpdateSourceCode((UpdateSourceCode)message);
 		}
+		else if (message instanceof CodeCompletion) {
+			handleUpdateCodeCompletion((CodeCompletion)message);
+		}
 		
 		// From plugin
 		else if (message instanceof PluginRunMainResult) {
@@ -106,6 +114,9 @@ public class EditorActor extends UntypedActorWithStash {
 		}
 		else if (message instanceof PluginErrorCheckingResult) {
 			handlePluginErrorCheckingResult((PluginErrorCheckingResult)message);
+		}
+		else if (message instanceof PluginCodeCompletionResult) {
+			handleUpdatePluginCodeCompletionResult((PluginCodeCompletionResult)message);
 		}
 		
 		else {
@@ -139,6 +150,12 @@ public class EditorActor extends UntypedActorWithStash {
 		});
 	}
 	
+	private void handleUpdateCodeCompletion(CodeCompletion codeCompletion) {
+		modelServices.getSourceCodeFile(codeCompletion.fileId).ifPresent(sourceCodeFile -> {
+			pluginActor.tell(new PluginCodeCompletion(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), codeCompletion.offset), getSelf());
+		});
+	}
+	
 	private void handlePluginRunMainResult(PluginRunMainResult pluginRunMainResult) {
 		consumerActor.tell(new RunMainResult(pluginRunMainResult.output), getSelf());
 	}
@@ -148,20 +165,11 @@ public class EditorActor extends UntypedActorWithStash {
 	}
 	
 	private void handlePluginErrorCheckingResult(PluginErrorCheckingResult pluginErrorCheckingResult) {
-		ErrorCheckingResultMapper.IdRetriever idRetriever = new ErrorCheckingResultMapper.IdRetriever() {
-			@Override
-			public String getId(String packageName, String fileName) {
-				CodeProblem codeProblem = (CodeProblem)modelServices.getProblem(problemId).get();
-				
-				return codeProblem.getSourceCodeFiles().stream().filter(
-					sourceCodeFile -> sourceCodeFile.getPackageName().equals(packageName) && getFileName(sourceCodeFile).equals(fileName)
-				).findAny().map(
-					sourceCodeFile -> sourceCodeFile.getId()
-				).get();
-			}
-		};
-		
-		consumerActor.tell(ErrorCheckingResultMapper.createErrorCheckingResult(idRetriever, pluginErrorCheckingResult), getSelf());
+		consumerActor.tell(ErrorCheckingResultMapper.createErrorCheckingResult(this::getId, pluginErrorCheckingResult), getSelf());
+	}
+	
+	private void handleUpdatePluginCodeCompletionResult(PluginCodeCompletionResult pluginCodeCompletionResult) {
+		consumerActor.tell(CodeCompletionResultMapper.createCodeCompletionResult(pluginCodeCompletionResult), getSelf());
 	}
 	
 	
@@ -199,6 +207,16 @@ public class EditorActor extends UntypedActorWithStash {
 		}
 		
 		return getSelf().path().toStringWithAddress(address);
+	}
+	
+	private String getId(String packageName, String fileName) {
+		CodeProblem codeProblem = (CodeProblem)modelServices.getProblem(problemId).get();
+		
+		return codeProblem.getSourceCodeFiles().stream().filter(
+			sourceCodeFile -> sourceCodeFile.getPackageName().equals(packageName) && getFileName(sourceCodeFile).equals(fileName)
+		).findAny().map(
+			sourceCodeFile -> sourceCodeFile.getId()
+		).get();
 	}
 	
 	private static String getFileName(SourceCodeFile sourceCodeFile) {
