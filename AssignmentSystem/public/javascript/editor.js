@@ -146,15 +146,23 @@ $(document).ready(function () {
     function createCompleter(){
         return {
             getCompletions: function(editor, session, pos, prefix, callback) {
-                console.log(pos);
-
                 sendMessage("codeCompletion", {
                     fileId: "5",
-                    offset: 0
+                    offset: calculateOffset(session.getValue(), pos)
                 });
                 completionCallback = callback;
             }
         };
+    }
+
+    function calculateOffset(code, position){
+        var lines = code.split("\n");
+        var offset = 0;
+        for(var i = 0; i < position.row; i++){
+            offset += lines[i].length + 1;
+        }
+        offset += position.column;
+        return offset;
     }
 
     function openNewWebSocket() {
