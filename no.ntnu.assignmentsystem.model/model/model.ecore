@@ -17,10 +17,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxPoints" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="QuizProblem" eSuperTypes="#//Problem">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="questions" upperBound="-1"
-        eType="#//Question" containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CodeProblem" eSuperTypes="#//Problem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="repoUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sourceCodeFiles" upperBound="-1"
@@ -35,15 +31,6 @@
         defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Question">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="options" upperBound="-1"
-        eType="#//Option" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="correctAnswer" eType="#//Option"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Option">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModifiedSourceCodeFile">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -73,13 +60,6 @@
         eType="#//ModifiedSourceCodeFile" containment="true"/>
     <eGenericSuperTypes eClassifier="#//Submission">
       <eTypeArguments eClassifier="#//CodeProblem"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="QuizSubmission">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="answers" upperBound="-1"
-        eType="#//Option"/>
-    <eGenericSuperTypes eClassifier="#//Submission">
-      <eTypeArguments eClassifier="#//QuizProblem"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UoD">
