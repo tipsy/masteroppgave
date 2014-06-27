@@ -21,17 +21,27 @@ $(document).ready(function () {
     };
 
     webSocket.onmessage = function(msgevent) {
+
         var object = JSON.parse(msgevent.data);
         console.log(object);
+
         if (object.type === 'ready') {
             $('#editor-logo').addClass('ready');
         }
+
         else if (object.type === 'runMainResult') {
             $('.ace-editor-console').text(object.data.output);
         }
+
         else if (object.type === 'runTestsResult') {
-            // TODO: Implement
+            $('#test-table-body').empty();
+            $(object.data.testResults).each(function(){
+                $('#test-table-body').append(buildTestRow(this));
+            });
+            $("#test-summary").text(getSummary(object.data.testResults))
+            $('#test-modal').modal('show');
         }
+
         else if (object.type === 'codeCompletionResult') {
             var proposals = object.data.proposals.map(function (proposal) {
                return {
@@ -41,6 +51,7 @@ $(document).ready(function () {
             });
             completionCallback(null, proposals);
         }
+
         else if (object.type === 'errorCheckingResult') {
             object.data.files.forEach(function (file) {
                 var foundEditors = editors.filter(function (editor) {
@@ -58,6 +69,7 @@ $(document).ready(function () {
                 }
             });
         }
+
     };
 
     $(editors).each(function() {
@@ -81,7 +93,6 @@ $(document).ready(function () {
     function sendMessage(type, message) {
         message = message || {};
         var data = JSON.stringify({type: type, data: message});
-
         webSocket.send(data);
         console.log("Sent: " + data);
     }
@@ -177,6 +188,10 @@ $(document).ready(function () {
         return $("#problem-id").data("problemid");
     }
 
+    function getCurrentProblemScore(){
+        return parseInt( $("#problem-score").data("problemscore") );
+    }
+
     function convertType(type) {
         switch (type) {
             case 'Warning':
@@ -201,6 +216,25 @@ $(document).ready(function () {
             timer = setTimeout(callback, ms);
         };
     })();
+
+    function buildTestRow(testResult){
+        var mapping = {
+            "OK": "success",
+            "Failed": "danger",
+            "Ignored": "warning"
+        }
+        return '<tr class="'+mapping[testResult.status]+'"><td>'+testResult.methodName+'</td><td>'+testResult.status+'</td>';
+    }
+
+    function getSummary(testResults){
+
+        var testsPassed = $(testResults).filter(function(){
+            return this.status === "OK";
+        }).length;
+        return testsPassed+' out of '+testResults.length+' passed, earning you a score of '+ Math.round( (testsPassed)/(testResults.length) * getCurrentProblemScore() )
+
+
+    }
 
 });
 
