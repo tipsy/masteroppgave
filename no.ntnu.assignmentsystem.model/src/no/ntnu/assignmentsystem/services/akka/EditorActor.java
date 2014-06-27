@@ -102,7 +102,7 @@ public class EditorActor extends UntypedActorWithStash {
 			handleUpdateSourceCode((UpdateSourceCode)message);
 		}
 		else if (message instanceof CodeCompletion) {
-			handleUpdateCodeCompletion((CodeCompletion)message);
+			handleCodeCompletion((CodeCompletion)message);
 		}
 		
 		// From plugin
@@ -150,7 +150,7 @@ public class EditorActor extends UntypedActorWithStash {
 		});
 	}
 	
-	private void handleUpdateCodeCompletion(CodeCompletion codeCompletion) {
+	private void handleCodeCompletion(CodeCompletion codeCompletion) {
 		modelServices.getSourceCodeFile(codeCompletion.fileId).ifPresent(sourceCodeFile -> {
 			pluginActor.tell(new PluginCodeCompletion(sourceCodeFile.getPackageName(), getFileName(sourceCodeFile), codeCompletion.offset), getSelf());
 		});

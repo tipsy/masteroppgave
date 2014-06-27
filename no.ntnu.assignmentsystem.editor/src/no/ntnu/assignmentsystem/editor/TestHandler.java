@@ -1,5 +1,6 @@
 package no.ntnu.assignmentsystem.editor;
 
+import no.ntnu.assignmentsystem.editor.akka.AkkaCompletionRequestor;
 import no.ntnu.assignmentsystem.editor.jdt.WorkspaceManager;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -10,7 +11,7 @@ public class TestHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		System.out.println("Testign system");
+		System.out.println("Testing system");
 		
 		WorkspaceManager projectManager = new WorkspaceManager("PluginProject");
 		
@@ -24,9 +25,9 @@ public class TestHandler extends AbstractHandler {
 			"}\n";
 		try {
 			projectManager.updateSourceCode(packageName, fileName, sourceCode);
-//			projectManager.codeCompletion(packageName, fileName, 109);
-//			projectManager.codeCompletion(packageName, fileName, 110);
-//			projectManager.codeCompletion(packageName, fileName, 111);
+
+			projectManager.codeCompletion(packageName, fileName, 101, new AkkaCompletionRequestor(null));
+//			projectManager.codeCompletion(packageName, fileName, 110, new AkkaCompletionRequestor(null)); // Code completes after: System.out.
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

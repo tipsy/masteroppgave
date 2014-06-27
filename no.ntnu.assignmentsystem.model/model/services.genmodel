@@ -54,7 +54,6 @@
     <genClasses ecoreClass="services.ecore#//CodeProblemView">
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//CodeProblemView/sourceCodeFiles"/>
     </genClasses>
-    <genClasses ecoreClass="services.ecore#//QuizProblemView"/>
     <genClasses ecoreClass="services.ecore#//SourceCodeFileView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//SourceCodeFileView/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//SourceCodeFileView/title"/>
