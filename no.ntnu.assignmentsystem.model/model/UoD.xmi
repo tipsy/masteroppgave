@@ -25,28 +25,9 @@
         localId="1"
         title="The basics">
       <problems
-          xsi:type="no.ntnu.assignmentsystem:QuizProblem"
-          id="3"
-          localId="A"
-          title="Quiztastic"
-          maxPoints="50">
-        <questions
-            correctAnswer="//@courses.0/@assignments.0/@problems.0/@questions.0/@options.2"
-            text="Q1">
-          <options
-              text="A1"/>
-          <options
-              text="A2"/>
-          <options
-              text="A3"/>
-          <options
-              text="A4"/>
-        </questions>
-      </problems>
-      <problems
           xsi:type="no.ntnu.assignmentsystem:CodeProblem"
           id="4"
-          localId="B"
+          localId="A"
           title="Hello World"
           maxPoints="100"
           repoUrl="../no.hal.jex.collection"
@@ -94,13 +75,6 @@
         xsi:type="no.ntnu.assignmentsystem:Student"
         user="10"
         screenName="Christian">
-      <submissions
-          xsi:type="no.ntnu.assignmentsystem:QuizSubmission"
-          problem="3"
-          answers="//@courses.0/@assignments.0/@problems.0/@questions.0/@options.2">
-        <evaluation
-            evaluatedBy="//@courses.0/@participants.3"/>
-      </submissions>
     </participants>
     <participants
         xsi:type="no.ntnu.assignmentsystem:Staff"
