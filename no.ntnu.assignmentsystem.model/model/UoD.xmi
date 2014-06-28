@@ -5,7 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0"
     xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore"
-    lastGlobalId="12">
+    lastGlobalId="16">
   <users id="8"
       email="hal@idi.ntnu.no"
       password="hal"/>
@@ -28,14 +28,14 @@
           xsi:type="no.ntnu.assignmentsystem:CodeProblem"
           id="4"
           localId="A"
-          title="Hello World"
-          maxPoints="100"
+          title="State and Behavior - Account-problem"
+          maxPoints="25"
           repoUrl="../no.hal.jex.collection"
           mainImplementationFile="5">
         <sourceCodeFiles
             xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
             id="5"
-            filePath="src/stateandbehavior/Main.java"
+            filePath="src/stateandbehavior/AccountProgram.java"
             packageName="stateandbehavior"
             visible="true"
             editable="true"/>
@@ -59,6 +59,54 @@
             packageName="stateandbehavior"
             visible="true"/>
       </problems>
+      <problems
+          xsi:type="no.ntnu.assignmentsystem:CodeProblem"
+          id="13"
+          localId="B"
+          title="State and Behavior - Digit-problem"
+          maxPoints="25"
+          repoUrl="../no.hal.jex.collection"
+          mainImplementationFile="14">
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
+            id="14"
+            filePath="src/stateandbehavior/DigitProgram.java"
+            packageName="stateandbehavior"
+            visible="true"
+            editable="true"/>
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
+            id="15"
+            filePath="src/stateandbehavior/Digit.java"
+            packageName="stateandbehavior"
+            visible="true"
+            editable="true"/>
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:TestFile"
+            id="16"
+            filePath="tests/stateandbehavior/DigitTest.java"
+            packageName="stateandbehavior"
+            visible="true"/>
+      </problems>
+      <problems
+          xsi:type="no.ntnu.assignmentsystem:CodeProblem"
+          id="17">
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
+            id="18"
+            packageName="stateandbehavior"
+            visible="true"/>
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
+            id="19"
+            filePath=""
+            packageName="stateandbehavior"
+            visible="true"/>
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:TestFile"/>
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:JexTestFile"/>
+      </problems>
     </assignments>
     <participants
         xsi:type="no.ntnu.assignmentsystem:Student"
@@ -74,8 +122,7 @@
     <participants
         xsi:type="no.ntnu.assignmentsystem:Student"
         user="10"
-        screenName="Christian">
-    </participants>
+        screenName="Christian"/>
     <participants
         xsi:type="no.ntnu.assignmentsystem:Staff"
         user="8"

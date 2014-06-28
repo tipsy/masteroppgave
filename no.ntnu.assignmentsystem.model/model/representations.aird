@@ -1598,7 +1598,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_OqvvMNboEeOKDdLwbovtng" name="visible : EBoolean = false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_OqvvMNboEeOKDdLwbovtng" name="visible : EBoolean = true" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="model.ecore#//SourceCodeFile/visible"/>
           <semanticElements xmi:type="ecore:EAttribute" href="model.ecore#//SourceCodeFile/visible"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_P2xdcNboEeOKDdLwbovtng" labelAlignment="LEFT">
@@ -1609,7 +1609,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_LZrAANboEeOKDdLwbovtng" name="editable : EBoolean = false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_LZrAANboEeOKDdLwbovtng" name="editable : EBoolean = true" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="model.ecore#//SourceCodeFile/editable"/>
           <semanticElements xmi:type="ecore:EAttribute" href="model.ecore#//SourceCodeFile/editable"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_N1oFENboEeOKDdLwbovtng" labelAlignment="LEFT">
