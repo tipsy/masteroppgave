@@ -14,6 +14,7 @@ import no.ntnu.assignmentsystem.editor.akka.messages.PluginUpdateSourceCode;
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.ImplementationFile;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
+import no.ntnu.assignmentsystem.model.TestFile;
 import no.ntnu.assignmentsystem.services.ModelServices;
 import no.ntnu.assignmentsystem.services.akka.mapping.CodeCompletionResultMapper;
 import no.ntnu.assignmentsystem.services.akka.mapping.ErrorCheckingResultMapper;
@@ -132,15 +133,19 @@ public class EditorActor extends UntypedActorWithStash {
 			CodeProblem codeProblem = (CodeProblem)problem;
 			ImplementationFile mainImplementationFile = codeProblem.getMainImplementationFile();
 			
-			String qualifiedClassName = String.format("%s.%s", mainImplementationFile.getPackageName(), getClassName(mainImplementationFile));
-			
-			pluginActor.tell(new PluginRunMain(qualifiedClassName), getSelf());
+			pluginActor.tell(new PluginRunMain(getQualifiedClassName(mainImplementationFile)), getSelf());
 		});
 	}
 	
 	private void handleRunTests(RunTests runTests) {
-		// TODO: Fix this
-		pluginActor.tell(new PluginRunTests("stateandbehavior.AccountTest"), getSelf());
+		modelServices.getProblem(problemId).ifPresent(problem -> {
+			CodeProblem codeProblem = (CodeProblem)problem;
+			TestFile mainTestFile = (TestFile)codeProblem.getSourceCodeFiles().stream().filter(
+					sourceCodeFile -> sourceCodeFile instanceof TestFile
+				).findAny().get();
+			
+			pluginActor.tell(new PluginRunTests(getQualifiedClassName(mainTestFile)), getSelf());
+		});
 	}
 	
 	private void handleUpdateSourceCode(UpdateSourceCode updateSourceCode) {
@@ -217,6 +222,10 @@ public class EditorActor extends UntypedActorWithStash {
 		).findAny().map(
 			sourceCodeFile -> sourceCodeFile.getId()
 		).get();
+	}
+	
+	private static String getQualifiedClassName(SourceCodeFile sourceCodeFile) {
+		return String.format("%s.%s", sourceCodeFile.getPackageName(), getClassName(sourceCodeFile));
 	}
 	
 	private static String getFileName(SourceCodeFile sourceCodeFile) {
