@@ -140,11 +140,11 @@ public class EditorActor extends UntypedActorWithStash {
 	private void handleRunTests(RunTests runTests) {
 		modelServices.getProblem(problemId).ifPresent(problem -> {
 			CodeProblem codeProblem = (CodeProblem)problem;
-			TestFile mainTestFile = (TestFile)codeProblem.getSourceCodeFiles().stream().filter(
-					sourceCodeFile -> sourceCodeFile instanceof TestFile
-				).findAny().get();
-			
-			pluginActor.tell(new PluginRunTests(getQualifiedClassName(mainTestFile)), getSelf());
+			codeProblem.getSourceCodeFiles().stream().filter(
+				sourceCodeFile -> sourceCodeFile instanceof TestFile
+			).findAny().ifPresent(sourceCodeFile -> {
+				pluginActor.tell(new PluginRunTests(getQualifiedClassName(sourceCodeFile)), getSelf());
+			});
 		});
 	}
 	
