@@ -22,18 +22,28 @@ $(document).ready(function () {
     };
 
     webSocket.onmessage = function(msgevent) {
+
         var object = JSON.parse(msgevent.data);
         console.log(object);
+
         if (object.type === 'ready') {
             $('#editor-logo').addClass('ready');
             console.timeEnd("measureStartupTime");
         }
+
         else if (object.type === 'runMainResult') {
             $('.ace-editor-console').text(object.data.output);
         }
+
         else if (object.type === 'runTestsResult') {
-            // TODO: Implement
+            $('#test-table-body').empty();
+            $(object.data.testResults).each(function(){
+                $('#test-table-body').append(buildTestRow(this));
+            });
+            $("#test-summary").text(getSummary(object.data.testResults))
+            $('#test-modal').modal('show');
         }
+
         else if (object.type === 'codeCompletionResult') {
             var proposals = object.data.proposals.map(function (proposal) {
                return {
@@ -43,37 +53,31 @@ $(document).ready(function () {
             });
             completionCallback(null, proposals);
         }
+
         else if (object.type === 'errorCheckingResult') {
             object.data.files.forEach(function (file) {
                 var foundEditors = editors.filter(function (editor) {
-                    var fileId = $(editor.container).attr('data-file-id');
-                    return (file.fileId === fileId);
+                    return (file.fileId === getFileId(editor));
                 });
-
                 if (foundEditors.length == 1) {
-                    var annotations = file.problemMarkers.map(function (problem) {
+                    var annotations = file.problemMarkers.map(function(problem) {
                         return new Annotation(problem.lineNumber - 1, problem.description, convertType(problem.type));
                     });
-
                     var editor = foundEditors[0];
                     editor.getSession().setAnnotations(annotations);
                 }
             });
         }
+
     };
 
     $(editors).each(function() {
         var editor = this;
-
         this.on('change', function() {
-            throttle(function(){
-                //this code is called 300ms after the last change-event
-
-                var fileId = $(editor.container).attr('data-file-id');
+            throttle(function(){//this code is called 300ms after the last change-event
                 var sourceCode = editor.getSession().getValue();
-
                 sendMessage("updateSourceCode", {
-                    fileId: fileId,
+                    fileId: getFileId(editor),
                     sourceCode: sourceCode
                 });
             }, 300);
@@ -83,15 +87,22 @@ $(document).ready(function () {
     function sendMessage(type, message) {
         message = message || {};
         var data = JSON.stringify({type: type, data: message});
-
         webSocket.send(data);
         console.log("Sent: " + data);
     }
 
     /*
-        Click listeners go below here
+        Listeners go below here
         vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     */
+
+    jwerty.key('ctrl+enter', function () {
+        $("#run-code-button").click()
+    });
+
+    jwerty.key('ctrl+shift+enter', function () {
+        $("#run-tests-button").click()
+    });
 
     $("#ae-toggle-fullscreen").click(function(){
         $(".hidden-when-editor-maximized").toggle();
@@ -110,21 +121,26 @@ $(document).ready(function () {
     });
 
     $("#run-code-button").click(function(){
-        sendMessage("runMain");
+        clearAndSend("runMain");
     });
 
     $("#run-tests-button").click(function(){
-        sendMessage("runTests");
+        clearAndSend("runTests");
     });
 
     $("#deliver-assignment-button").click(function(){
-        sendMessage("deliverAssignment");
+        clearAndSend("deliverAssignment");
     });
 
     /*
         Helper functions go below here
         vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     */
+
+    function clearAndSend(command){
+        $('.ace-editor-console').text("");
+        sendMessage(command);
+    }
 
     function initCollapsibleHeaders() {
         $(".hidden-when-editor-maximized").collapsible(); //makes ever header in this div collapsible
@@ -150,8 +166,7 @@ $(document).ready(function () {
     function createCompleter(){
         return {
             getCompletions: function(editor, session, pos, prefix, callback) {
-                var fileId = $(editor.container).attr('data-file-id');
-
+                var fileId = getFileId(editor);
                 sendMessage("codeCompletion", {
                     fileId: fileId,
                     offset: calculateOffset(session.getValue(), pos)
@@ -179,6 +194,14 @@ $(document).ready(function () {
         return $("#problem-id").data("problemid");
     }
 
+    function getCurrentProblemScore(){
+        return parseInt( $("#problem-score").data("problemscore") );
+    }
+
+    function getFileId(editor) {
+        return $(editor.container).attr('data-file-id');
+    }
+
     function convertType(type) {
         switch (type) {
             case 'Warning':
@@ -203,6 +226,25 @@ $(document).ready(function () {
             timer = setTimeout(callback, ms);
         };
     })();
+
+    function buildTestRow(testResult){
+        var mapping = {
+            "OK": "success",
+            "Failed": "danger",
+            "Ignored": "warning"
+        }
+        return '<tr class="'+mapping[testResult.status]+'"><td>'+testResult.methodName+'</td><td>'+testResult.status+'</td>';
+    }
+
+    function getSummary(testResults){
+
+        var testsPassed = $(testResults).filter(function(){
+            return this.status === "OK";
+        }).length;
+        return testsPassed+' out of '+testResults.length+' passed, earning you a score of '+ Math.round( (testsPassed)/(testResults.length) * getCurrentProblemScore() )
+
+
+    }
 
 });
 

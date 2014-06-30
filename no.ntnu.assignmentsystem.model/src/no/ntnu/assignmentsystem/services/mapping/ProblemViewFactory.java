@@ -4,13 +4,11 @@ import java.io.File;
 
 import no.ntnu.assignmentsystem.model.CodeProblem;
 import no.ntnu.assignmentsystem.model.Problem;
-import no.ntnu.assignmentsystem.model.QuizProblem;
 import no.ntnu.assignmentsystem.model.SourceCodeFile;
 import no.ntnu.assignmentsystem.model.Student;
 import no.ntnu.assignmentsystem.services.CodeProblemView;
 import no.ntnu.assignmentsystem.services.ExtendedProblemView;
 import no.ntnu.assignmentsystem.services.ProblemView;
-import no.ntnu.assignmentsystem.services.QuizProblemView;
 import no.ntnu.assignmentsystem.services.SourceCodeFileView;
 
 
@@ -22,7 +20,7 @@ public class ProblemViewFactory extends BaseViewFactory {
 	}
 	
 	public static ExtendedProblemView createExtendedProblemView(Student student, Problem problem) {
-		ExtendedProblemView problemView = (problem instanceof CodeProblem) ? createCodeProblemView(student, (CodeProblem)problem) : createQuizProblemView(student, (QuizProblem)problem);
+		ExtendedProblemView problemView = createCodeProblemView(student, (CodeProblem)problem);
 		mapProblemViewProperties(problemView, student, problem);
 		return problemView;
 	}
@@ -55,12 +53,6 @@ public class ProblemViewFactory extends BaseViewFactory {
 		});
 		
 		return codeProblemView;
-	}
-	
-	private static QuizProblemView createQuizProblemView(Student student, QuizProblem quizProblem) {
-		QuizProblemView quizProblemView = getFactory().createQuizProblemView();
-		
-		return quizProblemView;
 	}
 	
 	private static String getSourceCode(Student student, SourceCodeFile sourceCodeFile) {

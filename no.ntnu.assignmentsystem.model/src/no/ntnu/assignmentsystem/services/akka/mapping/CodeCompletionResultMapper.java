@@ -23,7 +23,8 @@ public class CodeCompletionResultMapper {
 	
 	private static CodeCompletionProposal createCodeCompletionProposal(PluginCodeCompletionProposal pluginCodeCompletionProposal) {
 		String completion = pluginCodeCompletionProposal.completion;
+		int score = pluginCodeCompletionProposal.score;
 		
-		return new CodeCompletionProposal(completion);
+		return new CodeCompletionProposal(completion, score);
 	}
 }

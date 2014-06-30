@@ -26,7 +26,7 @@ public class AkkaCompletionRequestor extends CompletionRequestor {
 	@Override
 	public void beginReporting() {
 		super.beginReporting();
-		System.out.println("[1] beginReporting");
+//		System.out.println("[1] beginReporting");
 		
 		proposals = new ArrayList<>();
 	}
@@ -49,14 +49,12 @@ public class AkkaCompletionRequestor extends CompletionRequestor {
 	
 	@Override
 	public void accept(CompletionProposal proposal) {
-//		System.out.println("[3] accept:" + proposal);
+		System.out.println("[3] accept:" + proposal);
 		
-		String name = new String(proposal.getName());
 		String completion = new String(proposal.getCompletion());
+		int score = proposal.getRelevance();
 		
-		System.out.println(name + ":" + completion);
-		
-		proposals.add(new PluginCodeCompletionProposal(name, completion));
+		proposals.add(new PluginCodeCompletionProposal(completion, score));
 	}
 	
 	@Override
