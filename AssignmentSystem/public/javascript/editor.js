@@ -10,6 +10,7 @@ $(document).ready(function () {
     webSocket.onopen = function() {
         console.log('ws connected ('+jsRoutes.controllers.AssignmentController.openEditorSocket(getCurrentProblemID()).webSocketURL()+')');
         sendMessage("notifyOnReady");
+        console.time("measureStartupTime");
     };
 
     webSocket.onerror = function() {
@@ -25,6 +26,7 @@ $(document).ready(function () {
         console.log(object);
         if (object.type === 'ready') {
             $('#editor-logo').addClass('ready');
+            console.timeEnd("measureStartupTime");
         }
         else if (object.type === 'runMainResult') {
             $('.ace-editor-console').text(object.data.output);
