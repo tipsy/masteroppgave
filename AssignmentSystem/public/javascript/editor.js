@@ -26,17 +26,17 @@ $(document).ready(function () {
         console.log(object);
 
         if (object.type === 'ready') {
-            console.timeEnd("ready");
+            console.timeEnd("notifyOnReady");
             $('#editor-logo').addClass('ready');
         }
 
         else if (object.type === 'runMainResult') {
-            console.timeEnd("runMainResult");
+            console.timeEnd("runMain");
             $('.ace-editor-console').text(object.data.output);
         }
 
         else if (object.type === 'runTestsResult') {
-            console.timeEnd("runTestsResult");
+            console.timeEnd("runTests");
             $('#test-table-body').empty();
             $(object.data.testResults).each(function(){
                 $('#test-table-body').append(buildTestRow(this));
@@ -46,7 +46,7 @@ $(document).ready(function () {
         }
 
         else if (object.type === 'codeCompletionResult') {
-            console.timeEnd("codeCompletionResult");
+            console.timeEnd("codeCompletion");
             var proposals = object.data.proposals.map(function (proposal) {
                return {
                    value: proposal.completion,
@@ -57,7 +57,7 @@ $(document).ready(function () {
         }
 
         else if (object.type === 'errorCheckingResult') {
-            console.timeEnd("errorCheckingResult");
+            console.timeEnd("updateSourceCode");
             object.data.files.forEach(function (file) {
                 var foundEditors = editors.filter(function (editor) {
                     return (file.fileId === getFileId(editor));
