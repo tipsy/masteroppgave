@@ -36,7 +36,9 @@ public class AkkaCompletionRequestor extends CompletionRequestor {
 		super.endReporting();
 //		System.out.println("[5] endReporting");
 		
+		proposals.sort((p1, p2) -> p1.completion.compareToIgnoreCase(p2.completion));
 		delegate.codeCompletionResult(this, proposals);
+		
 		proposals = null;
 	}
 	

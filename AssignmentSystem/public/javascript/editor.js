@@ -47,10 +47,10 @@ $(document).ready(function () {
 
         else if (object.type === 'codeCompletionResult') {
             console.timeEnd("codeCompletion");
-            var proposals = object.data.proposals.map(function (proposal) {
+            var proposals = object.data.proposals.map(function (proposal, index) {
                return {
                    value: proposal.completion,
-                   meta: "eclipse"
+                   score: -index
                }
             });
             completionCallback(null, proposals);

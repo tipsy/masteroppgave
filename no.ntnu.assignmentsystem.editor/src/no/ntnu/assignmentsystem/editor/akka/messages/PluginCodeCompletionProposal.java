@@ -23,4 +23,9 @@ public class PluginCodeCompletionProposal implements Serializable {
 			return false;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return completion;
+	}
 }

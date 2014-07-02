@@ -26,8 +26,7 @@ public class TestHandler extends AbstractHandler {
 		try {
 			projectManager.updateSourceCode(packageName, fileName, sourceCode);
 
-			projectManager.codeCompletion(packageName, fileName, 101, new AkkaCompletionRequestor(null));
-//			projectManager.codeCompletion(packageName, fileName, 110, new AkkaCompletionRequestor(null)); // Code completes after: System.out.
+			projectManager.codeCompletion(packageName, fileName, 110, new AkkaCompletionRequestor(null)); // Code completes after: System.out.
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

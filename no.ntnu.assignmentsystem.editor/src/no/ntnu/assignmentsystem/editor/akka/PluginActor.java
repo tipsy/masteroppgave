@@ -105,7 +105,6 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 
 	@Override
 	public void codeCompletionResult(AkkaCompletionRequestor requestor, List<PluginCodeCompletionProposal> proposals) {
-		proposals.sort((p1, p2) -> p1.completion.compareToIgnoreCase(p2.completion));
 		consumerActor.tell(new PluginCodeCompletionResult(proposals), getSelf());
 	}
 	
