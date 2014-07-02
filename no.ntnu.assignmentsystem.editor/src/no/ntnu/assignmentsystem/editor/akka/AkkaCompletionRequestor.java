@@ -54,7 +54,11 @@ public class AkkaCompletionRequestor extends CompletionRequestor {
 		String completion = new String(proposal.getCompletion());
 		int score = proposal.getRelevance();
 		
-		proposals.add(new PluginCodeCompletionProposal(completion, score));
+		PluginCodeCompletionProposal codeCompletionProposal = new PluginCodeCompletionProposal(completion, score);
+		
+		if (proposals.contains(codeCompletionProposal) == false) {
+			proposals.add(codeCompletionProposal);
+		}
 	}
 	
 	@Override

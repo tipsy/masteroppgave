@@ -12,4 +12,15 @@ public class PluginCodeCompletionProposal implements Serializable {
 		this.completion = completion;
 		this.score = score;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof PluginCodeCompletionProposal) {
+			PluginCodeCompletionProposal otherProposal = (PluginCodeCompletionProposal)obj;
+			return this.completion.equals(otherProposal.completion);
+		}
+		else {
+			return false;
+		}
+	}
 }
