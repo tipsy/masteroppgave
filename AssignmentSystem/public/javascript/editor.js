@@ -27,16 +27,18 @@ $(document).ready(function () {
 
         if (object.type === 'ready') {
             console.timeEnd("notifyOnReady");
-            $('#editor-logo').addClass('ready');
+            $('#editor-status').addClass('ready');
         }
 
         else if (object.type === 'runMainResult') {
             console.timeEnd("runMain");
+            $("#editor-status").toggleClass("fa-circle fa-circle-o-notch running ready");
             $('.ace-editor-console').text(object.data.output);
         }
 
         else if (object.type === 'runTestsResult') {
             console.timeEnd("runTests");
+            $("#editor-status").toggleClass("fa-circle fa-circle-o-notch running ready");
             $('#test-table-body').empty();
             $(object.data.testResults).each(function(){
                 $('#test-table-body').append(buildTestRow(this));
@@ -62,17 +64,25 @@ $(document).ready(function () {
                 var foundEditors = editors.filter(function (editor) {
                     return (file.fileId === getFileId(editor));
                 });
-                if (foundEditors.length == 1) {
+                if (foundEditors.length === 1) {
                     var annotations = file.problemMarkers.map(function(problem) {
                         return new Annotation(problem.lineNumber - 1, problem.description, convertType(problem.type));
                     });
                     var editor = foundEditors[0];
                     editor.getSession().setAnnotations(annotations);
+                    setClassMarker("#tabForFileId"+file.fileId, file.problemMarkers);
                 }
             });
         }
 
     };
+
+    function setClassMarker(tabForFileId, problemMarkers) {
+        $(tabForFileId).removeClass("warning error");
+        var errors = problemMarkers.map(function (problemMarker) { return convertType( problemMarker.type ); })
+        if(arrayContains(errors, "error")){$(tabForFileId).addClass("error")}
+        if(arrayContains(errors, "warning")){$(tabForFileId).addClass("warning")}
+    }
 
     $(editors).each(function() {
         var editor = this;
@@ -142,6 +152,7 @@ $(document).ready(function () {
     */
 
     function clearAndSend(command){
+        $("#editor-status").toggleClass("fa-circle fa-circle-o-notch running ready");
         $('.ace-editor-console').text("");
         sendMessage(command);
     }
@@ -248,6 +259,10 @@ $(document).ready(function () {
         return testsPassed+' out of '+testResults.length+' passed, earning you a score of '+ Math.round( (testsPassed)/(testResults.length) * getCurrentProblemScore() )
 
 
+    }
+
+    function arrayContains(array, element){
+        return $.inArray(element, array) > -1;
     }
 
 });

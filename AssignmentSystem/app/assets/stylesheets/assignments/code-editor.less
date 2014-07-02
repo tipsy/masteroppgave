@@ -45,7 +45,7 @@
   position: relative;
 }
 
-#java-class-tabs{
+#java-class-tabs {
   padding-left: 65px;
   background-color: #ebebeb;
   border: 1px solid @gv-border-gray;
@@ -54,7 +54,12 @@
   .lh-border-radius(3px 3px 0px 0px);
   li{
     margin-top: 5px;
-    a { padding: 3px 7px; }
+    a { padding: 3px 0px; }
+    .tab-underline {
+      margin: 0 7px;
+      &.warning { border-bottom: 1px dotted #ffbf00; }
+      &.error { border-bottom: 1px dotted red; }
+    }
   }
 }
 
@@ -78,16 +83,18 @@
 }
 
 //toolbar styling
-#editor-logo {
+#editor-status {
   color: #e74c3c;
   position: absolute;
   font-size: 12px;
   left: 10px;
   top: 11px;
-}
-
-#editor-logo.ready {
-  color: #2ecc71;
+  &.ready {
+    color: #2ecc71;
+  }
+  &.running{
+    .running;
+  }
 }
 
 .editor-toolbar {
@@ -110,3 +117,34 @@
 .ace_gutter-tooltip {
   .lh-border-radius(@gv-border-radius)!important;
 }
+
+
+//spinner icon
+.running {
+  color: black;
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 1000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 1000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 1000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-ms-keyframes spin { from { -ms-transform: rotate(0deg); }
+                      to   { -ms-transform: rotate(360deg); } }
+@-moz-keyframes spin {from { -moz-transform: rotate(0deg); }
+                      to   { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { from { -webkit-transform: rotate(0deg); }
+                          to   { -webkit-transform: rotate(360deg); } }
+@keyframes spin {         from { transform: rotate(0deg); }
+                          to   { transform: rotate(360deg); } }
