@@ -30,6 +30,9 @@
     <script>
         $(".user-info").find(".avatar img").attr('src', Faker.Image.avatar() );
         $(".user-info").find(".name").text( Faker.Name.firstName() +" "+ Faker.Name.lastName());
+        $(".achievement img").each(function(){
+            $(this).attr('src', Faker.Image.abstractImage() );
+        });
     </script>
 
 }

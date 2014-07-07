@@ -30,8 +30,8 @@
     <script type="text/javascript" src="@routes.Assets.at("javascript/plugins/faker.js")"></script>
     <script>
         $(".leaderboard-entry").each(function(){
-        $(this).find(".avatar img").attr('src', Faker.Image.avatar() );
-        $(this).find(".name-and-score").text( Faker.Name.firstName() +" "+ Faker.Name.lastName() + " (" + Math.round( 153-$(this).index()*7 - 3*Math.random() ) + " points)" )
+            $(this).find(".avatar img").attr('src', Faker.Image.avatar() );
+            $(this).find(".name-and-score").text( Faker.Name.firstName() +" "+ Faker.Name.lastName() + " (" + Math.round( 153-$(this).index()*7 - 3*Math.random() ) + " points)" )
         });
     </script>
 }
