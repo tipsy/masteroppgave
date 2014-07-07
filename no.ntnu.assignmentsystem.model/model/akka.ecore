@@ -1,34 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="akka" nsURI="http://assignmentsystem.ntnu.no/akka/1.0" nsPrefix="no.ntnu.assignmentsystem">
-  <eClassifiers xsi:type="ecore:EClass" name="Editor" abstract="true" interface="true">
-    <eOperations name="notifyOnReady"/>
-    <eOperations name="runMain"/>
-    <eOperations name="runTests"/>
-    <eOperations name="updateSourceCode">
-      <eParameters name="fileId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="sourceCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
-    <eOperations name="codeCompletion">
-      <eParameters name="fileId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Integer"/>
-    </eOperations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EditorDelegate" abstract="true" interface="true">
-    <eOperations name="ready"/>
-    <eOperations name="runMainResult">
-      <eParameters name="output" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
-    <eOperations name="runTestsResult">
-      <eParameters name="testResults" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
-    </eOperations>
-    <eOperations name="errorCheckingResult">
-      <eParameters name="problemMarkersFiles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
-    </eOperations>
-    <eOperations name="codeCompletionResult">
-      <eParameters name="proposals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
-    </eOperations>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EditorServices" abstract="true" interface="true"
+      eSuperTypes="#//ReadyServices #//RunMainServices #//RunTestsServices #//SourceCodeServices #//CodeCompletionServices"/>
   <eClassifiers xsi:type="ecore:EClass" name="TestResult">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//TestResult.Status"/>
@@ -56,5 +30,43 @@
   <eClassifiers xsi:type="ecore:EClass" name="CodeCompletionProposal">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="completion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="score" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RunMainServices" abstract="true" interface="true">
+    <eOperations name="runMain" eType="#//RunMainResult"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RunTestsServices" abstract="true" interface="true">
+    <eOperations name="runTests" eType="#//RunTestsResult"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceCodeServices" abstract="true"
+      interface="true">
+    <eOperations name="updateSourceCode" unique="false" eType="#//ErrorCheckingResult">
+      <eParameters name="fileId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="sourceCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CodeCompletionServices" abstract="true"
+      interface="true">
+    <eOperations name="codeCompletion" eType="#//CodeCompletionResult">
+      <eParameters name="fileId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RunMainResult">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="output" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RunTestsResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testResults" upperBound="-1"
+        eType="#//TestResult" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ErrorCheckingResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
+        eType="#//ProblemMarkersFile" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CodeCompletionResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="proposals" upperBound="-1"
+        eType="#//CodeCompletionProposal" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReadyServices" abstract="true" interface="true">
+    <eOperations name="isReady" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
 </ecore:EPackage>
