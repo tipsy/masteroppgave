@@ -5,7 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:no.ntnu.assignmentsystem="http://assignmentsystem.ntnu.no/model/1.0"
     xsi:schemaLocation="http://assignmentsystem.ntnu.no/model/1.0 model.ecore"
-    lastGlobalId="26">
+    lastGlobalId="28">
   <users id="8"
       email="hal@idi.ntnu.no"
       password="hal"/>
@@ -131,6 +131,20 @@
             xsi:type="no.ntnu.assignmentsystem:JexTestFile"
             id="26"
             packageName="stateandbehavior"/>
+      </problems>
+      <problems
+          xsi:type="no.ntnu.assignmentsystem:CodeProblem"
+          id="27"
+          localId="E"
+          title="Test Problem"
+          maxPoints="100"
+          repoUrl="../no.hal.jex.collection"
+          mainImplementationFile="28">
+        <sourceCodeFiles
+            xsi:type="no.ntnu.assignmentsystem:ImplementationFile"
+            id="28"
+            filePath="src/assignmentsystem/Main.java"
+            packageName="assignmentsystem"/>
       </problems>
     </assignments>
     <participants
