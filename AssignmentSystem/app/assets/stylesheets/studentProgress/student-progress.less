@@ -14,6 +14,7 @@
     .lh-border-radius(@gv-border-radius);
   }
   ul{
+    margin-left: 10px;
     list-style: none;
     padding: 0;
   }
@@ -94,13 +95,18 @@
     .achievement {
       .lh-border-radius(@gv-border-radius);
       position: absolute;
-      padding: 15px;
       width: 100%;
       height: 100%;
       background-color: @gv-assignment-hover-color;
       .lh-grayscale(100);
       &.earned { .lh-grayscale(0); }
+      img{
+        width: 100%;
+        height: 100%;
+        .lh-border-radius(@gv-border-radius);
+      }
     }
+
 
   }
 }

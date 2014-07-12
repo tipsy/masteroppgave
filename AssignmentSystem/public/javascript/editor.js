@@ -122,7 +122,7 @@ $(document).ready(function () {
         $(".hidden-when-editor-maximized").toggle();
         $("#ace-editor-wrapper").toggleClass("maximized");
         $("#ae-toggle-fullscreen").toggleClass("fa-expand fa-compress");
-        $(editors).each(function() { this.resize(); });
+        $(editors).each(function() { this.resize(); this.scrollPageUp() });
     });
 
     $(".ae-theme-settings").click(function(){
