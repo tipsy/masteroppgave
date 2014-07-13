@@ -154,7 +154,19 @@ $(document).ready(function () {
     function clearAndSend(command){
         $("#editor-status").toggleClass("fa-circle fa-circle-o-notch running ready");
         $('.ace-editor-console').text("");
+        sendSourceCode();
         sendMessage(command);
+    }
+
+    function sendSourceCode() {
+        $(editors).each(function() {
+            var editor = this;
+            var sourceCode = editor.getSession().getValue();
+            sendMessage("updateSourceCode", {
+                fileId: getFileId(editor),
+                sourceCode: sourceCode
+            });
+        });
     }
 
     function initCollapsibleHeaders() {
@@ -264,8 +276,4 @@ $(document).ready(function () {
     function arrayContains(array, element){
         return $.inArray(element, array) > -1;
     }
-
 });
-
-
-
