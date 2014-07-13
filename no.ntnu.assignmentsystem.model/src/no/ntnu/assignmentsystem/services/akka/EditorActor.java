@@ -20,7 +20,6 @@ import no.ntnu.assignmentsystem.services.akka.mapping.CodeCompletionResultMapper
 import no.ntnu.assignmentsystem.services.akka.mapping.ErrorCheckingResultMapper;
 import no.ntnu.assignmentsystem.services.akka.mapping.RunTestsResultMapper;
 import no.ntnu.assignmentsystem.services.akka.messages.CodeCompletion;
-import no.ntnu.assignmentsystem.services.akka.messages.CodeCompletionResult;
 import no.ntnu.assignmentsystem.services.akka.messages.NotifyOnReady;
 import no.ntnu.assignmentsystem.services.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMain;

@@ -15,7 +15,6 @@ import no.ntnu.assignmentsystem.services.akka.messages.Ready;
 import no.ntnu.assignmentsystem.services.akka.messages.RunMainResult;
 import no.ntnu.assignmentsystem.services.akka.messages.RunTestsResult;
 import no.ntnu.assignmentsystem.services.akka.messages.TestResult;
-import no.ntnu.assignmentsystem.services.akka.messages.UpdateSourceCode;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
