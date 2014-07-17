@@ -2,7 +2,9 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="akka" nsURI="http://assignmentsystem.ntnu.no/akka/1.0" nsPrefix="no.ntnu.assignmentsystem">
   <eClassifiers xsi:type="ecore:EClass" name="EditorServices" abstract="true" interface="true"
-      eSuperTypes="#//ReadyServices #//RunMainServices #//RunTestsServices #//SourceCodeServices #//CodeCompletionServices"/>
+      eSuperTypes="#//RunMainServices #//RunTestsServices #//SourceCodeServices #//CodeCompletionServices">
+    <eOperations name="isReady" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TestResult">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//TestResult.Status"/>
@@ -65,8 +67,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="CodeCompletionResult">
     <eStructuralFeatures xsi:type="ecore:EReference" name="proposals" upperBound="-1"
         eType="#//CodeCompletionProposal" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ReadyServices" abstract="true" interface="true">
-    <eOperations name="isReady" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
 </ecore:EPackage>
