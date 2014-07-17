@@ -50,7 +50,6 @@ Master's thesis by Christian Rasmussen and David Åse.
 8. Click "OK"
 9. Check "Maven osgi-bundles" in table view
 10. Click "Next >"
-11. <...>
 11. Click "Finish"
 
 ### Generating model code
@@ -82,17 +81,15 @@ Master's thesis by Christian Rasmussen and David Åse.
 
 ### Set up automatic building
 
-1. Open "Preferences"
-2. <...>
-3. Right-click project and select "Properties"
-4. Go to "Builds"
-5. Click "New"
-6. Select "Ant Builder"
-7. Click "OK"
-8. Set name ```Model Builder```
-9. Set buildfile to the generated ANT-file
-10. Set base directory to the root folder (folder containing README.md)
-11. Click "OK"
+1. Right-click project and select "Properties"
+2. Go to "Builders"
+3. Click "New..."
+4. Select "Ant Builder"
+5. Click "OK"
+6. Set name ```Model Builder```
+7. Set buildfile to the generated ANT-file
+8. Set base directory to the root folder (folder containing README.md)
+9. Click "OK"
 
 ### Setting up IntelliJ
 
