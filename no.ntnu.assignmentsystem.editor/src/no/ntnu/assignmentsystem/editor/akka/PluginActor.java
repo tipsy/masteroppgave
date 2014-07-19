@@ -78,8 +78,7 @@ public class PluginActor extends UntypedActor implements AkkaTestRunListener.Del
 	}
 	
 	private void handleRunTests(PluginRunTests runTests) throws CoreException {
-		String result = workspaceManager.runTests(runTests.qualifiedClassName);
-		getSender().tell(new PluginRunMainResult(result), getSelf());
+		workspaceManager.runTests(runTests.qualifiedClassName);
 		// NOTE: Result is sent from the runTestsResult() delegate method
 	}
 	
